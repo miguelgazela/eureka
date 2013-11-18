@@ -2,9 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from ideas.models import Idea
-
 from django.contrib.auth import authenticate
->>>>>>> 632693debed34b5746a85fe0d2c98fbbe3d2dac7
 from django import forms
 
 class UserCreationForm(UserCreationForm):

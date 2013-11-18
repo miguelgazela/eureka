@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth import authenticate
 from ideas.forms import UserCreationForm, IdeaForm
 from ideas.models import Idea
 import datetime
@@ -11,7 +12,6 @@ from ideas.forms import UserCreationForm
 from ideas.forms import LoginForm
 
 # Create your views here.
-
 def index(request):
     return render(request, 'ideas/index.html')
 
@@ -50,7 +50,9 @@ def signup(request):
             return render(request, 'ideas/auth/signup.html', context)
             
 def addidea(request):
-	# Verificar se esta logado
+	if not request.user.is_authenticated():
+		return redirect('login')
+	
 	if request.method == 'GET':	
 		return render(request, 'ideas/addidea.html')
 	elif request.method == 'POST':
@@ -64,13 +66,8 @@ def addidea(request):
 			new_idea.updated = created=timezone.now()
 
 			new_idea.save()
-			#idea_form.save_m2m()	# many2may??
 		
 			return HttpResponse("Ok, I hope!")	
-        """
+        
         else:
-            context = {'form': user_form}
-            return render(request, 'ideas/auth/signup.html', context)
-        """
-            return render(request, 'ideas/auth/signup.html', {'form': user_form})
-
+			#...
