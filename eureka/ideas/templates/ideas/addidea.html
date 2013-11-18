@@ -1,0 +1,36 @@
+{% extends "ideas/base.html" %}
+
+{% block title %}Eureka - Add an Idea{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<div class="container">
+
+  <form class="form-horizontal" role="form" action="" method="POST">
+    {% csrf_token %}
+    <h2 class="text-center">Add an Idea</h2>
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input name="title" type="text" class="form-control" placeholder="Title" required autofocus>
+    </div>
+    <div class="form-group">
+      <label for="text">Description</label>
+      <textarea name="text" type="text" class="form-control" placeholder="..." required></textarea>
+    </div>
+
+    <button class="btn btn-lg btn-success btn-block" type="submit">Add Idea</button>
+  </form>
+
+</div> <!-- /container -->
+
+{% else %}
+
+<div class="container">
+	<h3 class="text-danger">Please Sign In</h3>
+</div> <!-- /container -->
+
+{% endif %}
+
+{% endblock %}
