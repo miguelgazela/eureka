@@ -69,5 +69,5 @@ def addidea(request):
 		
 			return HttpResponse("Ok, I hope!")	
         
-        else:
+        #else:
 			#...
