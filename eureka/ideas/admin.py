@@ -1,3 +1,7 @@
 from django.contrib import admin
+from ideas.models import Idea, Comment, Vote, Interest
 
-# Register your models here.
+admin.site.register(Idea)
+admin.site.register(Comment)
+admin.site.register(Vote)
+admin.site.register(Interest)
