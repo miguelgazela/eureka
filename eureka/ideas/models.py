@@ -7,12 +7,13 @@ from django.utils import timezone
 
 class Idea(models.Model):
     user = models.ForeignKey(User)
+    title = models.CharField(max_length=160)
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.text
+        return self.title
 
 
     def was_added_recently(self):
@@ -30,7 +31,7 @@ class Comment(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.text
+        return "%s said %s" % (self.user.username, self.text)
 
 
 class Vote(models.Model):
@@ -39,9 +40,12 @@ class Vote(models.Model):
     kind = models.CharField(max_length=1)
 
     def __unicode__(self):
-        return self.kind
+        return "%s voted on %s" % (self.user.username, self.idea.title)
 
 
 class Interest(models.Model):
     user = models.ForeignKey(User)
     idea = models.ForeignKey(Idea)
+
+    def __unicode__(self):
+        return "%s is interested in %s" % (self.user.username, self.idea.title)
