@@ -47,22 +47,26 @@
 
       <div class="container">
 
-        <form class="form-authentication" role="form" action="{% url 'login' %}" method="POST">
+        <form class="form-authentication" role="form" action="{% url 'signup' %}" method="POST">
           {% csrf_token %}
-          <h2 class="text-center">Sign In</h2>
+          <h2 class="text-center">Sign Up</h2>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input name="email" type="email" class="form-control" placeholder="Email" required autofocus>
+          </div>
           <div class="form-group">
             <label for="username">Username</label>
-            <input name="username" type="text" class="form-control" placeholder="Username" required autofocus>
+            <input name="username" type="text" class="form-control" placeholder="Username" required>
           </div>
           <div class="form-group">
-            <label for="username">Password</label>
+            <label for="password">Password</label>
             <input name="password" type="password" class="form-control" placeholder="Password" required>
           </div>
-          
-          <label class="checkbox">
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-          <button class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
+          <div class="form-group">
+            <label for="confirm_password">Confirm password</label>
+            <input name="password_confirmation" type="password" class="form-control" placeholder="Confirm password" required>
+          </div>
+          <button class="btn btn-lg btn-success btn-block" type="submit">Sign up</button>
         </form>
 
       </div> <!-- /container -->

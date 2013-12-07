@@ -24,3 +24,9 @@ def login(request):
                 return HttpResponse("You're account is disabled")
         else:
             return HttpResponse("Invalid login!")
+
+def signup(request):
+    if request.method == 'GET':
+        return render(request, 'ideas/auth/signup.html')
+    elif request.method == 'POST':
+        pass
