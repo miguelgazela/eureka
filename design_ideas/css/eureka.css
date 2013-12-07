@@ -74,8 +74,8 @@ body {
     background-color: #1DA1DE;
 }
 
-.nav .navbar-btn:hover,
-.nav .navbar-btn:focus {
+.navbar-btn:hover,
+.navbar-btn:focus {
     background-color: #fff;
     color: #1DA1DE;
     border: 1px solid #1DA1DE;
@@ -95,40 +95,16 @@ body {
     margin-bottom: 20px;
 }
 
-.btn-default:hover,
-.btn-default:focus {
+.landing-page-btn:hover,
+.landing-page-btn:focus {
     background-color: #1DA1DE;
     border-color: #1DA1DE;
     color: #fff;
 }
 
-.btn-lg {
-    border-radius: 4px;
-}
-
 .form-authentication {
     max-width: 360px;
     margin: 0 auto;
-    margin-top: 30px;
-}
-
-.form-authentication h2 {
-
-}
-
-.form-authentication .form-control {
-    height: 40px;
-    border-radius: 3px;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    -o-box-shadow: none;
-    box-shadow: none;
-    border-color: #ddd;
-    border-width: 1px;
-}
-
-.form-authentication .form-control:focus {
-    border-color: #1DA1DE;
 }
 
 /*.jumbotron.timeline {
