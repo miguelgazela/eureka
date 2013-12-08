@@ -15,7 +15,6 @@ class Idea(models.Model):
     def __unicode__(self):
         return self.title
 
-
     def was_added_recently(self):
         """
         returns true if the idea was added in the last 3 days

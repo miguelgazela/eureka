@@ -44,6 +44,11 @@ body {
     text-align: center;
 }
 
+.navbar-inverse .navbar-nav>li>a:hover,
+.navbar-inverse .navbar-nav>li>a:focus {
+    background-color: #1989BD;
+}
+
 .navbar-inverse .navbar-nav>.active>a, 
 .navbar-inverse .navbar-nav>.active>a:hover, 
 .navbar-inverse .navbar-nav>.active>a:focus {
@@ -112,11 +117,8 @@ body {
     margin-top: 30px;
 }
 
-.form-authentication h2 {
 
-}
-
-.form-authentication .form-control {
+.form-control {
     height: 40px;
     border-radius: 3px;
     -webkit-box-shadow: none;
@@ -127,8 +129,16 @@ body {
     border-width: 1px;
 }
 
-.form-authentication .form-control:focus {
+.form-control:focus {
     border-color: #1DA1DE;
+}
+
+.form-control:focus,
+.has-error .form-control:focus {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -o-box-shadow: none;
+    box-shadow: none;
 }
 
 /*.jumbotron.timeline {
