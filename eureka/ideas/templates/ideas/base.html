@@ -13,8 +13,6 @@
 </head>
 
 <body>
-        
-    <!-- Static navbar -->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
@@ -27,12 +25,14 @@
                 <a class="navbar-brand" href="{% url 'index' %}">Eureka!</a>
             </div>
             <div class="navbar-collapse collapse">
+                {% block navbar-links %}
                 <ul class="nav navbar-nav">
                     {% if user.is_authenticated %}
-                    <li><a href="#">IDEAS</a></li>
+                    <li><a href="{% url 'ideas' %}">IDEAS</a></li>
                     <li><a href="#">USERS</a></li>
                     {% endif %}
                 </ul>
+                {% endblock %}
                 <ul class="nav navbar-nav navbar-right">
                     {% if not user.is_authenticated %}
                     <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'login' %}'">Sign in</button>

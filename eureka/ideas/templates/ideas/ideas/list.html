@@ -1,0 +1,31 @@
+{% extends "ideas/base.html" %}
+
+{% block title %}Eureka - Ideas{% endblock %}
+
+{% block navbar-links %}
+
+<ul class="nav navbar-nav">
+  {% if user.is_authenticated %}
+  <li class="active"><a href="{% url 'ideas' %}">IDEAS</a></li>
+  <li><a href="#">USERS</a></li>
+  {% endif %}
+</ul>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Messages</a></li>
+      </ul>
+      ideas go here!
+    </div>
+  </div> <!-- /row -->
+</div> <!-- /container -->
+
+{% endblock %}

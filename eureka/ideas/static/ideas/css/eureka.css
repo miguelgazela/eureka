@@ -2,6 +2,10 @@ body {
     padding-top: 80px;
 }
 
+body > .container {
+    margin-top: 20px;
+}
+
 
 /* NAVBAR */
 
@@ -116,7 +120,6 @@ body {
     margin: 0 auto;
     margin-top: 30px;
 }
-
 
 .form-control {
     height: 40px;

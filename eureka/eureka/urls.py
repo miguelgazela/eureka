@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'eureka.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
+    url(r'^$', include('ideas.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^eureka/', include('ideas.urls')),    
 )

@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from ideas.forms import UserCreationForm
 from ideas.forms import LoginForm
 
@@ -12,6 +13,7 @@ def index(request):
     return render(request, 'ideas/index.html')
 
 def login(request):
+    print request.GET
     if request.method == 'GET':
         return render(request, 'ideas/auth/login.html')
     elif request.method == 'POST':
@@ -20,6 +22,10 @@ def login(request):
             user = login_form.login(request)
             if user:
                 auth_login(request, user)
+
+                if request.GET['next']:
+                    return HttpResponse('next: %s' % (request.GET['next']))
+                    return redirect(request.GET['next'])
                 return redirect('index')
         return render(request, 'ideas/auth/login.html', {'login_form': login_form})
 
@@ -43,3 +49,12 @@ def signup(request):
             return redirect('index')
         else:
             return render(request, 'ideas/auth/signup.html', {'form': user_form})
+
+@login_required(login_url='login')
+def ideas(request):
+    # get the list of ideas and pass it to the context
+    return render(request, 'ideas/ideas/list.html')
+
+@login_required(login_url='login')
+def idea(request, idea_id):
+    return HttpResponse("This will show the idea with the id: %s" % (idea_id)) 
