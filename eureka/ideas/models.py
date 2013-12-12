@@ -21,7 +21,6 @@ class Idea(models.Model):
         """
         return self.created >= timezone.now() - datetime.timedelta(days=3);
 
-
 class Comment(models.Model):
     user = models.ForeignKey(User)
     idea = models.ForeignKey(Idea)

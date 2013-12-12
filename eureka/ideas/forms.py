@@ -1,5 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.forms import ModelForm
+from ideas.models import Idea
 from django.contrib.auth import authenticate
 from django import forms
 
@@ -15,8 +17,7 @@ class UserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ( "username", "email", "password1", "password2")
-
-
+        
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=255, required=True)
     password = forms.CharField(widget=forms.PasswordInput, required=True)
@@ -34,3 +35,8 @@ class LoginForm(forms.Form):
         password = self.cleaned_data.get('password')
         user = authenticate(username=username, password=password)
         return user
+
+class IdeaForm(ModelForm):
+	class Meta:
+		model = Idea
+		fields = ['title', 'text']
