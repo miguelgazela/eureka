@@ -13,7 +13,7 @@ class Idea(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.title
+        return "{0} - {1}".format(self.title, self.text[:160])
 
     def was_added_recently(self):
         """
@@ -29,7 +29,7 @@ class Comment(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return "%s said %s" % (self.user.username, self.text)
+        return "%s said %s" % (self.user.username, self.text[:160])
 
 
 class Vote(models.Model):
