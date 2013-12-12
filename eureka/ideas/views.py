@@ -74,7 +74,6 @@ def add_idea(request):
 			new_idea = idea_form.save(commit=False)
 			new_idea.user = request.user
 			new_idea.save()
-			return HttpResponse("Ok, I hope!")	
-        
+			return HttpResponse("Ok, I hope!")
         else: # needs to show the form with the errors
 		  pass
