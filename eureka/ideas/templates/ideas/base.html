@@ -38,7 +38,7 @@
                     <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'login' %}'">Sign in</button>
                     <button type="button" class="btn btn-default navbar-btn" <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'signup' %}'">Create an account</button>
                     {% else %}
-                    <a href="#" class="navbar-link">{{ user.username }}</a>
+                    <!-- <a href="#" class="navbar-link">{{ user.username }}</a> -->
                     <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'logout' %}'">Logout</button>
                     {% endif %}
                 </ul>

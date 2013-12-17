@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
+from django.http import Http404
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
@@ -28,7 +29,8 @@ def login(request):
             if user:
                 auth_login(request, user)
                 return redirect('index')
-        return render(request, 'ideas/auth/login.html', {'login_form': login_form})
+        return render(request, 'ideas/auth/login.html', 
+            {'login_form': login_form})
 
 def logout(request):
     auth_logout(request)
@@ -49,18 +51,30 @@ def signup(request):
             auth_login(request, user)
             return redirect('index')
         else:
-            return render(request, 'ideas/auth/signup.html', {'form': user_form})
+            return render(request, 'ideas/auth/signup.html',
+                {'form': user_form})
 
 
 @login_required(login_url='login')
-def ideas(request):
+def ideas(request, sort='latest'):
     # get the list of ideas and pass it to the context
+    if sort != 'latest' and sort != 'interesting'
+        and sort != 'approved' and sort != 'refused':
+        sort = 'latest'
+
+    # return HttpResponse('ideas/ideas/list.html?sort='+sort)
     return render(request, 'ideas/ideas/list.html')
 
 
 @login_required(login_url='login')
 def idea(request, idea_id):
-    return HttpResponse("This will show the idea with the id: %s" % (idea_id)) 
+    try:
+        idea = Idea.objects.get(pk=idea_id)
+    except Idea.DoesNotExist:
+        raise Http404
+
+    return HttpResponse("This will show the idea with the id: %s" 
+        % (idea_id)) 
 
 
 @login_required(login_url='login')
