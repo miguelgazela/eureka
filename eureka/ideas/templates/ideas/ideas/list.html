@@ -18,13 +18,19 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <ul class="nav nav-tabs">
-        <li class="active"><a href="#">Latest</a></li>
-        <li><a href="#">Interesting</a></li>
-        <li><a href="#">Approved</a></li>
-        <li><a href="#">Refused</a></li>
+      <ul class="nav nav-pills">
+        <li class="{% if sort == 'latest' %}active{% endif %}"><a href="{% url 'ideas' sort='latest' %}">Latest</a></li>
+        <li class="{% if sort == 'interesting' %}active{% endif %}"><a href="{% url 'ideas' sort='interesting' %}">Interesting</a></li>
+        <li class="{% if sort == 'approved' %}active{% endif %}"><a href="{% url 'ideas' sort='approved' %}">Approved</a></li>
+        <li class="{% if sort == 'rejected' %}active{% endif %}"><a href="{% url 'ideas' sort='rejected' %}">Refused</a></li>
       </ul>
-      ideas go here!
+      <div class="row ideas-list">
+        <div class="col-md-12">
+          {% for idea in idea_list %}
+          <li>{{ idea.title }}</li>
+          {% endfor %}
+        </div>
+      </div>
     </div>
   </div> <!-- /row -->
 </div> <!-- /container -->

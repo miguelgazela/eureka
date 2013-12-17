@@ -58,12 +58,20 @@ def signup(request):
 @login_required(login_url='login')
 def ideas(request, sort='latest'):
     # get the list of ideas and pass it to the context
-    if sort != 'latest' and sort != 'interesting'
-        and sort != 'approved' and sort != 'refused':
+    if (sort != 'latest' and sort != 'interesting' 
+            and sort != 'approved' and sort != 'rejected'):
         sort = 'latest'
 
-    # return HttpResponse('ideas/ideas/list.html?sort='+sort)
-    return render(request, 'ideas/ideas/list.html')
+    if sort == 'latest':
+        ideas = Idea.objects.order_by('created')
+    elif sort == 'interesting':
+        ideas = Idea.objects.all() # TODO temporary
+    elif sort == 'approved':
+        ideas = Idea.objects.all() # TODO temporary
+    else:
+        ideas = Idea.objects.all() # TODO temporary
+
+    return render(request, 'ideas/ideas/list.html', {'idea_list': ideas, 'sort': sort})
 
 
 @login_required(login_url='login')
