@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse
 from django.http import Http404
 from django.contrib.auth import login as auth_login
@@ -72,24 +71,20 @@ def ideas(request, sort='latest'):
     else:
         ideas = Idea.objects.filter(state='R') # TODO temporary
 
-    for idea in ideas:
-        gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(idea.user.email.lower()).hexdigest() + "?"
-        gravatar_url += urllib.urlencode({'s':str(64)})
-        idea['owner_gravatar'] = gravatar_url
+    #for idea in ideas:
+        #gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(idea.user.email.lower()).hexdigest() + "?"
+        #gravatar_url += urllib.urlencode({'s':str(64)})
+        #idea['owner_gravatar'] = gravatar_url
 
     return render(request, 'ideas/ideas/list.html', {'idea_list': ideas, 'sort': sort})
 
 
 @login_required(login_url='login')
 def idea(request, idea_id):
-    try:
-        idea = Idea.objects.get(pk=idea_id)
-    except Idea.DoesNotExist:
-        raise Http404
+	idea = get_object_or_404(Idea, pk=idea_id)
 
-    return HttpResponse("This will show the idea with the id: %s" 
-        % (idea_id)) 
-
+	return render(request, 'ideas/ideas/idea.html', {'idea': idea})
+	#return HttpResponse("This will show the idea with the title: %s and id: %s" % idea.title, idea_id) 
 
 @login_required(login_url='login')
 def add_idea(request):
