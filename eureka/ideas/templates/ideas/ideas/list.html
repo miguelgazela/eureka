@@ -14,24 +14,44 @@
 {% endblock %}
 
 {% block content %}
+{% load humanize %}
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+
+    <div class="col-md-8">
       <ul class="nav nav-pills">
         <li class="{% if sort == 'latest' %}active{% endif %}"><a href="{% url 'ideas' sort='latest' %}">Latest</a></li>
-        <li class="{% if sort == 'interesting' %}active{% endif %}"><a href="{% url 'ideas' sort='interesting' %}">Interesting</a></li>
+        <!-- <li class="{% if sort == 'interesting' %}active{% endif %}"><a href="{% url 'ideas' sort='interesting' %}">Interesting</a></li> -->
         <li class="{% if sort == 'approved' %}active{% endif %}"><a href="{% url 'ideas' sort='approved' %}">Approved</a></li>
-        <li class="{% if sort == 'rejected' %}active{% endif %}"><a href="{% url 'ideas' sort='rejected' %}">Refused</a></li>
+        <li class="{% if sort == 'rejected' %}active{% endif %}"><a href="{% url 'ideas' sort='rejected' %}">Rejected</a></li>
       </ul>
       <div class="row ideas-list">
         <div class="col-md-12">
           {% for idea in idea_list %}
-          <li>{{ idea.title }}</li>
+          <div class="idea">
+            <span class="username">{{idea.user.username}}</span>
+            <div class="media">
+              <a class="pull-left" href="#">
+                <img class="media-object" src="{{idea.owner_gravatar}}" alt="...">
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading">{{idea.title}}</h4>
+                <span> - {{idea.created|naturaltime}}</span>
+                <p>{{idea.text}}</p>
+              </div>
+            </div>
+
+          </div>
           {% endfor %}
         </div>
       </div>
     </div>
+
+  <div class="col-md4">
+    
+  </div>
+
   </div> <!-- /row -->
 </div> <!-- /container -->
 

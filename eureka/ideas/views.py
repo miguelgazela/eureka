@@ -11,6 +11,7 @@ from django.utils import timezone
 from ideas.forms import UserCreationForm
 from ideas.forms import LoginForm
 from ideas.forms import IdeaForm
+import urllib, hashlib
 
 import datetime
 
@@ -65,11 +66,16 @@ def ideas(request, sort='latest'):
     if sort == 'latest':
         ideas = Idea.objects.order_by('created')
     elif sort == 'interesting':
-        ideas = Idea.objects.all() # TODO temporary
+        ideas = Idea.objects.all()[:1] # TODO temporary
     elif sort == 'approved':
-        ideas = Idea.objects.all() # TODO temporary
+        ideas = Idea.objects.filter(state='A') # TODO temporary
     else:
-        ideas = Idea.objects.all() # TODO temporary
+        ideas = Idea.objects.filter(state='R') # TODO temporary
+
+    for idea in ideas:
+        gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(idea.user.email.lower()).hexdigest() + "?"
+        gravatar_url += urllib.urlencode({'s':str(64)})
+        idea['owner_gravatar'] = gravatar_url
 
     return render(request, 'ideas/ideas/list.html', {'idea_list': ideas, 'sort': sort})
 

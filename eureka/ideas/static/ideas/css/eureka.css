@@ -1,5 +1,6 @@
 body {
     padding-top: 80px;
+    background-color: #F5F5F5;
 }
 
 body > .container {
@@ -156,6 +157,12 @@ body > .container {
 
 .ideas-list {
     margin-top: 15px;
+}
+
+.idea .media {
+    background-color: #fff;
+    border: 1px solid #f2f2f2;
+    padding: 10px;
 }
 
 /*.jumbotron.timeline {
