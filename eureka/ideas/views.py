@@ -1,4 +1,6 @@
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.http import Http404
 from django.contrib.auth import login as auth_login
@@ -58,12 +60,13 @@ def signup(request):
 @login_required(login_url='login')
 def ideas(request, sort='latest'):
     # get the list of ideas and pass it to the context
-    if (sort != 'latest' and sort != 'interesting' 
-            and sort != 'approved' and sort != 'rejected'):
+    valid_sorts = ['latest', 'interesting', 'approved', 'rejected']
+
+    if sort not in valid_sorts:
         sort = 'latest'
 
     if sort == 'latest':
-        ideas = Idea.objects.order_by('created')
+        ideas = Idea.objects.order_by('-created')
     elif sort == 'interesting':
         ideas = Idea.objects.all()[:1] # TODO temporary
     elif sort == 'approved':
@@ -75,8 +78,8 @@ def ideas(request, sort='latest'):
 
     for idea in ideas:
         gravatar_url = ("http://www.gravatar.com/avatar/"
-            + hashlib.md5(idea.user.email.lower()).hexdigest() + "?"
-        gravatar_url += urllib.urlencode({'s':str(48)})
+            + hashlib.md5(idea.user.email.lower()).hexdigest() + "?")
+        gravatar_url += urllib.urlencode({'s': str(48)})
         gravatars[idea.user.username] = gravatar_url
 
     return render(request, 'ideas/ideas/list.html',
