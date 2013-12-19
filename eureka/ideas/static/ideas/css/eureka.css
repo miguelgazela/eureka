@@ -12,6 +12,14 @@ body {
     }
 }
 
+a {
+    color: #1DA1DE;
+}
+
+a:hover,
+a:focus {
+    color: #1989BD;
+}
 
 /* NAVBAR */
 
@@ -222,6 +230,9 @@ body {
     margin-top: 14px;
     padding: 10px;
     border-radius: 4px;
+    -webkit-box-shadow: 0 8px 10px -6px #d9d9d9;
+       -moz-box-shadow: 0 8px 10px -6px #d9d9d9;
+            box-shadow: 0 8px 10px -6px #d9d9d9;
 }
 
 .ideas-list .idea .media img {
@@ -229,11 +240,36 @@ body {
 }
 
 .ideas-list .idea .media-heading {
-    font-size: 18px;
+    font-size: 17px;
+    margin-bottom: 0;
 }
 
-.ideas-list .idea .media-body p {
+.ideas-list .idea .media-body > h4 + h4 {
+    font-size: 19px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.ideas-list .idea .media-body {
     color: #878787;
+}
+
+.ideas-list .idea .media .interested img {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+}
+
+.ideas-list .idea .interested {
+    border-top: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.ideas-list .idea .interested .lead {
+    font-size: 15px;
+    margin-bottom: 5px;
 }
 
 /*.jumbotron.timeline {

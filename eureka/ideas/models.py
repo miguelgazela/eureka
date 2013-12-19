@@ -9,7 +9,7 @@ class Idea(models.Model):
     user = models.ForeignKey(User)
     title = models.CharField(max_length=160)
     text = models.TextField()
-    # A - accepted; R - rejected; I - idle
+    # A - approved; R - rejected; I - idle
     state = models.CharField(max_length=1, default='I')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

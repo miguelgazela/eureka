@@ -14,8 +14,9 @@
 {% endblock %}
 
 {% block content %}
-{% load humanize %}
 
+{% load humanize %}
+{% load gravatar %}
 
 <div class="sub-navbar">
   <div class="container">
@@ -31,43 +32,57 @@
 
 <div class="darker-background">
   <div class="container">
-    <div class="row">
+    <div class="ideas-list">
 
-      <div class="col-md-12">
-        <div class="row ideas-list">
-          <div class="col-md-12">
-            {% for idea in idea_list %}
-            <div class="idea">
-              <span class="created">{{idea.created|naturaltime}}</span>
-              <div class="media">
-                <a class="pull-left" href="#">
-                  <img class="media-object" src="{{gravatars.migueloliveira}}" alt="...">
-                </a>
-                <div class="media-body">
-                  <h4 class="media-heading lead"><a href="#">{{idea.user.username}}</a> had an idea! - <a href="#">{{idea.title}}</a></h4>
-                  <p>{{idea.text}}</p>
-                  <div class="idea-stats pull-right">
-                    {% if idea.state == "I"%}
-                    <span class="label label-warning">idle</span>
-                    {% elif idea.state == "A" %}
-                    <span class="label label-success">accepted</span>
-                    {% else %}
-                    <span class="label label-danger">rejected</span>
-                    {% endif %}
-                    <span class="label label-default">{{idea.comment_set.count}} comments</span>
-                    <!-- <span class="label label-default">28 points</span>
-                    <span class="label label-default">4 users interested</span> -->
-                  </div>
-                </div>
-              </div>
+      {% for idea in idea_list %}
 
+      {% if not forloop.counter|divisibleby:"2" %}
+      <div class="row">
+      {% endif %}
+
+      <div class="col-md-6 idea">
+        <span class="created">{{idea.created|naturaltime}}</span>
+        <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" src="{% gravatar_url idea.user.email 48%}" alt="...">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading lead"><a href="#">{{idea.user.username}}</a> had an idea!</h4>
+            <h4 class="lead"><a href="{% url 'idea' idea_id=idea.id %}">{{idea.title}}</a></h4>
+            <p>{{idea.text|truncatewords:"27"}}</p>
+
+            {% if idea.interest_set.count > 0 %}
+            <div class="interested">
+              <p class="lead">Interested users</p>
+              {% for interested in idea.interest_set.all %}
+                <img src="{% gravatar_url interested.user.email 24 %}" alt="interested user gravatar">
+              {% endfor %}
             </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
+            {% endif %}
 
-    </div> <!-- /row -->
+            <div class="idea-stats pull-right">
+              {% if idea.state == "I"%}
+              <span class="label label-warning">idle</span>
+              {% elif idea.state == "A" %}
+              <span class="label label-success">approved</span>
+              {% else %}
+              <span class="label label-danger">rejected</span>
+              {% endif %}
+              <span class="label label-default">{{idea.comment_set.count}} comment{% if idea.comment_set.count != 1 %}s{% endif%}</span>
+              <span class="label label-default">0 likes</span>
+              <!-- <span class="label label-default">4 users interested</span> -->
+            </div>
+          </div> <!-- /mediabody -->
+        </div> <!-- /media -->
+      </div> <!-- /idea -->
+
+      {% if forloop.counter|divisibleby:"2" or forloop.last %}
+      </div> <!-- /row -->
+      {% endif %}
+
+      {% endfor %}
+
+    </div>
   </div> <!-- /container -->
 </div>
 
