@@ -78,9 +78,9 @@ def ideas(request, sort='latest'):
 
 @login_required(login_url='login')
 def idea(request, idea_id):
-	idea = get_object_or_404(Idea, pk=idea_id)
+    idea = get_object_or_404(Idea, pk=idea_id)
+    # return render(request, 'ideas/ideas/view.html', {'idea': idea})
     return render(request, 'ideas/ideas/idea.html', {'idea': idea})
-	# return render(request, 'ideas/ideas/view.html', {'idea': idea})
 
 @login_required(login_url='login')
 def add_idea(request):
