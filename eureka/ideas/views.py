@@ -12,8 +12,6 @@ from django.utils import timezone
 from ideas.forms import UserCreationForm
 from ideas.forms import LoginForm
 from ideas.forms import IdeaForm
-import urllib, hashlib
-
 import datetime
 
 # Create your views here.
@@ -59,9 +57,7 @@ def signup(request):
 
 @login_required(login_url='login')
 def ideas(request, sort='latest'):
-    # get the list of ideas and pass it to the context
     valid_sorts = ['latest', 'interesting', 'approved', 'rejected']
-
     if sort not in valid_sorts:
         sort = 'latest'
 
@@ -74,24 +70,14 @@ def ideas(request, sort='latest'):
     else:
         ideas = Idea.objects.filter(state='R') # TODO temporary
 
-    gravatars = {}
-
-    for idea in ideas:
-        gravatar_url = ("http://www.gravatar.com/avatar/"
-            + hashlib.md5(idea.user.email.lower()).hexdigest() + "?")
-        gravatar_url += urllib.urlencode({'s': str(48)})
-        gravatars[idea.user.username] = gravatar_url
-
     return render(request, 'ideas/ideas/list.html',
-        {'idea_list': ideas, 'gravatars': gravatars, 'sort': sort})
+        {'idea_list': ideas, 'sort': sort})
 
 
 @login_required(login_url='login')
 def idea(request, idea_id):
 	idea = get_object_or_404(Idea, pk=idea_id)
-
 	return render(request, 'ideas/ideas/idea.html', {'idea': idea})
-	#return HttpResponse("This will show the idea with the title: %s and id: %s" % idea.title, idea_id) 
 
 @login_required(login_url='login')
 def add_idea(request):
