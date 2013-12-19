@@ -44,7 +44,7 @@
                   <img class="media-object" src="{{gravatars.migueloliveira}}" alt="...">
                 </a>
                 <div class="media-body">
-                  <h4 class="media-heading lead"><a href="#">{{idea.user.username}}</a> had an idea! - <a href="#">{{idea.title}}</a></h4>
+                  <h4 class="media-heading lead"><a href="#">{{idea.user.username}}</a> had an idea! - <a href="ideas/{{idea.id}}">{{idea.title}}</a></h4>
                   <p>{{idea.text}}</p>
                   <div class="idea-stats pull-right">
                     {% if idea.state == "I"%}
