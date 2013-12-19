@@ -1,10 +1,15 @@
 body {
     padding-top: 80px;
-    background-color: #F5F5F5;
 }
 
 body > .container {
-    margin-top: 20px;
+    padding-top: 20px;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 970px;
+    }
 }
 
 
@@ -145,14 +150,27 @@ body > .container {
     box-shadow: none;
 }
 
+.nav-pills > li {
+    width: 25%;
+    text-align: center;
+}
+
+.nav-pills > li + li {
+    margin: 0;
+}
+
 .nav-pills>li.active>a,
 .nav-pills>li.active>a:hover,
 .nav-pills>li.active>a:focus {
-    background-color: #1DA1DE;
+    /*background-color: #1DA1DE;*/
+    background-color: #fff;
+    color: #1989BD;
+    border-bottom: 4px solid #1989BD;
 }
 
 .nav-pills>li>a {
     padding: 5px 15px;
+    border-radius: 0;
 }
 
 .ideas-list {
@@ -161,8 +179,13 @@ body > .container {
 
 .idea .media {
     background-color: #fff;
-    border: 1px solid #f2f2f2;
+    border: 1px solid #e1e1e1;
     padding: 10px;
+    border-radius: 4px;
+}
+
+.idea .media img {
+    border-radius: 6px;
 }
 
 /*.jumbotron.timeline {

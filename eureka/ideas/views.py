@@ -29,7 +29,7 @@ def login(request):
             user = login_form.login(request)
             if user:
                 auth_login(request, user)
-                return redirect('index')
+                return redirect('ideas')
         return render(request, 'ideas/auth/login.html', 
             {'login_form': login_form})
 
@@ -72,12 +72,14 @@ def ideas(request, sort='latest'):
     else:
         ideas = Idea.objects.filter(state='R') # TODO temporary
 
+    gravatars = {}
+
     for idea in ideas:
         gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(idea.user.email.lower()).hexdigest() + "?"
-        gravatar_url += urllib.urlencode({'s':str(64)})
-        idea['owner_gravatar'] = gravatar_url
+        gravatar_url += urllib.urlencode({'s':str(48)})
+        gravatars[idea.user.username] = gravatar_url
 
-    return render(request, 'ideas/ideas/list.html', {'idea_list': ideas, 'sort': sort})
+    return render(request, 'ideas/ideas/list.html', {'idea_list': ideas, 'gravatars': gravatars, 'sort': sort})
 
 
 @login_required(login_url='login')
