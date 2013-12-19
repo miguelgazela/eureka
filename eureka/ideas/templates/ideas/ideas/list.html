@@ -32,37 +32,7 @@
 
 <div class="darker-background">
   <div class="container">
-<<<<<<< HEAD
-    <div class="row">
 
-      <div class="col-md-12">
-        <div class="row ideas-list">
-          <div class="col-md-12">
-            {% for idea in idea_list %}
-            <div class="idea">
-              <span class="created">{{idea.created|naturaltime}}</span>
-              <div class="media">
-                <a class="pull-left" href="#">
-                  <img class="media-object" src="{{gravatars.migueloliveira}}" alt="...">
-                </a>
-                <div class="media-body">
-                  <h4 class="media-heading lead"><a href="#">{{idea.user.username}}</a> had an idea! - <a href="ideas/{{idea.id}}">{{idea.title}}</a></h4>
-                  <p>{{idea.text}}</p>
-                  <div class="idea-stats pull-right">
-                    {% if idea.state == "I"%}
-                    <span class="label label-warning">idle</span>
-                    {% elif idea.state == "A" %}
-                    <span class="label label-success">accepted</span>
-                    {% else %}
-                    <span class="label label-danger">rejected</span>
-                    {% endif %}
-                    <span class="label label-default">{{idea.comment_set.count}} comments</span>
-                    <!-- <span class="label label-default">28 points</span>
-                    <span class="label label-default">4 users interested</span> -->
-                  </div>
-                </div>
-              </div>
-=======
     <div class="ideas-list">
 
       {% for idea in idea_list %}
@@ -81,7 +51,6 @@
             <h4 class="media-heading lead"><a href="#">{{idea.user.username}}</a> had an idea!</h4>
             <h4 class="lead"><a href="{% url 'idea' idea_id=idea.id %}">{{idea.title}}</a></h4>
             <p>{{idea.text|truncatewords:"27"}}</p>
->>>>>>> 5b3682613c6b79b9a9c937aff1987a0890f3f32e
 
             {% if idea.interest_set.count > 0 %}
             <div class="interested">
