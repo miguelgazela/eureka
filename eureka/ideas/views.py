@@ -8,6 +8,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate
 from ideas.models import Idea
+from django.db.models import Count
 from django.utils import timezone
 from ideas.forms import UserCreationForm
 from ideas.forms import LoginForm
@@ -64,11 +65,12 @@ def ideas(request, sort='latest'):
     if sort == 'latest':
         ideas = Idea.objects.order_by('-created')
     elif sort == 'interesting':
-        ideas = Idea.objects.all()[:1] # TODO temporary
+        ideas = Idea.objects.annotate(num_interest=Count('interest')).filter(num_interest__gt=0)\
+            .order_by('-created')
     elif sort == 'approved':
-        ideas = Idea.objects.filter(state='A') # TODO temporary
+        ideas = Idea.objects.filter(state='A').order_by('-created')
     else:
-        ideas = Idea.objects.filter(state='R') # TODO temporary
+        ideas = Idea.objects.filter(state='R').order_by('-created')
 
     return render(request, 'ideas/ideas/list.html',
         {'idea_list': ideas, 'sort': sort})
@@ -77,7 +79,7 @@ def ideas(request, sort='latest'):
 @login_required(login_url='login')
 def idea(request, idea_id):
 	idea = get_object_or_404(Idea, pk=idea_id)
-	return render(request, 'ideas/ideas/idea.html', {'idea': idea})
+	return render(request, 'ideas/ideas/view.html', {'idea': idea})
 
 @login_required(login_url='login')
 def add_idea(request):

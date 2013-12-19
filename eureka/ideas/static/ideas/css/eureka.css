@@ -97,6 +97,22 @@ a:focus {
     background-color: #1DA1DE;
 }
 
+.navbar-right img {
+    border-radius: 8px;
+    border: 2px solid #fff;
+}
+
+.navbar-inverse .navbar-link {
+    color: #fff;
+    margin-right: 10px;
+}
+
+.navbar-right .navbar-link:hover,
+.navbar-right .navbar-link:focus {
+    color: #fff;
+    text-decoration: underline;
+}
+
 .nav .navbar-btn:hover,
 .nav .navbar-btn:focus {
     background-color: #fff;
