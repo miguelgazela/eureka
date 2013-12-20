@@ -30,15 +30,14 @@
   </div>
 </div>
 
-<div class="darker-background">
-  <div class="container">
+<div class="container">
 
-    <div class="ideas-list">
+  <div class="ideas-list">
 
-      {% for idea in idea_list %}
+    {% for idea in idea_list %}
 
-      {% if not forloop.counter|divisibleby:"2" %}
-      <div class="row">
+    {% if not forloop.counter|divisibleby:"2" %}
+    <div class="row">
       {% endif %}
 
       <div class="col-md-6 idea">
@@ -56,10 +55,10 @@
             <div class="interested">
               <p class="lead">Interested in this idea</p>
               {% for interested in idea.interest_set.all|slice:":6" %}
-                <a href="#"><img src="{% gravatar_url interested.user.email 24 %}" title="{{interested.user.username}}"></a>
+              <a href="#"><img src="{% gravatar_url interested.user.email 24 %}" title="{{interested.user.username}}"></a>
               {% endfor %}
               {% if idea.interest_set.all|length > 6 %}
-                <span>and {{ idea.interest_set.all|length|add:"-1"}} more</span>
+              <span>and {{ idea.interest_set.all|length|add:"-1"}} more</span>
               {% endif %}
             </div>
             {% endif %}
@@ -81,14 +80,14 @@
       </div> <!-- /idea -->
 
       {% if forloop.counter|divisibleby:"2" or forloop.last %}
-      </div> <!-- /row -->
-      {% endif %}
+    </div> <!-- /row -->
+    {% endif %}
 
-      {% endfor %}
+    {% endfor %}
 
-    </div>
-  </div> <!-- /container -->
-</div>
+  </div>
+</div> <!-- /container -->
+
 
 
 {% endblock %}
