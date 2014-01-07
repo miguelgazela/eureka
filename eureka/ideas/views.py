@@ -78,10 +78,14 @@ def ideas(request, sort='latest'):
 
 @login_required(login_url='login')
 def idea(request, idea_id):
-    idea = get_object_or_404(Idea, pk=idea_id)
-    # return render(request, 'ideas/ideas/view.html', {'idea': idea})
-    return render(request, 'ideas/ideas/idea.html', {'idea': idea})
-
+    if request.method == 'GET':
+        idea = get_object_or_404(Idea, pk=idea_id)
+        return render(request, 'ideas/ideas/idea.html', {'idea': idea})
+        
+    elif request.method == 'POST' and request.is_ajax():
+        if(request.POST['data'] == "delete"):
+            return redirect("/eureka/")
+        
 @login_required(login_url='login')
 def add_idea(request):
 	if request.method == 'GET':	
