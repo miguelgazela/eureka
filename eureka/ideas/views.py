@@ -7,6 +7,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from ideas.models import Idea
 from django.db.models import Count
 from django.utils import timezone
@@ -96,3 +97,23 @@ def add_idea(request):
 			return redirect("/eureka/ideas/%s" % new_idea.id)
         else: # needs to show the form with the errors
 		  pass
+
+@login_required(login_url='login')
+def users(request, sort='latest'):
+    valid_sorts = ['latest', 'commenters', 'thinkers']
+    if sort not in valid_sorts:
+        sort = 'latest'
+
+    if sort == 'latest':
+        users = User.objects.order_by('-date_joined')
+    elif sort == 'commenters':
+        users = User.objects.annotate(num_comments=Count('comment')).order_by('-num_comments')[:5]
+    elif sort == 'thinkers':
+        users = User.objects.annotate(num_ideas=Count('idea')).order_by('-num_ideas')[:5]
+
+    return render(request, 'ideas/users/list.html',
+        {'user_list': users, 'sort': sort})
+
+@login_required(login_url='login')
+def user(request, user_id):
+    print "User here"

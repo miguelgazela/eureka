@@ -7,7 +7,7 @@
 <ul class="nav navbar-nav">
   {% if user.is_authenticated %}
   <li><a href="{% url 'ideas' %}">IDEAS</a></li>
-  <li><a href="#">USERS</a></li>
+  <li><a href="{% url 'users' %}">USERS</a></li>
   {% endif %}
 </ul>
 
