@@ -83,9 +83,23 @@ def idea(request, idea_id):
         idea = get_object_or_404(Idea, pk=idea_id)
         return render(request, 'ideas/ideas/idea.html', {'idea': idea})
         
-    elif request.method == 'POST' and request.is_ajax():
-        if(request.POST['data'] == "delete"):
-            return redirect("/eureka/")
+    elif request.method == 'POST':
+        idea = get_object_or_404(Idea, pk=idea_id)
+    
+        if request.is_ajax():
+            if(request.POST['data'] == "delete"):
+                idea.delete()
+                return
+        else:
+            idea_form = IdeaForm(request.POST)
+        
+            #if idea_form.is_valid():      
+            idea.title = request.POST['title']
+            idea.text = request.POST['text']
+            idea.save()
+            
+            return render(request, 'ideas/ideas/idea.html', {'idea': idea})
+            
         
 @login_required(login_url='login')
 def add_idea(request):
