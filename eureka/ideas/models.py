@@ -15,7 +15,8 @@ class Idea(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return "{0} - {1}".format(self.title, self.text[:160])
+        return "{user.username}: {title} - {text}".format(
+            user=self.user, title=self.title, text=self.text[:160])
 
     def was_added_recently(self):
         """
