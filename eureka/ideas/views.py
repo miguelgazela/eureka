@@ -81,9 +81,30 @@ def ideas(request, sort='latest'):
 @login_required(login_url='login')
 def idea(request, idea_id):
     idea = get_object_or_404(Idea, pk=idea_id)
-    # return render(request, 'ideas/ideas/view.html', {'idea': idea})
-    return render(request, 'ideas/ideas/idea.html', {'idea': idea})
 
+    if request.method == 'GET':
+        if(request.user == idea.user):
+            return render(request, 'ideas/ideas/idea.html', {'idea': idea, 'owner': "yes"})
+        else:
+            return render(request, 'ideas/ideas/idea.html', {'idea': idea, 'owner': "no"})
+        
+    elif request.method == 'POST' and request.user == idea.user:
+        if request.is_ajax():
+            if(request.POST['data'] == "delete"):
+                idea.delete()
+                return
+        else:
+            idea_form = IdeaForm(request.POST)
+        
+            if idea_form.is_valid():      
+                idea.title = request.POST['title']
+                idea.text = request.POST['text']
+                idea.save()
+            
+            return render(request, 'ideas/ideas/idea.html', {'idea': idea})
+    else:
+        return redirect("/eureka/ideas/%s" % idea.id)        
+        
 @login_required(login_url='login')
 def add_idea(request):
 	if request.method == 'GET':	
