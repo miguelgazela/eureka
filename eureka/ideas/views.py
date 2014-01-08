@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from ideas.models import Idea
 from django.db.models import Count
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from ideas.forms import UserCreationForm
 from ideas.forms import LoginForm
@@ -105,11 +106,21 @@ def users(request, sort='latest'):
         sort = 'latest'
 
     if sort == 'latest':
-        users = User.objects.order_by('-date_joined')
+        users = User.objects.filter(date_joined__gte=datetime.date.today() - datetime.timedelta(days=7))
     elif sort == 'commenters':
-        users = User.objects.annotate(num_comments=Count('comment')).order_by('-num_comments')[:5]
+        users = User.objects.annotate(num_comments=Count('comment')).filter(num_comments__gt=0).order_by('-num_comments')
     elif sort == 'thinkers':
-        users = User.objects.annotate(num_ideas=Count('idea')).order_by('-num_ideas')[:5]
+        users = User.objects.annotate(num_ideas=Count('idea')).filter(num_ideas__gt=0).order_by('-num_ideas')
+
+    # paginate the results
+    paginator = Paginator(users, 5)
+    page = request.GET.get('page')
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
 
     return render(request, 'ideas/users/list.html',
         {'user_list': users, 'sort': sort})

@@ -30,11 +30,44 @@
 </div>
 
 <div class="container">
+  <div class="row users-list">
+    <div class="col-md-12">
 
-  <div class="users-list">
-    {% for user in user_list %}
-      <p>{{user.username}}</p>
-    {% endfor %}
+      {% for user in user_list %}
+      <div class="user">
+        <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" src="{% gravatar_url user.email 48%}" alt="...">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading lead"><a href="#">{{user.username}}</a></h4>
+            <div>created {{user.date_joined|naturaltime}}</div>
+            <div class="stats">
+              
+            </div>
+          </div> <!-- /mediabody -->
+        </div> <!-- /media -->
+      </div> <!-- user -->
+
+      {% endfor %}
+
+      <!-- <div class="pagination">
+        <span class="step-links">
+          {% if user_list.has_previous %}
+          <a href="?page={{ user_list.previous_page_number }}">previous</a>
+          {% endif %}
+
+          <span class="current">
+            Page {{ user_list.number }} of {{ user_list.paginator.num_pages }}.
+          </span>
+
+          {% if user_list.has_next %}
+          <a href="?page={{ user_list.next_page_number }}">next</a>
+          {% endif %}
+        </span>
+      </div> -->
+
+    </div>
   </div>
 </div> <!-- /container -->
 

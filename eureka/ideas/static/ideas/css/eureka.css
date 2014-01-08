@@ -65,7 +65,8 @@ a:focus {
 
 .navbar-inverse .navbar-nav>li>a:hover,
 .navbar-inverse .navbar-nav>li>a:focus {
-    background-color: #1989BD;
+    /*background-color: #1989BD;*/
+    text-decoration: underline;
 }
 
 .navbar-inverse .navbar-nav>.active>a, 
@@ -74,6 +75,7 @@ a:focus {
     background-color: #1989BD;
     padding: 30px 20px 30px;
     position: relative;
+    text-decoration: none;
 }
 
 .navbar-inverse .navbar-nav>.active>a:after {
@@ -216,7 +218,8 @@ a:focus {
     text-decoration: underline;
 }
 
-.ideas-list {
+.ideas-list,
+.users-list {
     margin-top: 15px;
 }
 
@@ -254,22 +257,26 @@ a:focus {
             box-shadow: 0 8px 10px -6px #d9d9d9;
 }
 
-.idea .media img {
+.idea .media img,
+.user .media img {
     border-radius: 10px;
 }
 
-.idea .media-heading {
+.idea .media-heading,
+.user .media-heading {
     font-size: 17px;
     margin-bottom: 0;
 }
 
-.idea .media-body > h4 + h4 {
+.idea .media-body > h4 + h4,
+.user .media-body > h4 + h4 {
     font-size: 19px;
     margin-top: 0;
     margin-bottom: 10px;
 }
 
-.idea .media-body {
+.idea .media-body,
+.user .media-body {
     color: #878787;
 }
 
@@ -294,6 +301,25 @@ a:focus {
 .idea-details {
     margin-top: 20px;
 }
+
+.users-list .user {
+    padding: 5px;
+    float: left;
+    width: 50%;
+}
+
+@media screen and (min-width: 768px) {
+    .users-list .user {
+        width: 33.3%;
+    }
+}
+
+@media screen and (min-width: 970px) {
+    .users-list .user {
+        width: 25%;
+    }
+}
+
 
 /*.jumbotron.timeline {
     background-color: #323543;
