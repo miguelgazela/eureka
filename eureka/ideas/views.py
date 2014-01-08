@@ -148,4 +148,9 @@ def users(request, sort='latest'):
 
 @login_required(login_url='login')
 def user(request, user_id):
-    print "User here"
+    c_user = get_object_or_404(User, pk=user_id)
+    
+    ideas = Idea.objects.filter(user=c_user).order_by('-created')
+    
+    return render(request, 'ideas/users/user.html', {'c_user': c_user, 'useridea_list': ideas})
+    #return HttpResponse("User %s" % user.username)
