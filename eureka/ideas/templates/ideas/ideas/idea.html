@@ -25,9 +25,8 @@
   </div>
 </div> -->
 
-
+{% if owner == "yes" %}
 <script>
-
 function confirmDel()
 {
     $.post( "/eureka/ideas/{{ idea.id }}", { data: 'delete', csrfmiddlewaretoken:'{{ csrf_token }}' })
@@ -44,11 +43,7 @@ function confirmDel()
 function doEdit()
 {
     document.getElementById("editForm").submit();
-
-    //window.location = "/eureka/ideas/{{ idea.id }}"
-
 }
-
 </script>
 
 <!-- Delete Idea Modal -->
@@ -103,15 +98,17 @@ function doEdit()
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+{% endif %}
 
 <div class="container">
     <div class="row">
         <div class="col-md-8">
             <div class="idea idea-details">
                 <div class="media">
-                  <a class="pull-left" href="#">
-                    <img class="media-object" src="{% gravatar_url idea.user.email 48%}" alt="...">
-                </a>
+                    <a class="pull-left" href="#">
+                        <img class="media-object" src="{% gravatar_url idea.user.email 48%}" alt="...">
+                    </a>
+                    {% if owner == "yes" %}
                     <div class="btn-group pull-right">
                         <button class="btn btn-default" data-toggle="modal" data-target="#ediModal">
                             <span class="glyphicon glyphicon-cog"></span>
@@ -120,6 +117,7 @@ function doEdit()
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
                     </div>
+                    {% endif %}
                 <div class="media-body">
                     <h4 class="media-heading lead"><a href="#">{{idea.user.username}}</a></h4>
                     <h4 class="lead"><a href="{% url 'idea' idea_id=idea.id %}">{{idea.title}}</a></h4>
