@@ -22,16 +22,26 @@
   <div class="container">
     <h4 class="pull-right">Showing {{ user_list|length}} user{% if user_list|length != 1 %}s{% endif%}</h4>
     <ul class="nav nav-pills pull-left">
-      <li class="{% if sort == 'latest' %}active{% endif %}"><a href="{% url 'users' sort='latest' %}">New users</a></li>
-      <li class="{% if sort == 'thinkers' %}active{% endif %}"><a href="{% url 'users' sort='thinkers' %}">Thinkers</a></li>
-      <li class="{% if sort == 'commenters' %}active{% endif %}"><a href="{% url 'users' sort='commenters' %}">Commenters</a></li>
+      <li class="{% if sort == 'latest' %}active{% endif %}"><a href="{% url 'users' sort='latest' %}" title="users that joined in the last 7 days">New users</a></li>
+      <li class="{% if sort == 'thinkers' %}active{% endif %}"><a href="{% url 'users' sort='thinkers' %}" title="users with at least 1 idea">Thinkers</a></li>
+      <li class="{% if sort == 'commenters' %}active{% endif %}"><a href="{% url 'users' sort='commenters' %}" title="users with at least 1 comment">Commenters</a></li>
+      <li class="{% if sort == 'all' %}active{% endif %}"><a href="{% url 'users' sort='all' %}" title="all users ordered alphabetically">All</a></li>
     </ul>
   </div>
 </div>
 
 <div class="container">
+
   <div class="row users-list">
     <div class="col-md-12">
+
+      {% if user_list|length == 0%}
+      <p class="lead">Ooops, we don't have any users to show you.</p>
+      {% else %}
+
+      <!-- <div class="clearfix">
+        <input type="text" placeholder="Search for user..."></input>
+      </div> -->
 
       {% for user in user_list %}
       <div class="user">
@@ -40,35 +50,36 @@
             <img class="media-object" src="{% gravatar_url user.email 48%}" alt="...">
           </a>
           <div class="media-body">
-            <h4 class="media-heading lead"><a href="#">{{user.username}}</a></h4>
-            <div>created {{user.date_joined|naturaltime}}</div>
-            <div class="stats">
-              
+            <h4 class="media-heading lead"><a href="{% url 'user' user_id=user.id %}">{{user.username}}</a></h4>
+            <div>joined {{user.date_joined|naturaltime}}</div>
+            <div class="user-stats pull-right">
+              <span class="label label-default"><span class="glyphicon glyphicon-comment"></span> {{user.num_comments}} comment{% if user.num_comments != 1 %}s{% endif %}</span>
+              <span class="label label-default"><span class="glyphicon glyphicon-certificate"></span> {{user.num_ideas}} idea{% if user.num_ideas != 1 %}s{% endif %}</span>
             </div>
           </div> <!-- /mediabody -->
         </div> <!-- /media -->
       </div> <!-- user -->
 
       {% endfor %}
+      {% endif %}
 
-      <!-- <div class="pagination">
-        <span class="step-links">
-          {% if user_list.has_previous %}
-          <a href="?page={{ user_list.previous_page_number }}">previous</a>
-          {% endif %}
+    </div> <!-- col-md-12 -->
+  </div> <!-- users-list -->
+  
+  {% if user_list.has_previous or user_list.has_next %}
+  <div class="clearfix">
+    <ul class="pager">
+      {% if user_list.has_previous %}
+        <li><a href="?page={{ user_list.previous_page_number }}">Previous page</a></li>
+      {% endif %}
 
-          <span class="current">
-            Page {{ user_list.number }} of {{ user_list.paginator.num_pages }}.
-          </span>
-
-          {% if user_list.has_next %}
-          <a href="?page={{ user_list.next_page_number }}">next</a>
-          {% endif %}
-        </span>
-      </div> -->
-
+      {% if user_list.has_next %}
+        <li><a href="?page={{ user_list.next_page_number }}">Next page</a></li>
+      {% endif %}
+    </ul>
     </div>
-  </div>
+  {% endif %}
+
 </div> <!-- /container -->
 
 

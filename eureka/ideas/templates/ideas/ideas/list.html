@@ -47,7 +47,7 @@
             <img class="media-object" src="{% gravatar_url idea.user.email 48%}" alt="...">
           </a>
           <div class="media-body">
-            <h4 class="media-heading lead"><a href="#">{{idea.user.username}}</a> had an idea!</h4>
+            <h4 class="media-heading lead"><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a> had an idea!</h4>
             <h4 class="lead"><a href="{% url 'idea' idea_id=idea.id %}">{{idea.title}}</a></h4>
             <p>{{idea.text|truncatewords:"27"}}</p>
 
@@ -71,8 +71,8 @@
               {% else %}
               <span class="label label-danger">rejected</span>
               {% endif %}
-              <span class="label label-default">{{idea.comment_set.count}} comment{% if idea.comment_set.count != 1 %}s{% endif%}</span>
-              <span class="label label-default">0 likes</span>
+              <span class="label label-default"><span class="glyphicon glyphicon-comment"></span> {{idea.comment_set.count}} comment{% if idea.comment_set.count != 1 %}s{% endif%}</span>
+              <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> 0 likes</span>
               <!-- <span class="label label-default">4 users interested</span> -->
             </div>
           </div> <!-- /mediabody -->

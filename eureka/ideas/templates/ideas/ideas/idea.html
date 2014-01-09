@@ -100,6 +100,14 @@ function doEdit()
 </div><!-- /.modal -->
 {% endif %}
 
+<div class="sub-navbar">
+  <div class="container">
+    <ul class="nav nav-pills pull-left">
+      <li class=""><a href="">Home / Ideas / </a></li>
+    </ul>
+  </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8">
@@ -118,9 +126,10 @@ function doEdit()
                         </button>
                     </div>
                     {% endif %}
+
                 <div class="media-body">
-                    <h4 class="media-heading lead"><a href="#">{{idea.user.username}}</a></h4>
-                    <h4 class="lead"><a href="{% url 'idea' idea_id=idea.id %}">{{idea.title}}</a></h4>
+                    <h4 class="media-heading lead"><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a></h4>
+                    <h4 class="lead">{{idea.title}}</h4>
                     <p>{{idea.text}}</p>
 
                     {% if idea.interest_set.count > 0 %}
@@ -146,20 +155,16 @@ function doEdit()
                       <span class="label label-default">0 likes</span>
                       <!-- <span class="label label-default">4 users interested</span> -->
                   </div>
-                  <span class="pull-left">{{idea.created|naturaltime}}</span>
+
+                  <span class="label label-default pull-left">{{idea.created|naturaltime}}</span>
               </div> <!-- /mediabody -->
           </div> <!-- /media -->
       </div>
 
-
-            <!-- <div class="comments">
-                <h4 class="lead">0 Comments</h4>
-                <hr>
-            </div> -->
         </div>
 
         <div class="col-md-4">
-
+          few
         </div>
     </div>
 

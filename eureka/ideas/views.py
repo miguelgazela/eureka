@@ -22,7 +22,6 @@ def index(request):
     return render(request, 'ideas/index.html')
 
 def login(request):
-    print request.GET
     if request.method == 'GET':
         return render(request, 'ideas/auth/login.html')
     elif request.method == 'POST':
@@ -122,16 +121,21 @@ def add_idea(request):
 
 @login_required(login_url='login')
 def users(request, sort='latest'):
-    valid_sorts = ['latest', 'commenters', 'thinkers']
+    valid_sorts = ['latest', 'commenters', 'thinkers', 'all']
     if sort not in valid_sorts:
         sort = 'latest'
 
     if sort == 'latest':
-        users = User.objects.filter(date_joined__gte=datetime.date.today() - datetime.timedelta(days=7))
+        users = User.objects.filter(date_joined__gte=datetime.date.today()
+            - datetime.timedelta(days=7))
     elif sort == 'commenters':
-        users = User.objects.annotate(num_comments=Count('comment')).filter(num_comments__gt=0).order_by('-num_comments')
+        users = User.objects.annotate(num_comments=Count('comment'))\
+            .filter(num_comments__gt=0).order_by('-num_comments')
     elif sort == 'thinkers':
-        users = User.objects.annotate(num_ideas=Count('idea')).filter(num_ideas__gt=0).order_by('-num_ideas')
+        users = User.objects.annotate(num_ideas=Count('idea'))\
+            .filter(num_ideas__gt=0).order_by('-num_ideas')
+    elif sort == 'all':
+        users = User.objects.all().order_by('username')
 
     # paginate the results
     paginator = Paginator(users, 5)
@@ -143,9 +147,13 @@ def users(request, sort='latest'):
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
 
+    for user in users:
+        user.num_comments = user.comment_set.count()
+        user.num_ideas = user.idea_set.count()
+
     return render(request, 'ideas/users/list.html',
         {'user_list': users, 'sort': sort})
 
 @login_required(login_url='login')
 def user(request, user_id):
-    print "User here"
+    return HttpResponse(" ".join(["Showing profile for user with id", user_id]))
