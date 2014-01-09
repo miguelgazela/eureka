@@ -34,11 +34,15 @@
 
   <div class="ideas-list">
 
+    {% if idea_list|length == 0%}
+      <p class="lead">Ooops, we don't have any ideas to show you.</p>
+    {% else %}
+
     {% for idea in idea_list %}
 
     {% if not forloop.counter|divisibleby:"2" %}
     <div class="row">
-      {% endif %}
+    {% endif %}
 
       <div class="col-md-6 idea">
         <span class="created">{{idea.created|naturaltime}}</span>
@@ -79,12 +83,12 @@
         </div> <!-- /media -->
       </div> <!-- /idea -->
 
-      {% if forloop.counter|divisibleby:"2" or forloop.last %}
-    </div> <!-- /row -->
+    {% if forloop.counter|divisibleby:"2" or forloop.last %}
+      </div> <!-- /row -->
     {% endif %}
 
     {% endfor %}
-
+    {% endif %}
   </div>
 </div> <!-- /container -->
 
