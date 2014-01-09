@@ -121,21 +121,24 @@ def add_idea(request):
 def delete_idea(request, idea_id):
     response = {}
     response['status'] = 'fail'
+    
+    if request.is_ajax():
+        if request.user.is_authenticated():
+            try:
+                idea = Idea.objects.get(pk=idea_id)
+            except Idea.DoesNotExist:
+                response['data'] = {'title': 'No idea with that id was found'}
 
-    if request.user.is_authenticated():
-        try:
-            idea = Idea.objects.get(pk=idea_id)
-        except Idea.DoesNotExist:
-            response['data'] = {'title': 'No idea with that id was found'}
-
-        if idea.user.id == request.user.id:
-            idea.delete()
-            response['status'] = 'success'
-            response['data'] = None
+            if idea.user.id == request.user.id:
+                idea.delete()
+                response['status'] = 'success'
+                response['data'] = None
+            else:
+                response['data'] = {'title': "This idea isn't yours"}
         else:
-            response['data'] = {'title': "This idea isn't yours"}
+            response['data'] = {'title': 'You must be logged in to delete an idea'}
     else:
-        response['data'] = {'title': 'You must be logged in to delete an idea'}
+        response['data'] = {'title': 'API can only be used with AJAX requests'}
 
     return HttpResponse(json.dumps(response), content_type="application/json")
 
