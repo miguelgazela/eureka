@@ -22,6 +22,10 @@ a:focus {
     color: #1989BD;
 }
 
+.modal-dialog {
+    padding-top: 90px;
+}
+
 .modal-backdrop {
     background: none;
 }
@@ -30,8 +34,8 @@ a:focus {
     color: #878787;
 }
 
-.modal-body {
-    max-height: 500px;
+.modal-body.overflowable {
+    max-height: 400px;
     overflow-y: scroll;
 }
 

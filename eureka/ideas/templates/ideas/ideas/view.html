@@ -33,7 +33,7 @@
   <div class="row">
 
     <div class="col-md-8 col-sm-12">
-      <div class="idea idea-details">
+      <div class="idea idea-details" data-idea-id="{{idea.id}}">
         <div class="media">
           <a class="pull-left" href="#">
             <img class="media-object" src="{% gravatar_url idea.user.email 48%}" alt="...">
@@ -52,8 +52,7 @@
               {% else %}
               <span class="label label-danger">rejected</span>
               {% endif %}
-              <span class="label label-default">0 likes</span>
-              <!-- <span class="label label-default">4 users interested</span> -->
+              <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> 0 likes</span>
             </div>
 
             <span class="label label-default pull-left">added {{idea.created|naturaltime}}</span>
@@ -70,38 +69,13 @@
           <h3 class="panel-title">Options</h3>
         </div>
         <ul class="list-group">
-          <li class="list-group-item hoverable">EDIT IDEA <span class="glyphicon glyphicon-edit pull-right"></span></li>
-          <li class="list-group-item hoverable">REMOVE IDEA <span class="glyphicon glyphicon-remove pull-right"></span></li>
+          <li class="list-group-item hoverable" id="edit_idea">EDIT IDEA <span class="glyphicon glyphicon-edit pull-right"></span></li>
+          <li class="list-group-item hoverable" data-toggle="modal" data-target="#delete_idea_modal">DELETE IDEA <span class="glyphicon glyphicon-remove pull-right"></span>
+          </li>
         </ul>
       </div>
       
       {% endif %}
-
-      <!-- modal to show interested users -->
-      <div class="modal" id="interested" tabindex="-1" role="dialog" aria-hidden="false">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title">Users interested in this idea</h4>
-            </div>
-            <div class="modal-body">
-              <ul class="list-group">
-              {% for interested in idea.interest_set.all %}
-              <li class="list-group-item">
-                <img src="{% gravatar_url interested.user.email 48 %}" title="{{interested.user.username}}">
-                <a href="{% url 'user' user_id=interested.user.id %}">{{interested.user.username}}</a>
-                <span class="label label-default pull-right" title="{{interested.created}}">{{interested.created|naturaltime}}</span>
-              </li>
-              {% endfor %}
-              </ul>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div><!-- /.modal -->
 
       <div class="panel panel-default interested">
         <div class="panel-heading">
@@ -140,6 +114,56 @@
   </div> <!-- /.row -->
 
 </div> <!-- /.container -->
+
+
+<!-- modals used in this page -->
+
+<!-- modal to show interested users -->
+      <div class="modal" id="interested" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Users interested in this idea</h4>
+            </div>
+            <div class="modal-body overflowable">
+              <ul class="list-group">
+              {% for interested in idea.interest_set.all %}
+              <li class="list-group-item">
+                <img src="{% gravatar_url interested.user.email 48 %}" title="{{interested.user.username}}">
+                <a href="{% url 'user' user_id=interested.user.id %}">{{interested.user.username}}</a>
+                <span class="label label-default pull-right" title="{{interested.created}}">{{interested.created|naturaltime}}</span>
+              </li>
+              {% endfor %}
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+<!-- Delete Idea Modal -->
+<div class="modal" id="delete_idea_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title" id="delModalLabel">Delete idea</h3>
+      </div>
+      <div class="modal-body">
+        <div class="divDialogElements">
+            <p id="delModalText">Are you sure you want to delete this idea?</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" id="delete_idea">Yes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 {% endblock %}

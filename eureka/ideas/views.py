@@ -16,6 +16,7 @@ from ideas.forms import UserCreationForm
 from ideas.forms import LoginForm
 from ideas.forms import IdeaForm
 import datetime
+import json
 
 # Create your views here.
 def index(request):
@@ -116,6 +117,27 @@ def add_idea(request):
 			return redirect("/eureka/ideas/%s" % new_idea.id)
         else: # needs to show the form with the errors
 		  pass
+
+def delete_idea(request, idea_id):
+    response = {}
+    response['status'] = 'fail'
+
+    if request.user.is_authenticated():
+        try:
+            idea = Idea.objects.get(pk=idea_id)
+        except Idea.DoesNotExist:
+            response['data'] = {'title': 'No idea with that id was found'}
+
+        if idea.user.id == request.user.id:
+            idea.delete()
+            response['status'] = 'success'
+            response['data'] = None
+        else:
+            response['data'] = {'title': "This idea isn't yours"}
+    else:
+        response['data'] = {'title': 'You must be logged in to delete an idea'}
+
+    return HttpResponse(json.dumps(response), content_type="application/json")
 
 @login_required(login_url='login')
 def users(request, sort='all'):
