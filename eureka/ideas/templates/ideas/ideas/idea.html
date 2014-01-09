@@ -18,12 +18,16 @@
 {% load humanize %}
 {% load gravatar %}
 
-<!-- <div class="sub-navbar">
+<div class="sub-navbar">
   <div class="container">
-    <img class="pull-left" src="{% gravatar_url idea.user.email 40 %}" alt="">
-    <h4 class="pull-left lead">{{ idea.title }} by <a href="#">{{ idea.user.username}}</a></h4>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'index' %}">Eureka</a></li>
+        <li><a href="{% url 'ideas' %}">Ideas</a></li>
+        <li><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a></li>
+        <li>{{idea.title}}</li>
+    </ol>
   </div>
-</div> -->
+</div>
 
 {% if owner == "yes" %}
 <script>
@@ -99,14 +103,6 @@ function doEdit()
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 {% endif %}
-
-<div class="sub-navbar">
-  <div class="container">
-    <ul class="nav nav-pills pull-left">
-      <li class=""><a href="">Home / Ideas / </a></li>
-    </ul>
-  </div>
-</div>
 
 <div class="container">
     <div class="row">

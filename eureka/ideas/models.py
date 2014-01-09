@@ -48,6 +48,7 @@ class Vote(models.Model):
 class Interest(models.Model):
     user = models.ForeignKey(User)
     idea = models.ForeignKey(Idea)
+    created = models.DateTimeField(auto_now_add=True, default=timezone.now())
 
     def __unicode__(self):
         return "%s is interested in %s" % (self.user.username, self.idea.title)

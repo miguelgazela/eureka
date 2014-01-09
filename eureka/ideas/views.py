@@ -66,7 +66,8 @@ def ideas(request, sort='latest'):
     if sort == 'latest':
         ideas = Idea.objects.order_by('-created')
     elif sort == 'interesting':
-        ideas = Idea.objects.annotate(num_interest=Count('interest')).filter(num_interest__gt=0)\
+        ideas = Idea.objects.annotate(num_interest=Count('interest'))\
+            .filter(num_interest__gt=0)\
             .order_by('-created')
     elif sort == 'approved':
         ideas = Idea.objects.filter(state='A').order_by('-created')
@@ -82,10 +83,7 @@ def idea(request, idea_id):
     idea = get_object_or_404(Idea, pk=idea_id)
 
     if request.method == 'GET':
-        if(request.user == idea.user):
-            return render(request, 'ideas/ideas/idea.html', {'idea': idea, 'owner': "yes"})
-        else:
-            return render(request, 'ideas/ideas/idea.html', {'idea': idea, 'owner': "no"})
+        return render(request, 'ideas/ideas/view.html', {'idea': idea})
         
     elif request.method == 'POST' and request.user == idea.user:
         if request.is_ajax():
@@ -120,10 +118,10 @@ def add_idea(request):
 		  pass
 
 @login_required(login_url='login')
-def users(request, sort='latest'):
+def users(request, sort='all'):
     valid_sorts = ['latest', 'commenters', 'thinkers', 'all']
     if sort not in valid_sorts:
-        sort = 'latest'
+        sort = 'all'
 
     if sort == 'latest':
         users = User.objects.filter(date_joined__gte=datetime.date.today()
@@ -158,4 +156,5 @@ def users(request, sort='latest'):
 def user(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     ideas = Idea.objects.filter(user=user).order_by('-created')
-    return render(request, 'ideas/users/user.html', {'c_user': c_user, 'useridea_list': ideas})
+    return render(request, 'ideas/users/view.html', 
+        {'user': user, 'user_ideas_list': ideas})

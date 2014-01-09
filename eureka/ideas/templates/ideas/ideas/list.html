@@ -53,7 +53,7 @@
 
             {% if idea.interest_set.count > 0 %}
             <div class="interested">
-              <p class="lead">Interested in this idea</p>
+              <p class="lead">Users interested in this idea</p>
               {% for interested in idea.interest_set.all|slice:":6" %}
               <a href="#"><img src="{% gravatar_url interested.user.email 24 %}" title="{{interested.user.username}}"></a>
               {% endfor %}

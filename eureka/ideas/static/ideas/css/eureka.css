@@ -22,6 +22,34 @@ a:focus {
     color: #1989BD;
 }
 
+.modal-backdrop {
+    background: none;
+}
+
+.modal-header {
+    color: #878787;
+}
+
+.modal-body {
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+.modal-body>.list-group {
+    margin-bottom: 0;
+}
+
+.modal-footer {
+    margin-top: 0;
+    padding: 10px 20px 10px 10px;
+}
+
+.breadcrumb {
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: transparent;
+}
+
 /* NAVBAR */
 
 .navbar-inverse {
@@ -233,8 +261,7 @@ a:focus {
     margin-bottom: 15px;
 }
 
-.idea:before,
-.idea-details:before {
+.idea:not(.idea-details):before {
     content: "";
     display: block;
     position: absolute;
@@ -255,6 +282,47 @@ a:focus {
     -webkit-box-shadow: 0 8px 10px -6px #d9d9d9;
        -moz-box-shadow: 0 8px 10px -6px #d9d9d9;
             box-shadow: 0 8px 10px -6px #d9d9d9;
+}
+
+.idea-sidebar>.panel {    
+    border-radius: 4px;
+    -webkit-box-shadow: 0 8px 10px -6px #d9d9d9;
+       -moz-box-shadow: 0 8px 10px -6px #d9d9d9;
+            box-shadow: 0 8px 10px -6px #d9d9d9;
+}
+
+.idea-sidebar .panel-title {
+    color: #666;
+    font-size: 14px;
+}
+
+.idea-sidebar .list-group .hoverable {
+    color: #a7a7a7;
+}
+
+.idea-sidebar .options .list-group {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.idea-sidebar .list-group {
+    color: #878787;
+}
+
+.idea-sidebar>.panel>.list-group>.list-group-item,
+.idea-sidebar>.panel {
+    border: 0;
+}
+
+.idea-sidebar .list-group>.list-group-item:not(:first-child) {
+    border-top: 1px solid #ebebeb;
+}
+
+.idea-sidebar .list-group>.hoverable:hover,
+.idea-sidebar .list-group>.hoverable:focus {
+    cursor: pointer;
+    background-color: #f4f4f4;
+    color: #878787;
 }
 
 .idea .media img,
@@ -298,7 +366,8 @@ a:focus {
     margin-bottom: 5px;
 }
 
-.idea-details {
+.idea-details,
+.idea-sidebar {
     margin-top: 20px;
 }
 

@@ -1,11 +1,21 @@
 {% extends "ideas/base.html" %}
 
-{% block title %}Eureka - {{c_user.username}}{% endblock %}
+{% block title %}Eureka - {{user.username}}{% endblock %}
 
 {% block content %}
 
 {% load humanize %}
 {% load gravatar %}
+
+<div class="sub-navbar">
+  <div class="container">
+    <ol class="breadcrumb">
+        <li><a href="{% url 'index' %}">Eureka</a></li>
+        <li><a href="{% url 'users' %}">Users</a></li>
+        <li class="active">{{user.username}}</li>
+    </ol>
+  </div>
+</div>
 
 <div class="container">
     <div class="row">
@@ -13,15 +23,15 @@
             <div class="idea idea-details">
                 <div class="media">
                     <a class="pull-left" href="#">
-                        <img class="media-object" src="{% gravatar_url c_user.email 48%}" alt="...">
+                        <img class="media-object" src="{% gravatar_url user.email 48%}" alt="...">
                     </a>
 
                     <div class="media-body">
-                        <h4 class="media-heading lead"><a href="#">{{c_user.username}}</a></h4>
+                        <h4 class="media-heading lead"><a href="#">{{user.username}}</a></h4>
 
-                        <p>e-mail: {{c_user.email}}</p>
+                        <p>e-mail: {{user.email}}</p>
                         <h3>Ideas</h3>
-                        {% for idea in useridea_list %}
+                        {% for idea in user_ideas_list %}
                             <p>{{idea.title}}</p>
                         {% endfor %}
                         <h3>Interested</h3>
@@ -29,8 +39,8 @@
                         <h3>Likes</h3>
                     </div>
 
-                    <p class="pull-left">Sign up:{{c_user.date_joined|naturaltime}}</p>
-                    <p class="pull-left">Last login:{{c_user.last_login|naturaltime}}</p>
+                    <p class="pull-left">Sign up:{{user.date_joined|naturaltime}}</p>
+                    <p class="pull-left">Last login:{{user.last_login|naturaltime}}</p>
                 </div> <!-- /mediabody -->
             </div> <!-- /media -->
         </div>
