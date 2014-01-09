@@ -156,4 +156,6 @@ def users(request, sort='latest'):
 
 @login_required(login_url='login')
 def user(request, user_id):
-    return HttpResponse(" ".join(["Showing profile for user with id", user_id]))
+    user = get_object_or_404(User, pk=user_id)
+    ideas = Idea.objects.filter(user=user).order_by('-created')
+    return render(request, 'ideas/users/user.html', {'c_user': c_user, 'useridea_list': ideas})
