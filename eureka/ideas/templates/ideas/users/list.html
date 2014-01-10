@@ -21,6 +21,9 @@
 <div class="sub-navbar">
   <div class="container">
     <h4 class="pull-right">Showing {{ user_list|length}} user{% if user_list|length != 1 %}s{% endif%}</h4>
+    {% if user_list|length > 0 %}
+    <input class="pull-right" id="find-user-input" type="text" placeholder="Find a user..."></input>
+    {% endif %}
     <ul class="nav nav-pills pull-left">
       <li class="{% if sort == 'all' %}active{% endif %}"><a href="{% url 'users' sort='all' %}" title="all users ordered alphabetically">All</a></li>
       <li class="{% if sort == 'latest' %}active{% endif %}"><a href="{% url 'users' sort='latest' %}" title="users that joined in the last 7 days">New users</a></li>
@@ -38,10 +41,6 @@
       {% if user_list|length == 0%}
       <p class="lead">Ooops, we don't have any users to show you.</p>
       {% else %}
-
-      <!-- <div class="clearfix">
-        <input type="text" placeholder="Search for user..."></input>
-      </div> -->
 
       {% for user in user_list %}
       <div class="user">

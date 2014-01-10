@@ -61,6 +61,23 @@ $(document).ready(function(){
             $('#delete_idea_modal .alert').removeClass('hidden');
         });
     });
+
+    // search user input handler
+    $("#find-user-input").bindWithDelay(
+        "keyup",
+        function() {
+            var query = $(this).val().trim().toLowerCase();
+            $('.user').each(function(){
+                var username = $(this).find('.media-heading a').html().toLowerCase();
+                var pos = username.indexOf(query);
+                if (pos != -1) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        },
+        250, true);
 });
 
 // marks the user as interested in an idea

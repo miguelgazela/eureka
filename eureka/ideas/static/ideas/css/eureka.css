@@ -219,9 +219,13 @@ a:focus {
 
 .sub-navbar {
     border-bottom: 1px solid #d9d9d9;
-    padding-top: 20px;
     color: #666;
     background-color: #fff;
+}
+
+.sub-navbar h4,
+.sub-navbar .nav-pills {
+    padding-top: 20px;
 }
 
 .sub-navbar h4 {
@@ -232,6 +236,16 @@ a:focus {
 .sub-navbar .lead {
     font-size: 18px;
     padding-bottom: 18px;
+}
+
+.sub-navbar input {
+    height: 31px;
+    margin-top: 16px;
+    margin-right: 10px;
+    border-radius: 4px;
+    border: 1px solid #d1d1d1;
+    padding: 5px;
+    color: #878787;
 }
 
 .nav-pills>li>a {
@@ -389,12 +403,8 @@ a:focus {
     width: 50%;
 }
 
-.users-list input {
-    margin-bottom: 10px;
-    background-color: #e6e9e8;
-    border: 2px solid #878787;
-    padding: 5px;
-    color: #878787;
+.find-user {
+    margin-right: 10px;
 }
 
 .pager li>a {
