@@ -84,7 +84,7 @@
         <ul class="list-group">
           {% if idea.interest_set.count > 0 %}
               {% for interested in idea.interest_set.all|slice:":5" %}
-              <li class="list-group-item">
+              <li class="list-group-item interested-item">
               <img src="{% gravatar_url interested.user.email 24 %}" title="{{interested.user.username}}">
               <a href="{% url 'user' user_id=interested.user.id %}">{{interested.user.username}}</a>
               <span class="label label-default pull-right" title="{{interested.created}}">{{interested.created|naturaltime}}</span>
@@ -131,7 +131,7 @@
             <div class="modal-body overflowable">
               <ul class="list-group">
               {% for interested in idea.interest_set.all %}
-              <li class="list-group-item">
+              <li class="list-group-item interested-item">
                 <img src="{% gravatar_url interested.user.email 48 %}" title="{{interested.user.username}}">
                 <a href="{% url 'user' user_id=interested.user.id %}">{{interested.user.username}}</a>
                 <span class="label label-default pull-right" title="{{interested.created}}">{{interested.created|naturaltime}}</span>

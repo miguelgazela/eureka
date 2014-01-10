@@ -78,6 +78,9 @@ $(document).ready(function(){
             });
         },
         250, true);
+
+    // activate all tooltips
+    $('[data-toggle="tooltip"]').tooltip({'placement': 'bottom'});
 });
 
 // marks the user as interested in an idea

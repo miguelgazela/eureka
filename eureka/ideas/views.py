@@ -22,6 +22,8 @@ import json
 
 # Create your views here.
 def index(request):
+    if request.user.is_authenticated():
+        return redirect('ideas')
     return render(request, 'ideas/index.html')
 
 def login(request):
@@ -231,4 +233,4 @@ def user(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     ideas = Idea.objects.filter(user=user).order_by('-created')
     return render(request, 'ideas/users/view.html', 
-        {'user': user, 'user_ideas_list': ideas})
+        {'user_': user, 'user_ideas_list': ideas})

@@ -97,16 +97,26 @@ a:focus {
     font-size: 24px;
 }
 
-.navbar-nav>li>a {
-    padding: 30px 20px;
+.navbar-nav:not(.navbar-right)>li>a {
+    padding: 30px 5px 30px 5px;
     min-width: 80px;
     text-align: center;
 }
 
-.navbar-inverse .navbar-nav>li>a:hover,
-.navbar-inverse .navbar-nav>li>a:focus {
+.navbar-right>li>a {
+    padding-top: 30px;
+    text-align: center;
+}
+
+.navbar-inverse .navbar-nav:not(.navbar-right)>li>a:hover,
+.navbar-inverse .navbar-nav:not(.navbar-right)>li>a:focus {
     /*background-color: #1989BD;*/
     text-decoration: underline;
+}
+
+.navbar-inverse .navbar-right>li>a:hover,
+.navbar-inverse .navbar-right>li>a:focus {
+    color: #555;
 }
 
 .navbar-inverse .navbar-nav>.active>a, 
@@ -141,8 +151,9 @@ a:focus {
 }
 
 .navbar-right img {
-    border-radius: 8px;
-    border: 2px solid #fff;
+    border-radius: 4px;
+    border: 1px solid #fff;
+    margin-right: 5px;
 }
 
 .navbar-inverse .navbar-link {
@@ -227,6 +238,10 @@ a:focus {
 .sub-navbar .nav-pills,
 .sub-navbar .breadcrumb {
     padding-top: 20px;
+}
+
+.sub-navbar .btn {
+    margin-top: 16px;
 }
 
 .sub-navbar h4 {
@@ -420,6 +435,53 @@ a:focus {
 
 .user-details {
     padding-top: 20px;
+}
+
+.user-details .sidebar h3 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.user-details .sidebar h4 {
+    margin-top: 0;
+    color: #878787;
+    font-weight: 300;
+}
+
+.user-details .sidebar hr {
+    margin: 15px 0 15px;
+}
+
+.user-details .sidebar .glyphicon {
+    color: #878787;
+    margin-right: 5px;
+}
+
+.user-details .sidebar .stats span {
+    display: block;
+    font-weight: bold;
+    font-size: 28px;
+}
+
+.user-details .sidebar .stats .description {
+    font-size: 12px;
+    color: #878787;
+}
+
+.user-details .nav>li>a {
+    padding: 5px 15px;
+    color: #a7a7a7;
+}
+
+.user-details .nav>li>a:hover,
+.user-details .nav>li>a:focus {
+    background-color: #f4f4f4;
+    border-color: transparent transparent #ddd;
+}
+
+.user-details .nav>li.active>a {
+    color: #555;
 }
 
 /*.jumbotron.timeline {
