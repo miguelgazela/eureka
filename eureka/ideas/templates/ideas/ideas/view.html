@@ -92,7 +92,7 @@
               {% endfor %}
               {% if idea.interest_set.all|length > 5 %}
               <li class="list-group-item text-center">
-                <a href="#" data-toggle="modal" data-target="#interested">{{ idea.interest_set.all|length|add:"-5"}} more user{% if idea.interest_set.all|length|add:"-5" != 1 %}s{% endif %}</a>
+                <a href="#" data-toggle="modal" data-target="#interested">{{ idea.interest_set.all|length|add:"-5"}} other user{% if idea.interest_set.all|length|add:"-5" != 1 %}s{% endif %}</a>
               </li>
               {% endif %}
             {% else %}
@@ -126,19 +126,32 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title">Users interested in this idea</h4>
+              {% if not interested %}
+              <h4 class="modal-title">There are {{idea.interest_set.all.count}} users interested in this idea</h4>
+              {% else %}
+              <h4 class="modal-title"><a href="{% url 'user' user_id=user.id %}">You</a> and {{idea.interest_set.all.count|add:"-1"}} other users are interested in this idea</h4>
+              {% endif %}
             </div>
-            <div class="modal-body overflowable">
-              <ul class="list-group">
-              {% for interested in idea.interest_set.all %}
-              <li class="list-group-item interested-item">
-                <img src="{% gravatar_url interested.user.email 48 %}" title="{{interested.user.username}}">
-                <a href="{% url 'user' user_id=interested.user.id %}">{{interested.user.username}}</a>
-                <span class="label label-default pull-right" title="{{interested.created}}">{{interested.created|naturaltime}}</span>
-              </li>
-              {% endfor %}
-              </ul>
-            </div>
+            <ul class="list-group overflowable">
+            {% for interested in idea.interest_set.all %}
+            <li class="list-group-item interested-item">
+              <div class="row">
+                <div class="col-md-2 col-sm-2">
+                  <img src="{% gravatar_url interested.user.email 48 %}" title="{{interested.user.username}}">
+                </div>
+                <div class="col-md-10 col-sm-10">
+                  {% if interested.user.first_name %}
+                  <h4>{{interested.user.first_name}} {{interested.user.last_name}}</h3>
+                  {% else %}
+                  <h4>{{interested.user.username}}</h3>
+                  {% endif %}
+                  <a href="{% url 'user' user_id=interested.user.id %}">{{interested.user.username}}</a>
+                  <span class="label label-default pull-right" title="{{interested.created}}">{{interested.created|naturaltime}}</span>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+            </ul>
             <div class="modal-footer">
               <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
             </div>

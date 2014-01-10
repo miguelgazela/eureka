@@ -27,10 +27,14 @@
             <div class="panel panel-default sidebar">
                 <div class="panel-body">
                     <img src="{% gravatar_url user_.email 260 %}" alt="{{user_.username}} gravatar" class="img-rounded">
+                    {% if user_.first_name %}
                     <h3>{{user_.first_name}} {{user_.last_name}}</h3>
+                    {% else %}
+                    <h3>{{user_.username}}</h3>
+                    {% endif %}
                     <h4>{{user_.username}}</h4>
                     <hr>
-                    <p><span class="glyphicon glyphicon-envelope"></span> {{user_.email}}</p>
+                    <p><span class="glyphicon glyphicon-envelope"></span> <a href="mailto:{{user_.email}}">{{user_.email}}</a></p>
                     <p><span class="glyphicon glyphicon-time"></span> Joined {{user_.date_joined|naturaltime}}</p>
                     <hr>
                     <div class="row stats text-center">
@@ -40,7 +44,7 @@
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <span>{{user_.interest_set.count}}</span>
-                            <span class="description">interested</span>
+                            <span class="description">interest</span>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <span>{{user_.comment_set.count}}</span>
@@ -60,6 +64,7 @@
                         <li><a href="#"><span class="glyphicon glyphicon-eye-open"></span> Interested in</a></li>
                         <li><a href="#"><span class="glyphicon glyphicon-comment"></span> Comments</a></li>
                     </ul>
+                    <h4 class="lead">Coming soon...</h4>
                 </div>
             </div>
         </div>

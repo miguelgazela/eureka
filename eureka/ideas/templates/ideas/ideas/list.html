@@ -62,7 +62,7 @@
               <a href="#"><img src="{% gravatar_url interested.user.email 24 %}" title="{{interested.user.username}}"></a>
               {% endfor %}
               {% if idea.interest_set.all|length > 6 %}
-              <span>and {{ idea.interest_set.all|length|add:"-1"}} more</span>
+              <span>and {{ idea.interest_set.all|length|add:"-6"}} other</span>
               {% endif %}
             </div>
             {% endif %}

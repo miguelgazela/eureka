@@ -28,6 +28,7 @@ a:focus {
 
 .modal-dialog {
     padding-top: 90px;
+    width: 500px;
 }
 
 .modal-backdrop {
@@ -38,7 +39,34 @@ a:focus {
     color: #878787;
 }
 
-.modal-body.overflowable {
+.modal .list-group {
+    margin: 0;
+}
+
+.modal .list-group .list-group-item:first-child,
+.modal .list-group .list-group-item:last-child {
+    border-radius: 0;
+}
+
+.modal .list-group .list-group-item:first-child {
+    border-top-color: transparent;
+}
+
+.modal .list-group .list-group-item:last-child {
+    border-bottom-color: transparent;
+}
+
+.modal .list-group h4 {
+    margin: 0;
+    color: #878787;
+}
+
+.modal .list-group .col-md-10,
+.modal .list-group .col-sm-10 {
+    padding-left: 0;
+}
+
+.overflowable {
     max-height: 400px;
     overflow-y: scroll;
 }
