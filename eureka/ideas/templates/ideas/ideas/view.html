@@ -101,12 +101,14 @@
         </ul>
       </div>
       
-      {% if user.id != idea.user.id %}
+      {% if not interested %}
         {% if idea.interest_set.count > 0 %}
-        <button type="button" class="btn btn-success btn-block">I'm also interested!</button>
+        <button type="button" class="btn btn-success btn-block" onclick="add_interest()">I'm also interested!</button>
         {% else %}
-        <button type="button" class="btn btn-success btn-block">I'm interested!</button>
+        <button type="button" class="btn btn-success btn-block" onclick="add_interest()">I'm interested!</button>
         {% endif %}
+      {% elif interested %}
+        <button type="button" class="btn btn-danger btn-block" onclick="remove_interest()">I'm no longer interested</button>
       {% endif %}
 
     </div> <!-- /.idea-sidebar -->

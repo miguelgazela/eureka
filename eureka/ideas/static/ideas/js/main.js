@@ -38,7 +38,6 @@ $(document).ajaxSend(function(event, xhr, settings) {
 });
 
 $(document).ready(function(){
-    console.log('Document is ready!');
 
     // delete idea handler
     $("#delete_idea").click(function(){
@@ -63,3 +62,37 @@ $(document).ready(function(){
         });
     });
 });
+
+// marks the user as interested in an idea
+function add_interest() {
+    var idea_id = $(".idea").attr('data-idea-id');
+    $.ajax({
+        type: "POST",
+        url: BASE_URL + "api/interest/"+idea_id,
+        dataType: "json",
+        success: function(response){
+            if(response['status'] == "success") {
+                window.location = BASE_URL+"ideas/"+idea_id;
+                // $('.interested .btn').remove();
+                var markup = ' \
+                <li class="list-group-item"> \
+                    <img src="{% gravatar_url ${email} 24 %}" title="${username}"> \
+                    <a href="{% url "user" user_id=${id} %}">${username}</a> \
+                    <span class="label label-default pull-right" title="${created}">{{${created}|naturaltime}}</span> \
+                </li>';
+
+                // $.template( "interested_template", markup);
+                // $.tmpl("interested_template", {
+                //     'email': response.data.email,
+                //     'username': response.data.username,
+                //     'id': response.data.id,
+                //     'created': response.data.created
+                // }).appendTo(".interested .list-group");
+            } else {
+                alert("Ooops, something went wrong. Please try again later.");
+            }
+        }
+    }).fail(function(){
+        alert("Ooops, something went wrong. Please try again later.");
+    });
+}

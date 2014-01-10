@@ -22,4 +22,5 @@ urlpatterns = patterns('',
 
     # api
     url(r'^api/ideas/delete/(?P<idea_id>\d+)$', views.delete_idea, name="delete_idea"),
+    url(r'^api/interest/(?P<idea_id>\d+)$', views.add_interest, name='add_interest'),
 )

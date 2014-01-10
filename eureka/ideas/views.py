@@ -9,8 +9,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from ideas.models import Idea
+from ideas.models import Interest
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import timezone
 from ideas.forms import UserCreationForm
 from ideas.forms import LoginForm
@@ -84,22 +86,20 @@ def idea(request, idea_id):
     idea = get_object_or_404(Idea, pk=idea_id)
 
     if request.method == 'GET':
-        return render(request, 'ideas/ideas/view.html', {'idea': idea})
-        
+
+        return render(request, 'ideas/ideas/view.html', {
+            'idea': idea,
+            'interested': request.user.interest_set.filter(idea=idea_id),
+        })
     elif request.method == 'POST' and request.user == idea.user:
-        if request.is_ajax():
-            if(request.POST['data'] == "delete"):
-                idea.delete()
-                return
-        else:
-            idea_form = IdeaForm(request.POST)
+        idea_form = IdeaForm(request.POST)
+    
+        if idea_form.is_valid():      
+            idea.title = request.POST['title']
+            idea.text = request.POST['text']
+            idea.save()
         
-            if idea_form.is_valid():      
-                idea.title = request.POST['title']
-                idea.text = request.POST['text']
-                idea.save()
-            
-            return render(request, 'ideas/ideas/idea.html', {'idea': idea})
+        return render(request, 'ideas/ideas/idea.html', {'idea': idea})
     else:
         return redirect("/eureka/ideas/%s" % idea.id)        
         
@@ -121,26 +121,54 @@ def add_idea(request):
 def delete_idea(request, idea_id):
     response = {}
     response['status'] = 'fail'
-    
+    response['data'] = None
+
     if request.is_ajax():
         if request.user.is_authenticated():
             try:
                 idea = Idea.objects.get(pk=idea_id)
+                if idea.user.id == request.user.id:
+                    idea.delete()
+                    response['status'] = 'success'
+                else:
+                    response['data'] = {'title': "This idea isn't yours"}
             except Idea.DoesNotExist:
                 response['data'] = {'title': 'No idea with that id was found'}
-
-            if idea.user.id == request.user.id:
-                idea.delete()
-                response['status'] = 'success'
-                response['data'] = None
-            else:
-                response['data'] = {'title': "This idea isn't yours"}
         else:
             response['data'] = {'title': 'You must be logged in to delete an idea'}
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
-
     return HttpResponse(json.dumps(response), content_type="application/json")
+
+def add_interest(request, idea_id):
+    response = {}
+    response['status'] = 'fail'
+
+    if True:
+        if request.user.is_authenticated():
+            if request.user.interest_set.filter(idea=idea_id):
+                response['data'] = {
+                    'title': "You're already interested in this question"}
+            else:
+                try:
+                    idea = Idea.objects.get(pk=idea_id)
+                    interest = Interest(user=request.user, idea=idea)
+                    interest.save()
+                    response['status'] = 'success'
+                    response['data'] = {
+                        'username': request.user.username,
+                        'id': request.user.id,
+                        'email': request.user.email,
+                        'created': interest.created}
+                except Idea.DoesNotExist:
+                    response['data'] = {
+                        'title': 'No idea with that id was found'}
+        else:
+            response['data'] = {
+                'title': 'You must be logged in to be interested in an idea'}
+    else:
+        response['data'] = {'title': 'API can only be used with AJAX requests'}
+    return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
 
 @login_required(login_url='login')
 def users(request, sort='all'):
