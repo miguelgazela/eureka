@@ -11,16 +11,34 @@
   <div class="container">
     <ol class="breadcrumb">
         <li><a href="{% url 'index' %}">Eureka</a></li>
-        <li><a href="{% url 'users' %}">Users</a></li>
+        <li class="active"><a href="{% url 'users' %}">Users</a></li>
         <li class="active">{{user.username}}</li>
     </ol>
   </div>
 </div>
 
 <div class="container">
-    <div class="row">
+    <div class="row user-details">
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <img src="{% gravatar_url user.email 260 %}" alt="{{user.username}} gravatar" class="img-rounded">
+                    <h3>{{user.first_name}} {{user.last_name}}</h3>
+                    <h4>{{user.username}}</h4>
+                    <hr>
+                    <p><span class="glyphicon glyphicon-envelope"></span> {{user.email}}</p>
+                    <p><span class="glyphicon glyphicon-time"></span> Joined {{user.date_joined|naturaltime}}</p>
+                    <hr>
+                        <span>{{user.idea_set.count}} ideas</span>
+                        <span>{{user.comment_set.count}} comments</span>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-8">
-            <div class="idea idea-details">
+            <div>
                 <div class="media">
                     <a class="pull-left" href="#">
                         <img class="media-object" src="{% gravatar_url user.email 48%}" alt="...">

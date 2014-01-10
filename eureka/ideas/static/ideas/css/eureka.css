@@ -224,7 +224,8 @@ a:focus {
 }
 
 .sub-navbar h4,
-.sub-navbar .nav-pills {
+.sub-navbar .nav-pills,
+.sub-navbar .breadcrumb {
     padding-top: 20px;
 }
 
@@ -417,6 +418,9 @@ a:focus {
     }
 }
 
+.user-details {
+    padding-top: 20px;
+}
 
 /*.jumbotron.timeline {
     background-color: #323543;

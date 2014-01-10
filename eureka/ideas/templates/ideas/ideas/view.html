@@ -6,7 +6,7 @@
 
 <ul class="nav navbar-nav">
   {% if user.is_authenticated %}
-  <li><a href="{% url 'ideas' %}">IDEAS</a></li>
+  <li class="active"><a href="{% url 'ideas' %}">IDEAS</a></li>
   <li><a href="{% url 'users' %}">USERS</a></li>
   {% endif %}
 </ul>
@@ -108,7 +108,7 @@
         <button type="button" class="btn btn-success btn-block" onclick="add_interest()">I'm interested!</button>
         {% endif %}
       {% elif interested %}
-        <button type="button" class="btn btn-danger btn-block" onclick="remove_interest()">I'm no longer interested</button>
+        <button type="button" class="btn btn-danger btn-block" onclick="remove_interest('{{user.username}}')">I'm no longer interested</button>
       {% endif %}
 
     </div> <!-- /.idea-sidebar -->

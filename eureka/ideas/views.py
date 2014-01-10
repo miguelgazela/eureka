@@ -144,7 +144,7 @@ def add_interest(request, idea_id):
     response = {}
     response['status'] = 'fail'
 
-    if True:
+    if request.is_ajax():
         if request.user.is_authenticated():
             if request.user.interest_set.filter(idea=idea_id):
                 response['data'] = {
@@ -166,6 +166,27 @@ def add_interest(request, idea_id):
         else:
             response['data'] = {
                 'title': 'You must be logged in to be interested in an idea'}
+    else:
+        response['data'] = {'title': 'API can only be used with AJAX requests'}
+    return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
+
+def remove_interest(request, idea_id):
+    response = {}
+    response['status'] = 'fail'
+
+    if request.is_ajax():
+        if request.user.is_authenticated():
+            if not request.user.interest_set.filter(idea=idea_id):
+                response['data'] = {
+                    'title': "You're not interested in this question"}
+            else:
+                interest = Interest.objects.filter(idea=idea_id, user=request.user.id)
+                interest.delete()
+                response['status'] = 'success'
+                response['data'] = None
+        else:
+            response['data'] = {
+                'title': 'You must be logged in to remove interest in an idea'}
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
     return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")

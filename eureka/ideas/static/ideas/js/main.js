@@ -113,3 +113,22 @@ function add_interest() {
         alert("Ooops, something went wrong. Please try again later.");
     });
 }
+
+function remove_interest(username) {
+    var idea_id = $(".idea").attr('data-idea-id');
+
+    $.ajax({
+        type: "POST",
+        url: BASE_URL + "api/interest/remove/"+idea_id,
+        dataType: "json",
+        success: function(response){
+            if(response['status'] == "success") {
+                window.location = BASE_URL+"ideas/"+idea_id;
+            } else {
+                alert("Ooops, something went wrong. Please try again later.");
+            }
+        }
+    }).fail(function(){
+        alert("Ooops, something went wrong. Please try again later.");
+    });
+}
