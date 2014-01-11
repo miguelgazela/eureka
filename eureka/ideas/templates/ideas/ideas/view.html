@@ -1,0 +1,191 @@
+{% extends "ideas/base.html" %}
+
+{% block title %}Eureka - {{idea.title}}{% endblock %}
+
+{% block navbar-links %}
+
+<ul class="nav navbar-nav">
+  <li class="active"><a href="{% url 'ideas' %}">IDEAS</a></li>
+  <li><a href="{% url 'users' %}">USERS</a></li>
+</ul>
+
+{% endblock %}
+
+{% block content %}
+
+{% load humanize %}
+{% load gravatar %}
+
+<div class="sub-navbar">
+  <div class="container">
+    <ol class="breadcrumb pull-left">
+        <li><a href="{% url 'index' %}">Eureka</a></li>
+        <li><a href="{% url 'ideas' %}">Ideas</a></li>
+        <li><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a></li>
+        <li class="active">{{idea.title}}</li>
+    </ol>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-8 col-sm-12">
+      <div class="idea idea-details" data-idea-id="{{idea.id}}">
+        <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" src="{% gravatar_url idea.user.email 48%}" alt="...">
+          </a>
+
+          <div class="media-body">
+            {% if idea.was_edited %}
+            <span class="label label-default pull-right">edited {{idea.updated|naturaltime}}</span>
+            {% endif %}
+            <h4 class="media-heading lead"><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a></h4>
+            <h4 class="lead">{{idea.title}}</h4>
+            <hr>
+            <p>{{idea.text|linebreaksbr}}</p>
+            <hr>
+
+            <div class="idea-stats pull-right">
+              {% if idea.state == "I"%}
+              <span class="label label-warning">idle</span>
+              {% elif idea.state == "A" %}
+              <span class="label label-success">approved</span>
+              {% else %}
+              <span class="label label-danger">rejected</span>
+              {% endif %}
+              <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> 0 likes</span>
+            </div>
+
+            <span class="label label-default pull-left">added {{idea.created|naturaltime}}</span>
+          </div> <!-- /.mediabody -->
+        </div> <!-- /.media -->
+      </div>
+
+    </div>
+    
+    <div class="col-md-4 col-sm-12 idea-sidebar">
+      {% if user.id == idea.user.id %}
+      <div class="panel panel-default options">
+        <div class="panel-heading">
+          <h3 class="panel-title">Options</h3>
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item hoverable" onclick="window.location = '{% url 'edit_idea' idea_id=idea.id %}';">EDIT IDEA <span class="glyphicon glyphicon-edit pull-right"></span></li>
+          <li class="list-group-item hoverable" data-toggle="modal" data-target="#delete_idea_modal">DELETE IDEA <span class="glyphicon glyphicon-remove pull-right"></span>
+          </li>
+        </ul>
+      </div>
+      
+      {% endif %}
+
+      <div class="panel panel-default interested">
+        <div class="panel-heading">
+          <h3 class="panel-title">Interested Users</h3>
+        </div>
+        <ul class="list-group">
+          {% if idea.interest_set.count > 0 %}
+              {% for interested in idea.interest_set.all|slice:":5" %}
+              <li class="list-group-item interested-item">
+              <img src="{% gravatar_url interested.user.email 24 %}" title="{{interested.user.username}}">
+              <a href="{% url 'user' user_id=interested.user.id %}">{{interested.user.username}}</a>
+              <span class="label label-default pull-right" title="{{interested.created}}">{{interested.created|naturaltime}}</span>
+              </li>
+              {% endfor %}
+              {% if idea.interest_set.all|length > 5 %}
+              <li class="list-group-item text-center">
+                <a href="#" data-toggle="modal" data-target="#interested">{{ idea.interest_set.all|length|add:"-5"}} other user{% if idea.interest_set.all|length|add:"-5" != 1 %}s{% endif %}</a>
+              </li>
+              {% endif %}
+            {% else %}
+            <li class="list-group-item">No one has shown interested so far</li>
+            {% endif %}
+        </ul>
+      </div>
+      
+      {% if not interested %}
+        {% if idea.interest_set.count > 0 %}
+        <button type="button" class="btn btn-success btn-block" onclick="add_interest()">I'm also interested!</button>
+        {% else %}
+        <button type="button" class="btn btn-success btn-block" onclick="add_interest()">I'm interested!</button>
+        {% endif %}
+      {% elif interested %}
+        <button type="button" class="btn btn-danger btn-block" onclick="remove_interest('{{user.username}}')">I'm no longer interested</button>
+      {% endif %}
+
+    </div> <!-- /.idea-sidebar -->
+
+  </div> <!-- /.row -->
+
+</div> <!-- /.container -->
+
+
+<!-- modals used in this page -->
+
+<!-- modal to show interested users -->
+      <div class="modal" id="interested" tabindex="-1" role="dialog" aria-hidden="false">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              {% if not interested %}
+              <h4 class="modal-title">There are {{idea.interest_set.all.count}} users interested in this idea</h4>
+              {% else %}
+              <h4 class="modal-title"><a href="{% url 'user' user_id=user.id %}">You</a> and {{idea.interest_set.all.count|add:"-1"}} other users are interested in this idea</h4>
+              {% endif %}
+            </div>
+            <ul class="list-group overflowable">
+            {% for interested in idea.interest_set.all %}
+            <li class="list-group-item interested-item">
+              <div class="row">
+                <div class="col-md-2 col-sm-2">
+                  <img src="{% gravatar_url interested.user.email 48 %}" title="{{interested.user.username}}">
+                </div>
+                <div class="col-md-10 col-sm-10">
+                  {% if interested.user.first_name %}
+                  <h4>{{interested.user.first_name}} {{interested.user.last_name}}</h3>
+                  {% else %}
+                  <h4>{{interested.user.username}}</h3>
+                  {% endif %}
+                  <a href="{% url 'user' user_id=interested.user.id %}">{{interested.user.username}}</a>
+                  <span class="label label-default pull-right" title="{{interested.created}}">{{interested.created|naturaltime}}</span>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+            </ul>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+<!-- Delete Idea Modal -->
+<div class="modal" id="delete_idea_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title" id="delModalLabel">Delete idea</h3>
+      </div>
+      <div class="modal-body">
+        <div>
+            <p>Are you sure you want to delete this idea?</p>
+            <p>You won't be able to restore it after this.</p>
+        </div>
+      </div>
+      <div class="alert alert-danger alert-dismissable hidden">
+        <strong>Ooops!</strong> Something went wrong, please try again later.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="delete_idea">Yes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+{% endblock %}

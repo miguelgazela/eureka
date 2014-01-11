@@ -1,0 +1,97 @@
+{% extends "ideas/base.html" %}
+
+{% block title %}Eureka - Ideas{% endblock %}
+
+{% block navbar-links %}
+
+<ul class="nav navbar-nav">
+  {% if user.is_authenticated %}
+  <li class="active"><a href="{% url 'ideas' %}">IDEAS</a></li>
+  <li><a href="{% url 'users' %}">USERS</a></li>
+  {% endif %}
+</ul>
+
+{% endblock %}
+
+{% block content %}
+
+{% load humanize %}
+{% load gravatar %}
+
+<div class="sub-navbar">
+  <div class="container">
+    <h4 class="pull-right">Showing {{ idea_list|length}} idea{% if idea_list|length != 1 %}s{% endif%}</h4>
+    <ul class="nav nav-pills pull-left">
+      <li class="{% if sort == 'latest' %}active{% endif %}"><a href="{% url 'ideas' sort='latest' %}">Latest</a></li>
+      <li class="{% if sort == 'interesting' %}active{% endif %}"><a href="{% url 'ideas' sort='interesting' %}">Interesting</a></li>
+      <li class="{% if sort == 'approved' %}active{% endif %}"><a href="{% url 'ideas' sort='approved' %}">Approved</a></li>
+      <li class="{% if sort == 'rejected' %}active{% endif %}"><a href="{% url 'ideas' sort='rejected' %}">Rejected</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="ideas-list">
+
+    {% if idea_list|length == 0%}
+      <p class="lead">Ooops, we don't have any ideas to show you.</p>
+    {% else %}
+
+    {% for idea in idea_list %}
+
+    {% if not forloop.counter|divisibleby:"2" %}
+    <div class="row">
+    {% endif %}
+
+      <div class="col-md-6 idea">
+        <span class="created">{{idea.created|naturaltime}}</span>
+        <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" src="{% gravatar_url idea.user.email 48%}" alt="...">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading lead"><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a> had an idea!</h4>
+            <h4 class="lead"><a href="{% url 'idea' idea_id=idea.id %}">{{idea.title}}</a></h4>
+            <p>{{idea.text|truncatewords:"27"}}</p>
+
+            {% if idea.interest_set.count > 0 %}
+            <div class="interested">
+              <p class="lead">Users interested in this idea</p>
+              {% for interested in idea.interest_set.all|slice:":6" %}
+              <a href="#"><img src="{% gravatar_url interested.user.email 24 %}" title="{{interested.user.username}}"></a>
+              {% endfor %}
+              {% if idea.interest_set.all|length > 6 %}
+              <span>and {{ idea.interest_set.all|length|add:"-6"}} other</span>
+              {% endif %}
+            </div>
+            {% endif %}
+
+            <div class="idea-stats pull-right">
+              {% if idea.state == "I"%}
+              <span class="label label-warning">idle</span>
+              {% elif idea.state == "A" %}
+              <span class="label label-success">approved</span>
+              {% else %}
+              <span class="label label-danger">rejected</span>
+              {% endif %}
+              <span class="label label-default"><span class="glyphicon glyphicon-comment"></span> {{idea.comment_set.count}} comment{% if idea.comment_set.count != 1 %}s{% endif%}</span>
+              <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> 0 likes</span>
+              <!-- <span class="label label-default">4 users interested</span> -->
+            </div>
+          </div> <!-- /mediabody -->
+        </div> <!-- /media -->
+      </div> <!-- /idea -->
+
+    {% if forloop.counter|divisibleby:"2" or forloop.last %}
+      </div> <!-- /row -->
+    {% endif %}
+
+    {% endfor %}
+    {% endif %}
+  </div>
+</div> <!-- /container -->
+
+
+
+{% endblock %}

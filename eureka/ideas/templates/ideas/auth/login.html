@@ -1,0 +1,34 @@
+{% extends "ideas/base.html" %}
+
+{% block title %}Eureka - Sign in{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="panel panel-default login-panel">
+    <div class="panel-body">
+      <form class="form-authentication" role="form" action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        <h2 class="text-center">Sign In</h2>
+        <div class="form-group {% if login_form.non_field_errors %}has-error{% endif %}">
+          <label for="username">Username</label>
+          <input name="username" type="text" class="form-control" value="{{login_form.username.value}}" placeholder="Username" required autofocus>
+        </div>
+        <div class="form-group {% if login_form.non_field_errors %}has-error{% endif %}">
+          <label for="username">Password</label>
+          <input name="password" type="password" class="form-control" placeholder="Password" required>
+          <span class="help-block">{{login_form.non_field_errors}}</span>
+        </div>
+        <label class="checkbox">
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+        <input type="hidden" name="next" value="{{ next }}" />
+        <button class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
+      </form>
+    </div>
+  </div>
+
+</div> <!-- /container -->
+
+{% endblock %}

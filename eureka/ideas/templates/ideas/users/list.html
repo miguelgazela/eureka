@@ -1,0 +1,86 @@
+{% extends "ideas/base.html" %}
+
+{% block title %}Eureka - Users{% endblock %}
+
+{% block navbar-links %}
+
+<ul class="nav navbar-nav">
+  {% if user.is_authenticated %}
+  <li><a href="{% url 'ideas' %}">IDEAS</a></li>
+  <li class="active"><a href="{% url 'users' %}">USERS</a></li>
+  {% endif %}
+</ul>
+
+{% endblock %}
+
+{% block content %}
+
+{% load humanize %}
+{% load gravatar %}
+
+<div class="sub-navbar">
+  <div class="container">
+    <h4 class="pull-right">Showing {{ user_list|length}} user{% if user_list|length != 1 %}s{% endif%}</h4>
+    {% if user_list|length > 0 %}
+    <input class="pull-right" id="find-user-input" type="text" placeholder="Find a user..."></input>
+    {% endif %}
+    <ul class="nav nav-pills pull-left">
+      <li class="{% if sort == 'all' %}active{% endif %}"><a href="{% url 'users' sort='all' %}" title="all users ordered alphabetically">All</a></li>
+      <li class="{% if sort == 'latest' %}active{% endif %}"><a href="{% url 'users' sort='latest' %}" title="users that joined in the last 7 days">New users</a></li>
+      <li class="{% if sort == 'thinkers' %}active{% endif %}"><a href="{% url 'users' sort='thinkers' %}" title="users with at least 1 idea">Thinkers</a></li>
+      <li class="{% if sort == 'commenters' %}active{% endif %}"><a href="{% url 'users' sort='commenters' %}" title="users with at least 1 comment">Commenters</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="row users-list">
+    <div class="col-md-12">
+
+      {% if user_list|length == 0%}
+      <p class="lead">Ooops, we don't have any users to show you.</p>
+      {% else %}
+
+      {% for user in user_list %}
+      <div class="user">
+        <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" src="{% gravatar_url user.email 48%}" alt="...">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading lead"><a href="{% url 'user' user_id=user.id %}">{{user.username}}</a></h4>
+            <div>joined {{user.date_joined|naturaltime}}</div>
+            <div class="user-stats pull-right">
+              <span class="label label-default"><span class="glyphicon glyphicon-comment"></span> {{user.num_comments}} comment{% if user.num_comments != 1 %}s{% endif %}</span>
+              <span class="label label-default"><span class="glyphicon glyphicon-certificate"></span> {{user.num_ideas}} idea{% if user.num_ideas != 1 %}s{% endif %}</span>
+            </div>
+          </div> <!-- /mediabody -->
+        </div> <!-- /media -->
+      </div> <!-- user -->
+
+      {% endfor %}
+      {% endif %}
+
+    </div> <!-- col-md-12 -->
+  </div> <!-- users-list -->
+  
+  {% if user_list.has_previous or user_list.has_next %}
+  <div class="clearfix">
+    <ul class="pager">
+      {% if user_list.has_previous %}
+        <li><a href="?page={{ user_list.previous_page_number }}">Previous page</a></li>
+      {% endif %}
+
+      {% if user_list.has_next %}
+        <li><a href="?page={{ user_list.next_page_number }}">Next page</a></li>
+      {% endif %}
+    </ul>
+    </div>
+  {% endif %}
+
+</div> <!-- /container -->
+
+
+
+{% endblock %}

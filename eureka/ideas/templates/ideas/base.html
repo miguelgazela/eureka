@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Eureka{% endblock %}</title>
+
+    {% load staticfiles %}
+    <link href="{% static "ideas/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "ideas/css/eureka.css" %}" rel="stylesheet">
+
+</head>
+
+{% load gravatar %}
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'index' %}">Eureka!</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                {% block navbar-links %}
+                <ul class="nav navbar-nav">
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'ideas' %}">IDEAS</a></li>
+                    <li><a href="{% url 'users' %}">USERS</a></li>
+                    {% endif %}
+                </ul>
+                {% endblock %}
+                <ul class="nav navbar-nav navbar-right">
+                    {% if not user.is_authenticated %}
+                    <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'login' %}'">Sign in</button>
+                    <button type="button" class="btn btn-default navbar-btn" <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'signup' %}'">Create an account</button>
+                    {% else %}
+                    <li><a href="{% url 'user' user_id=user.id %}" data-toggle="tooltip" title="My account"><img src="{% gravatar_url user.email 20 %}" alt="">{{ user.username }}</a></li>
+                    <li><a href="{% url 'add_idea' %}" data-toggle="tooltip" title="New idea"><span class="glyphicon glyphicon-plus"></span></a></li>
+                    <li><a href="{% url 'logout' %}" data-toggle="tooltip" title="Sign out"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                    {% endif %}
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="{% static "ideas/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "ideas/js/jquery.tmpl.min.js" %}"></script>
+    <script src="{% static "ideas/js/bindWithDelay.js" %}"></script>
+    <script src="{% static "ideas/js/main.js" %}"></script>
+
+</body>
+</html>

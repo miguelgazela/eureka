@@ -1,4 +1,7 @@
 *.py[cod]
+*.py~
+*.html~
+*.py.orig
 
 # C extensions
 *.so
@@ -35,4 +38,5 @@ nosetests.xml
 .project
 .pydevproject
 
-venv/
+# Database
+*.sqlite3

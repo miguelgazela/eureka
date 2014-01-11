@@ -1,0 +1,44 @@
+{% extends "ideas/base.html" %}
+
+{% block title %}Eureka - Add an Idea{% endblock %}
+
+<ul class="nav navbar-nav">
+  <li class="active"><a href="{% url 'ideas' %}">IDEAS</a></li>
+  <li><a href="{% url 'users' %}">USERS</a></li>
+</ul>
+
+{% block content %}
+
+<div class="sub-navbar">
+  <div class="container">
+    <ol class="breadcrumb pull-left">
+        <li><a href="{% url 'index' %}">Eureka</a></li>
+        <li><a href="{% url 'ideas' %}">Ideas</a></li>
+        <li class="active">Add new idea</li>
+    </ol>
+    <h4 class="pull-right">Add new idea</h4>
+  </div>
+</div>
+
+<div class="container">
+  <div class="panel panel-default edit-idea">
+    <div class="panel-body">
+      <form role="form" action="" method="POST">
+        {% csrf_token %}
+        <div class="form-group {% if form.title.errors %}has-error{% endif %}">
+          <label for="title">Title</label>
+          <input name="title" type="text" class="form-control" placeholder="Title" required value="{{form.title.value}}">
+          <span class="help-block">{{form.errors.title}}</span>
+        </div>
+        <div class="form-group {% if form.text.errors %}has-error{% endif %}">
+          <label for="text">Description</label>
+          <textarea name="text" type="text" class="form-control" placeholder="Write your idea here." rows="10">{{form.text.value}}</textarea>
+          <span class="help-block">{{form.errors.text}}</span>
+        </div>
+        <button class="btn btn-sm btn-success pull-right" type="submit">Add idea</button>
+      </form>
+    </div>
+  </div>
+</div> <!-- /container -->
+
+{% endblock %}
