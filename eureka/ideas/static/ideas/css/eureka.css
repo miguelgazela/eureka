@@ -22,6 +22,14 @@ a:focus {
     color: #1989BD;
 }
 
+textarea {
+  resize: none;
+}
+
+.container>.panel {
+    margin-top: 20px;
+}
+
 .modal .alert {
     margin: 20px 10px 20px;
 }
@@ -230,7 +238,11 @@ a:focus {
 .form-authentication {
     max-width: 360px;
     margin: 0 auto;
-    margin-top: 30px;
+}
+
+.login-panel,
+.sign-up-panel {
+    padding-bottom: 20px;
 }
 
 .form-control {
@@ -425,8 +437,8 @@ a:focus {
 }
 
 .idea .interested {
-    border-top: 1px solid #d9d9d9;
-    border-bottom: 1px solid #d9d9d9;
+    border: 1px solid #eee;
+    padding: 3px;
     padding-bottom: 5px;
     margin-bottom: 10px;
 }
@@ -510,6 +522,15 @@ a:focus {
 
 .user-details .nav>li.active>a {
     color: #555;
+}
+
+.edit-idea {
+    margin-top: 20px;
+    padding: 20px 30px 10px;
+}
+
+.edit-idea .btn[type="button"] {
+    margin-left: 5px;
 }
 
 /*.jumbotron.timeline {

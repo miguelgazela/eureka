@@ -24,6 +24,12 @@ class Idea(models.Model):
         """
         return self.created >= timezone.now() - datetime.timedelta(days=3);
 
+    @property
+    def was_edited(self):
+        if (self.updated - self.created) > datetime.timedelta(seconds=2):
+            return True
+        return False
+
 
 class Comment(models.Model):
     user = models.ForeignKey(User)

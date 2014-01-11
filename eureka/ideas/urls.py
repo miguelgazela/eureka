@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^ideas/(?P<sort>[a-z]{1,})/$', views.ideas, name="ideas"),
     url(r'^ideas/add$', views.add_idea, name="add_idea"),
     url(r'^ideas/(?P<idea_id>\d+)$', views.idea, name="idea"),
+    url(r'^ideas/edit/(?P<idea_id>\d+)$', views.edit_idea, name='edit_idea'),
 
     # users
     url(r'^users$', views.users, name="users"),

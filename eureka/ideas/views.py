@@ -120,6 +120,27 @@ def add_idea(request):
         else: # needs to show the form with the errors
 		  pass
 
+@login_required(login_url='login')
+def edit_idea(request, idea_id):
+    idea = get_object_or_404(Idea, pk=idea_id)
+
+    if request.user.id == idea.user.id:
+        if request.method == 'GET':
+            return render(request, 'ideas/ideas/edit.html', {'idea': idea})
+        elif request.method == 'POST':
+            edit_form = IdeaForm(request.POST)
+            if edit_form.is_valid():
+                idea.title = request.POST['title']
+                idea.text = request.POST['text']
+                idea.updated = timezone.now()
+                idea.save()
+                return redirect('idea', idea_id=idea_id)
+            else:
+                return render(request, 'ideas/ideas/edit.html',
+                {'idea': idea, 'form': edit_form})
+
+    return HttpResponse("You don't have permission to edit this question")
+
 def delete_idea(request, idea_id):
     response = {}
     response['status'] = 'fail'

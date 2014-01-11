@@ -5,10 +5,8 @@
 {% block navbar-links %}
 
 <ul class="nav navbar-nav">
-  {% if user.is_authenticated %}
   <li class="active"><a href="{% url 'ideas' %}">IDEAS</a></li>
   <li><a href="{% url 'users' %}">USERS</a></li>
-  {% endif %}
 </ul>
 
 {% endblock %}
@@ -20,11 +18,11 @@
 
 <div class="sub-navbar">
   <div class="container">
-    <ol class="breadcrumb">
+    <ol class="breadcrumb pull-left">
         <li><a href="{% url 'index' %}">Eureka</a></li>
         <li><a href="{% url 'ideas' %}">Ideas</a></li>
         <li><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a></li>
-        <li>{{idea.title}}</li>
+        <li class="active">{{idea.title}}</li>
     </ol>
   </div>
 </div>
@@ -40,9 +38,14 @@
           </a>
 
           <div class="media-body">
+            {% if idea.was_edited %}
+            <span class="label label-default pull-right">edited {{idea.updated|naturaltime}}</span>
+            {% endif %}
             <h4 class="media-heading lead"><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a></h4>
             <h4 class="lead">{{idea.title}}</h4>
-            <p>{{idea.text}}</p>
+            <hr>
+            <p>{{idea.text|linebreaksbr}}</p>
+            <hr>
 
             <div class="idea-stats pull-right">
               {% if idea.state == "I"%}
@@ -69,7 +72,7 @@
           <h3 class="panel-title">Options</h3>
         </div>
         <ul class="list-group">
-          <li class="list-group-item hoverable" id="edit_idea">EDIT IDEA <span class="glyphicon glyphicon-edit pull-right"></span></li>
+          <li class="list-group-item hoverable" onclick="window.location = '{% url 'edit_idea' idea_id=idea.id %}';">EDIT IDEA <span class="glyphicon glyphicon-edit pull-right"></span></li>
           <li class="list-group-item hoverable" data-toggle="modal" data-target="#delete_idea_modal">DELETE IDEA <span class="glyphicon glyphicon-remove pull-right"></span>
           </li>
         </ul>
