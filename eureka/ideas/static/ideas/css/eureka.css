@@ -79,6 +79,10 @@ textarea {
     overflow-y: scroll;
 }
 
+.self {
+    background-color: #eee;
+}
+
 .modal-body {
     color: #878787;
 }

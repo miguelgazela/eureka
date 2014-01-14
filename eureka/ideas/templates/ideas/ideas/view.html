@@ -137,7 +137,7 @@
             </div>
             <ul class="list-group overflowable">
             {% for interested in idea.interest_set.all %}
-            <li class="list-group-item interested-item">
+            <li class="list-group-item interested-item {% if interested.user.id == user.id %}self{% endif %}">
               <div class="row">
                 <div class="col-md-2 col-sm-2">
                   <img src="{% gravatar_url interested.user.email 48 %}" title="{{interested.user.username}}">
