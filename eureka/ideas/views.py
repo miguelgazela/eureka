@@ -86,24 +86,11 @@ def ideas(request, sort='latest'):
 @login_required(login_url='login')
 def idea(request, idea_id):
     idea = get_object_or_404(Idea, pk=idea_id)
-
-    if request.method == 'GET':
-
-        return render(request, 'ideas/ideas/view.html', {
-            'idea': idea,
-            'interested': request.user.interest_set.filter(idea=idea_id),
-        })
-    elif request.method == 'POST' and request.user == idea.user:
-        idea_form = IdeaForm(request.POST)
-    
-        if idea_form.is_valid():      
-            idea.title = request.POST['title']
-            idea.text = request.POST['text']
-            idea.save()
-        
-        return render(request, 'ideas/ideas/idea.html', {'idea': idea})
-    else:
-        return redirect("/eureka/ideas/%s" % idea.id)        
+    return render(request, 'ideas/ideas/view.html', {
+        'idea': idea,
+        'interested': request.user.interest_set.filter(idea=idea_id),
+    })
+      
         
 @login_required(login_url='login')
 def add_idea(request):
