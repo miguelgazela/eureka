@@ -65,8 +65,20 @@
       </div> <!-- /.idea -->
 
       <div class="well comments">
-            <h4 class="lead"><span class="counter">5</span> Comments</h4>
+            <h4 class="lead"><span class="counter">{{ comments|length }}</span> Comment{% if comments|length != 1 %}s{% endif %}</h4>
             <hr>
+            {% for comment in comments %}
+              <div class="comment">
+                <a class="pull-left" href="">
+                  <img src="{% gravatar_url comment.user.email 32 %}" alt="{{comment.user.username}} gravatar">
+                </a>
+                <small class="pull-right text-muted">{{comment.created|naturaltime}}</small>
+                <div class="comment-body">
+                  <h4 class="lead media-heading"><a href="">{{comment.user.username}}</a></h4>
+                  {{comment.text|linebreaksbr}}
+                </div>
+              </div>
+            {% endfor %}
       </div>
 
     </div>

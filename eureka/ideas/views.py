@@ -88,6 +88,7 @@ def idea(request, idea_id):
     idea = get_object_or_404(Idea, pk=idea_id)
     return render(request, 'ideas/ideas/view.html', {
         'idea': idea,
+        'comments': idea.comment_set.all().order_by('-created'),
         'interested': request.user.interest_set.filter(idea=idea_id),
     })
       
@@ -98,7 +99,7 @@ def add_idea(request):
 		return render(request, 'ideas/ideas/add.html')
 	elif request.method == 'POST':
 		idea_form = IdeaForm(request.POST)
-
+        
 		if idea_form.is_valid():
 			new_idea = idea_form.save(commit=False)
 			new_idea.user = request.user

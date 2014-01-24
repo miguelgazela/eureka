@@ -32,14 +32,35 @@ module.exports = function(grunt) {
         },
 
         watch: {
+            options: {
+                livereload: true,
+            },
             scripts: {
                 files: ['eureka/ideas/static/ideas/js/*.js'],
                 tasks: ['concat', 'uglify'],
                 options: {
                     spawn: false,
                 },
-            }
+            },
+            css: {
+                files: ['eureka/ideas/static/ideas/css/*.scss'],
+                tasks: ['sass'],
+                options: {
+                    spawn: false,
+                },
+            },
         },
+
+        sass: {
+            dist: {
+                options: {
+                    style: 'compressed'
+                },
+                files: {
+                    'eureka/ideas/static/ideas/css/build/global.css': 'eureka/ideas/static/ideas/css/global.scss'
+                }
+            }
+        }
     });
 
     // 3. Where we tell Grunt we plan to use this plug-in.
@@ -47,8 +68,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-sass');
 
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
-    grunt.registerTask('default', ['concat', 'uglify', 'imagemin', 'watch']);
+    grunt.registerTask('default', ['concat', 'uglify', 'imagemin', 'sass', 'watch']);
 
 };

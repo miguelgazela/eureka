@@ -15,8 +15,8 @@ class Idea(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return "{user.username}: {title} - {text}".format(
-            user=self.user, title=self.title, text=self.text[:160])
+        return "{user.username}: {title}".format(
+            user=self.user, title=self.title)
 
     def was_added_recently(self):
         """
@@ -24,7 +24,6 @@ class Idea(models.Model):
         """
         return self.created >= timezone.now() - datetime.timedelta(days=3);
 
-    @property
     def was_edited(self):
         if (self.updated - self.created) > datetime.timedelta(seconds=2):
             return True

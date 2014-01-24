@@ -26,6 +26,11 @@ textarea {
   resize: none;
 }
 
+hr {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 .well {
     background-color: #fff;
     padding: 10px 20px;
@@ -431,7 +436,8 @@ textarea {
 }
 
 .idea .media-heading,
-.user .media-heading {
+.user .media-heading,
+.comment .media-heading {
     font-size: 17px;
     margin-bottom: 0;
 }
@@ -553,6 +559,27 @@ textarea {
 
 .comments {
     margin-top: 20px;
+}
+
+.comments>.lead {
+    margin-bottom: 0px;
+}
+
+.comment {
+    margin-bottom: 10px;
+}
+
+.comment>a {
+    margin-left: 2px;
+}
+
+.comment>a>img {
+    border-radius: 4px;
+}
+
+.comment-body {
+    padding-left: 40px;
+    color: #878787;
 }
 
 /*.jumbotron.timeline {
