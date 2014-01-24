@@ -67,9 +67,23 @@
       <div class="well comments">
             <h4 class="lead"><span class="counter">{{ comments|length }}</span> Comment{% if comments|length != 1 %}s{% endif %}</h4>
             <hr>
+
+            <form action="" method="POST" role="form">
+              <a class="pull-left" href="#">
+                <img src="{% gravatar_url user.email 32 %}" alt="{{user.username}} gravatar">
+              </a>
+              <div class="form-group">
+                <textarea name="text" id="" rows="3" class="form-control"></textarea>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-sm btn-success">Post</button>
+                <button type="reset" class="btn btn-sm btn-default">Cancel</button>
+              </div>
+            </form>
+
             {% for comment in comments %}
               <div class="comment">
-                <a class="pull-left" href="">
+                <a class="pull-left" href="#">
                   <img src="{% gravatar_url comment.user.email 32 %}" alt="{{comment.user.username}} gravatar">
                 </a>
                 <small class="pull-right text-muted">{{comment.created|naturaltime}}</small>

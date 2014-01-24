@@ -565,8 +565,17 @@ hr {
     margin-bottom: 0px;
 }
 
+.comments>form {
+    border-bottom: 1px dashed #ebebeb;
+}
+
+.comments>form>.form-group {
+    padding-left: 40px;
+}
+
 .comment {
-    margin-bottom: 10px;
+    border-bottom: 1px dashed #ebebeb;
+    padding: 8px 0px 6px;
 }
 
 .comment>a {
