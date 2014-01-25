@@ -263,8 +263,9 @@ def users(request, sort='all'):
         users = User.objects.all().order_by('username')
 
     # paginate the results
-    paginator = Paginator(users, 5)
+    paginator = Paginator(users, 20)
     page = request.GET.get('page')
+
     try:
         users = paginator.page(page)
     except PageNotAnInteger:
@@ -281,8 +282,24 @@ def users(request, sort='all'):
 
 
 @login_required(login_url='login')
-def user(request, user_id):
+def user(request, user_id, tab="ideas"):
     user = get_object_or_404(User, pk=user_id)
-    ideas = Idea.objects.filter(user=user).order_by('-created')
+
+    valid_tabs = ['ideas', 'comments', 'interests']
+    if tab not in valid_tabs:
+        tab = "ideas"
+
+    if tab == 'ideas':
+        list_items = Idea.objects.filter(user=user).order_by('-created')
+
     return render(request, 'ideas/users/view.html', 
-        {'user_': user, 'user_ideas_list': ideas})
+        {'user_': user, 'list_items': list_items, 'tab': tab})
+
+
+
+
+
+
+
+
+

@@ -548,6 +548,26 @@ hr {
     color: #555;
 }
 
+.user-details .nav-tabs {
+    margin-bottom: 15px;
+}
+
+.list-user-items>div {
+    border-bottom: 1px solid #ebebeb;
+    padding: 15px 5px 15px;
+}
+
+.list-user-items>div>.lead {
+    font-size: 19px;
+    margin-top: 0;
+    margin-bottom: 4px;
+}
+
+.list-user-items {
+    color: #878787;
+    margin-bottom: 15px;
+}
+
 .edit-idea {
     margin-top: 20px;
     padding: 20px 30px 10px;

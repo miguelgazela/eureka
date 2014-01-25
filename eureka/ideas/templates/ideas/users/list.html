@@ -52,8 +52,8 @@
             <h4 class="media-heading lead"><a href="{% url 'user' user_id=user.id %}">{{user.username}}</a></h4>
             <div>joined {{user.date_joined|naturaltime}}</div>
             <div class="user-stats pull-right">
-              <span class="label label-default"><span class="glyphicon glyphicon-comment"></span> {{user.num_comments}} comment{% if user.num_comments != 1 %}s{% endif %}</span>
               <span class="label label-default"><span class="glyphicon glyphicon-certificate"></span> {{user.num_ideas}} idea{% if user.num_ideas != 1 %}s{% endif %}</span>
+              <span class="label label-default"><span class="glyphicon glyphicon-comment"></span> {{user.num_comments}} comment{% if user.num_comments != 1 %}s{% endif %}</span>
             </div>
           </div> <!-- /mediabody -->
         </div> <!-- /media -->

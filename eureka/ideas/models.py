@@ -25,9 +25,7 @@ class Idea(models.Model):
         return self.created >= timezone.now() - datetime.timedelta(days=3);
 
     def was_edited(self):
-        if (self.updated - self.created) > datetime.timedelta(seconds=2):
-            return True
-        return False
+        return (self.updated - self.created) > datetime.timedelta(seconds=1)
 
 
 class Comment(models.Model):
