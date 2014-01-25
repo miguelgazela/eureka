@@ -81,6 +81,29 @@ $(document).ready(function(){
 
     // activate all tooltips
     $('[data-toggle="tooltip"]').tooltip();
+
+    // show new comment form
+    $('.comments>form .init-form').focus(function(){
+        var $input = $(this);
+        $input.parent().addClass('hidden');
+        $input.parent().nextAll('.form-group').each(function(){
+            $(this).removeClass('hidden');
+        });
+        $('.comments>form textarea').focus();
+    });
+
+    $('.comments>form button[type="reset"]').click(function(){
+        var $btn = $(this);
+        $btn.parents('form').children('.form-group').each(function(){
+            var $form_group = $(this);
+
+            if($form_group.hasClass('hidden')) {
+                $form_group.removeClass('hidden');
+            } else {
+                $form_group.addClass('hidden');
+            }
+        });
+    });
 });
 
 // marks the user as interested in an idea
