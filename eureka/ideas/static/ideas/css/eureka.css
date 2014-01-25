@@ -591,6 +591,14 @@ hr {
     color: #878787;
 }
 
+.comment .close {
+    display: none;
+}
+
+.comment:hover .close {
+    display: inline-block;
+}
+
 /*.jumbotron.timeline {
     background-color: #323543;
 }

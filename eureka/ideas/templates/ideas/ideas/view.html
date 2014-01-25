@@ -86,13 +86,19 @@
             </form>
 
             {% for comment in comments %}
-              <div class="comment">
+              <div class="comment" data-comment-id="{{comment.id}}">
                 <a class="pull-left" href="#">
                   <img src="{% gravatar_url comment.user.email 32 %}" alt="{{comment.user.username}} gravatar">
                 </a>
-                <small class="pull-right text-muted">{{comment.created|naturaltime}}</small>
+                {% if comment.user.id == user.id %}
+                <form action="{% url 'delete_comment' comment_id=comment.id %}" method="POST" role="form">
+                  {% csrf_token %}
+                  <button type="submit" data-toggle="tooltip" title="delete comment" data-placement="right" class="close pull-right" aria-hidden="true">&times;</button>
+                </form>
+                
+                {% endif %}
                 <div class="comment-body">
-                  <h4 class="lead media-heading"><a href="">{{comment.user.username}}</a></h4>
+                  <h4 class="lead media-heading"><a href="">{{comment.user.username}}</a> - <small class="text-muted">{{comment.created|naturaltime}}</small></h4>
                   {{comment.text|linebreaksbr}}
                 </div>
               </div>

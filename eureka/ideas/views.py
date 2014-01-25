@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from ideas.models import Idea
 from ideas.models import Interest
+from ideas.models import Comment
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.serializers.json import DjangoJSONEncoder
@@ -158,6 +159,20 @@ def delete_idea(request, idea_id):
     return HttpResponse(json.dumps(response), content_type="application/json")
 
 
+@login_required
+def delete_comment(request, comment_id):
+    if request.method == 'POST':
+        try:
+            comment = Comment.objects.get(pk=comment_id)
+            idea_id = comment.idea.id
+            if comment.user == request.user:
+                comment.delete()
+                return redirect('idea', idea_id=idea_id)
+            else:
+                return HttpResponse("That comment isn't yours to delete.")
+        except Comment.DoesNotExist:
+            return HttpResponse('No comment with that id.')
+
 def add_interest(request, idea_id):
     response = {}
     response['status'] = 'fail'
@@ -213,9 +228,6 @@ def remove_interest(request, idea_id):
 
 @login_required
 def add_comment(request, idea_id):
-    response = {}
-    response['status'] = 'fail'
-
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():

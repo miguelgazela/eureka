@@ -40,9 +40,9 @@
                     <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'login' %}'">Sign in</button>
                     <button type="button" class="btn btn-default navbar-btn" <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'signup' %}'">Create an account</button>
                     {% else %}
-                    <li><a href="{% url 'user' user_id=user.id %}" data-toggle="tooltip" title="My account"><img src="{% gravatar_url user.email 20 %}" alt="">{{ user.username }}</a></li>
-                    <li><a href="{% url 'add_idea' %}" data-toggle="tooltip" title="New idea"><span class="glyphicon glyphicon-plus"></span></a></li>
-                    <li><a href="{% url 'logout' %}" data-toggle="tooltip" title="Sign out"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                    <li><a href="{% url 'user' user_id=user.id %}" data-toggle="tooltip" title="My account" data-placement="bottom"><img src="{% gravatar_url user.email 20 %}" alt="">{{ user.username }}</a></li>
+                    <li><a href="{% url 'add_idea' %}" data-toggle="tooltip" title="New idea" data-placement="bottom"><span class="glyphicon glyphicon-plus"></span></a></li>
+                    <li><a href="{% url 'logout' %}" data-toggle="tooltip" title="Sign out" data-placement="bottom"><span class="glyphicon glyphicon-log-out"></span></a></li>
                     {% endif %}
                 </ul>
             </div><!--/.nav-collapse -->
