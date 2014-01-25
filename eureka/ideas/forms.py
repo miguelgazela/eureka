@@ -2,6 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from ideas.models import Idea
+from ideas.models import Comment
 from django.contrib.auth import authenticate
 from django import forms
 
@@ -40,3 +41,8 @@ class IdeaForm(ModelForm):
 	class Meta:
 		model = Idea
 		fields = ['title', 'text']
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']

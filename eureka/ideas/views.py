@@ -17,14 +17,16 @@ from django.utils import timezone
 from ideas.forms import UserCreationForm
 from ideas.forms import LoginForm
 from ideas.forms import IdeaForm
+from ideas.forms import CommentForm
 import datetime
 import json
 
-# Create your views here.
+
 def index(request):
     if request.user.is_authenticated():
         return redirect('ideas')
     return render(request, 'ideas/index.html')
+
 
 def login(request):
     if request.method == 'GET':
@@ -39,9 +41,11 @@ def login(request):
         return render(request, 'ideas/auth/login.html', 
             {'login_form': login_form})
 
+
 def logout(request):
     auth_logout(request)
     return redirect('index')
+
 
 def signup(request):
     if request.method == 'GET':
@@ -104,9 +108,10 @@ def add_idea(request):
 			new_idea = idea_form.save(commit=False)
 			new_idea.user = request.user
 			new_idea.save()
-			return redirect("/eureka/ideas/%s" % new_idea.id)
+			return redirect("idea", idea_id=new_idea.id)
         else: # needs to show the form with the errors
 		  pass
+
 
 @login_required(login_url='login')
 def edit_idea(request, idea_id):
@@ -129,6 +134,7 @@ def edit_idea(request, idea_id):
 
     return HttpResponse("You don't have permission to edit this question")
 
+
 def delete_idea(request, idea_id):
     response = {}
     response['status'] = 'fail'
@@ -150,6 +156,7 @@ def delete_idea(request, idea_id):
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
     return HttpResponse(json.dumps(response), content_type="application/json")
+
 
 def add_interest(request, idea_id):
     response = {}
@@ -181,6 +188,7 @@ def add_interest(request, idea_id):
         response['data'] = {'title': 'API can only be used with AJAX requests'}
     return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
 
+
 def remove_interest(request, idea_id):
     response = {}
     response['status'] = 'fail'
@@ -201,6 +209,28 @@ def remove_interest(request, idea_id):
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
     return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
+
+
+@login_required
+def add_comment(request, idea_id):
+    response = {}
+    response['status'] = 'fail'
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            try:
+                idea = Idea.objects.get(pk=idea_id)
+                new_comment = comment_form.save(commit=False)
+                new_comment.user = request.user
+                new_comment.idea = idea
+                new_comment.save()
+                return redirect('idea', idea_id=idea_id)
+            except Idea.DoesNotExist:
+                pass
+        else:
+            return redirect('idea', idea_id=idea_id)
+
 
 @login_required(login_url='login')
 def users(request, sort='all'):
@@ -236,6 +266,7 @@ def users(request, sort='all'):
 
     return render(request, 'ideas/users/list.html',
         {'user_list': users, 'sort': sort})
+
 
 @login_required(login_url='login')
 def user(request, user_id):
