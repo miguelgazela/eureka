@@ -60,13 +60,24 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <ul class="nav nav-tabs">
-                        <li class="{% if tab == 'ideas' %}active{% endif %}"><a href="#"><span class="glyphicon glyphicon-certificate"></span> Ideas ({{user.idea_set.count}})</a></li>
-                        <li class="{% if tab == 'interests' %}active{% endif %}"><a href="#"><span class="glyphicon glyphicon-eye-open"></span> Interested in ({{user.interest_set.count}})</a></li>
-                        <li class="{% if tab == 'comments' %}active{% endif %}"><a href="#"><span class="glyphicon glyphicon-comment"></span> Comments ({{user.comment_set.count}})</a></li>
+                        <li class="{% if tab == 'ideas' %}active{% endif %}"><a href="{% url 'user' user_id=user_.id tab='ideas' %}"><span class="glyphicon glyphicon-certificate"></span> Ideas ({{user_.idea_set.count}})</a></li>
+                        <li class="{% if tab == 'interests' %}active{% endif %}"><a href="#"><span class="glyphicon glyphicon-eye-open"></span> Interested in ({{user_.interest_set.count}})</a></li>
+                        <li class="{% if tab == 'comments' %}active{% endif %}"><a href="{% url 'user' user_id=user_.id tab='comments' %}"><span class="glyphicon glyphicon-comment"></span> Comments ({{user_.comment_set.count}})</a></li>
                     </ul>
                     {% if list_items|length == 0 %}
                     <h4 class="lead">Ooops, it looks like there are no {{tab}} to show you.</h4>
                     {% else %}
+                    {% if tab == 'ideas' %}
+                    <div class="clearfix">
+                        <ul class="nav nav-pills pull-right">
+                            <li><a href="#" class="user-idea-filter filter-selected" data-filter="all">All</a></li>
+                            <li><a href="#" class="user-idea-filter" data-filter="popular">Popular</a></li>
+                            <li><a href="#" class="user-idea-filter" data-filter="approved">Approved</a></li>
+                            <li><a href="#" class="user-idea-filter" data-filter="rejected">Rejected</a></li>
+                        </ul>
+                    </div>
+                    <hr class="small-hr">
+                    {% endif %}
                     <div class="list-user-items">
                         {% if tab == 'ideas' %}
                             {% for idea in list_items %}
@@ -93,6 +104,21 @@
 
                             </div>
                             {% endfor %}
+
+                        {% elif tab == 'comments' %}
+                        <span class="label comment-timeline-label">Now</span>
+                        <div class="comment-timeline">
+                            <div class="timeline"></div>
+                            {% for comment in list_items %}
+                            <div class="comment-timeline-item {% if not forloop.counter|divisibleby:'2' %}timeline-left{% else %}timeline-right{% endif %}">
+                                <span class="label" title="{{comment.created}}">{{comment.created|naturaltime}}</span>
+                                <p>{{comment.text}}</p>
+                                <small><a href="{% url 'idea' idea_id=comment.idea.id %}">{{comment.idea.title}}</a></small>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <span class="label comment-timeline-label">{{user_.date_joined|naturaltime}}</span>
                         {% endif %}
                     </div>
                     {% endif %}

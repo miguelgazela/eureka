@@ -291,6 +291,8 @@ def user(request, user_id, tab="ideas"):
 
     if tab == 'ideas':
         list_items = Idea.objects.filter(user=user).order_by('-created')
+    elif tab == 'comments':
+        list_items = Comment.objects.filter(user=user).order_by('-created')
 
     return render(request, 'ideas/users/view.html', 
         {'user_': user, 'list_items': list_items, 'tab': tab})
