@@ -454,6 +454,10 @@ hr {
     color: #878787;
 }
 
+.idea .idea-tag {
+    background-color: #1Da1de;
+}
+
 .idea .media .interested img {
     width: 24px;
     height: 24px;
@@ -461,10 +465,10 @@ hr {
 }
 
 .idea .interested {
-    border: 1px solid #eee;
-    padding: 3px;
     padding-bottom: 5px;
+    padding-left: 5px;
     margin-bottom: 10px;
+    border-left: 3px solid #ebebeb;
 }
 
 .idea .interested .lead {
@@ -567,7 +571,7 @@ hr {
     font-weight: bold;
 }
 
-.user-details .small-hr {
+.small-hr {
     margin-top: 5px;
     margin-bottom: 5px;
 }

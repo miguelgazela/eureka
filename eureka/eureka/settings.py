@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django_gravatar',
     'ideas',
     'south',
+    'taggit',
 )
 
 MIDDLEWARE_CLASSES = (

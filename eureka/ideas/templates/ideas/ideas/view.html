@@ -45,6 +45,9 @@
             <h4 class="media-heading lead"><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a></h4>
             <h4 class="lead">{{idea.title}}</h4>
             <p>{{idea.text|linebreaksbr}}</p>
+            {% for tag in idea.tags.all %}
+            <span class="label label-primary idea-tag">{{tag}}</span>
+            {% endfor%}
             <hr>
 
             <div class="idea-stats pull-right">
@@ -57,8 +60,8 @@
               {% endif %}
               <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> 0 likes</span>
             </div>
-
-            <span class="label label-default pull-left">added {{idea.created|naturaltime}}</span>
+            
+            <small class="text-muted pull-left" title="{{idea.created}}">added {{idea.created|naturaltime}}</small>
           </div> <!-- /.mediabody -->
         </div> <!-- /.media -->
       </div> <!-- /.idea -->

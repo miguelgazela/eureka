@@ -55,9 +55,14 @@
             <h4 class="lead"><a href="{% url 'idea' idea_id=idea.id %}">{{idea.title}}</a></h4>
             <p>{{idea.text|truncatewords:"27"}}</p>
 
+            {% for tag in idea.tags.all %}
+            <span class="label label-primary idea-tag">{{tag}}</span>
+            {% endfor %}
+
+            <hr>
             {% if idea.interest_set.count > 0 %}
             <div class="interested">
-              <p class="lead">Users interested in this idea</p>
+              <p class="lead">User{% if idea.interest_set.count != 1 %}s{% endif %} interested in this idea</p>
               {% for interested in idea.interest_set.all|slice:":6" %}
               <a href="#"><img src="{% gravatar_url interested.user.email 24 %}" title="{{interested.user.username}}"></a>
               {% endfor %}

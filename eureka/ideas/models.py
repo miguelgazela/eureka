@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
-import datetime
 from django.utils import timezone
+from taggit.managers import TaggableManager
+
+import datetime
 
 # Create your models here.
 
@@ -13,6 +15,7 @@ class Idea(models.Model):
     state = models.CharField(max_length=1, default='I')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    tags = TaggableManager()
 
     def __unicode__(self):
         return "{user.username}: {title}".format(
