@@ -40,11 +40,10 @@
 
           <div class="media-body">
             {% if idea.was_edited %}
-            <span class="label label-default pull-right">edited {{idea.updated|naturaltime}}</span>
+            <small class="text-muted pull-right" title="{{idea.updated}}">edited {{idea.updated|naturaltime}}</small>
             {% endif %}
             <h4 class="media-heading lead"><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a></h4>
             <h4 class="lead">{{idea.title}}</h4>
-            <hr>
             <p>{{idea.text|linebreaksbr}}</p>
             <hr>
 
@@ -96,23 +95,28 @@
                 <a class="pull-left" href="#">
                   <img src="{% gravatar_url comment.user.email 32 %}" alt="{{comment.user.username}} gravatar">
                 </a>
+
                 {% if comment.user.id == user.id %}
                 <form action="{% url 'delete_comment' comment_id=comment.id %}" method="POST" role="form">
                   {% csrf_token %}
                   <button type="submit" data-toggle="tooltip" title="delete comment" data-placement="right" class="close pull-right" aria-hidden="true">&times;</button>
                 </form>
-                
                 {% endif %}
+
                 <div class="comment-body clearfix">
                   <h4 class="lead media-heading">
-                    <a href="">{{comment.user.username}}</a> - <small class="text-muted">{{comment.created|naturaltime}} </small>
-                    <small><a href="#" onclick="return editComment(this, {{comment.id}});">edit <i class="fa fa-edit"></i> </a></small>
+                    <a href="">{{comment.user.username}}</a> - <small class="text-muted">{{comment.created|naturaltime}}</small>
                   </h4>
+
+                  {% if user.id == comment.user.id %}
+                  <small class="pull-right"><i class="fa fa-edit" data-toggle="tooltip" title="edit comment" data-placement="right" onclick="return editComment(this, {{comment.id}});"></i></small>
+                  {% endif %}
+
                   <div class="comment-text">{{comment.text|linebreaksbr}}</div>
                   {% if comment.was_edited %}
                   <small class="text-muted pull-right" title="{{comment.updated}}">edited {{comment.updated|naturaltime}}</small>
                   {% endif %}
-
+                  
                   <!-- edit comment form -->
                   <form action="{% url 'edit_comment' comment_id=comment.id %}" method="POST" role="form">
                     {% csrf_token %}

@@ -681,7 +681,7 @@ hr {
 }
 
 .timeline-right>.label {
-    left: -60%;
+    right: 120%;
 }
 
 .comment-timeline>.timeline {
@@ -739,11 +739,16 @@ hr {
     margin-top: 10px;
 }
 
-.comment-body small a {
+.comment-body small i {
     visibility: hidden;
 }
 
-.comment-body:hover small a {
+.comment-body small i:hover {
+    cursor: pointer;
+    color: #555;
+}
+
+.comment-body:hover small i {
     visibility: visible;
 }
 
