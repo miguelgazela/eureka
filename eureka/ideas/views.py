@@ -136,6 +136,22 @@ def edit_idea(request, idea_id):
     return HttpResponse("You don't have permission to edit this question")
 
 
+@login_required
+def edit_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+
+    if request.user.id == comment.user.id:
+        if request.method == "POST":
+            edit_form = CommentForm(request.POST)
+            if edit_form.is_valid():
+                comment.text = request.POST.get('text')
+                comment.save()
+                return redirect('idea', idea_id=comment.idea.id)
+            else:
+                return HttpResponse('This comment is not valid')
+    
+    return HttpResponse("You don't have permission to edit this comment")
+
 def delete_idea(request, idea_id):
     response = {}
     response['status'] = 'fail'

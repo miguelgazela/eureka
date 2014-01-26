@@ -28,4 +28,5 @@ urlpatterns = patterns('',
     url(r'^api/interest/remove/(?P<idea_id>\d+)$', views.remove_interest, name='remove_interest'),
     url(r'^api/comments/(?P<idea_id>\d+)$', views.add_comment, name="add_comment"),
     url(r'^api/comments/delete/(?P<comment_id>\d+)$', views.delete_comment, name="delete_comment"),
+    url(r'^api/comments/edit/(?P<comment_id>\d+)$', views.edit_comment, name="edit_comment"),
 )

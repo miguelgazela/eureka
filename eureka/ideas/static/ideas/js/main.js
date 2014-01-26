@@ -158,3 +158,25 @@ function remove_interest(username) {
         alert("Ooops, something went wrong. Please try again later.");
     });
 }
+
+function editComment(activator, commentId) {
+    var $commentBody = $(activator).parents('.comment-body');
+    $commentBody.children('.comment-text').addClass('hidden');
+
+    var formFields = ' \
+        <div class="form-group"> \
+            <textarea name="text" rows="3" class="form-control" required>'+$commentBody.children(".comment-text").text()+'</textarea> \
+        </div> \
+        <div class="form-group"> \
+            <button type="submit" class="btn btn-sm btn-success">Save</button> \
+            <button type="reset" class="btn btn-sm btn-default">Cancel</button> \
+        </div>';
+
+    $commentBody.children('form').append(formFields);
+
+    // add handler to cancel button
+    $commentBody.find('button[type="reset"]').click(function(){
+        $commentBody.children('.comment-text').removeClass('hidden');
+        $commentBody.children('form').children('.form-group').remove();
+    });
+}

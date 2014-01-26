@@ -68,7 +68,7 @@
             {% if comments|length == 0 %}
             <h4 class="lead">Be the first to comment this idea.</h4>
             {% else %}
-            <h4 class="lead"><span class="counter">{{ comments|length }}</span> Comment{% if comments|length != 1 %}s{% endif %}</h4>
+            <h4 class="lead"><i class="fa fa-comments"></i> <span class="counter">{{ comments|length }}</span> Comment{% if comments|length != 1 %}s{% endif %}</h4>
             {% endif %}
             <hr>
 
@@ -103,9 +103,21 @@
                 </form>
                 
                 {% endif %}
-                <div class="comment-body">
-                  <h4 class="lead media-heading"><a href="">{{comment.user.username}}</a> - <small class="text-muted">{{comment.created|naturaltime}}</small></h4>
-                  {{comment.text|linebreaksbr}}
+                <div class="comment-body clearfix">
+                  <h4 class="lead media-heading">
+                    <a href="">{{comment.user.username}}</a> - <small class="text-muted">{{comment.created|naturaltime}} </small>
+                    <small><a href="#" onclick="return editComment(this, {{comment.id}});">edit <i class="fa fa-edit"></i> </a></small>
+                  </h4>
+                  <div class="comment-text">{{comment.text|linebreaksbr}}</div>
+                  {% if comment.was_edited %}
+                  <small class="text-muted pull-right" title="{{comment.updated}}">edited {{comment.updated|naturaltime}}</small>
+                  {% endif %}
+
+                  <!-- edit comment form -->
+                  <form action="{% url 'edit_comment' comment_id=comment.id %}" method="POST" role="form">
+                    {% csrf_token %}
+                  </form>
+
                 </div>
               </div>
             {% endfor %}

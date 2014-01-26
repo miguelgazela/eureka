@@ -735,6 +735,18 @@ hr {
     color: #878787;
 }
 
+.comment-body>form {
+    margin-top: 10px;
+}
+
+.comment-body small a {
+    visibility: hidden;
+}
+
+.comment-body:hover small a {
+    visibility: visible;
+}
+
 .comment .close {
     display: none;
 }

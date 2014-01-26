@@ -38,6 +38,9 @@ class Comment(models.Model):
     def __unicode__(self):
         return "%s said %s" % (self.user.username, self.text[:160])
 
+    def was_edited(self):
+        return (self.updated - self.created) > datetime.timedelta(seconds=1)
+
 
 class Vote(models.Model):
     user = models.ForeignKey(User)

@@ -45,7 +45,7 @@
     {% endif %}
 
       <div class="col-md-6 idea">
-        <span class="created">{{idea.created|naturaltime}}</span>
+        <span class="created" title="{{idea.created}}">{{idea.created|naturaltime}}</span>
         <div class="media">
           <a class="pull-left" href="#">
             <img class="media-object" src="{% gravatar_url idea.user.email 48%}" alt="...">
