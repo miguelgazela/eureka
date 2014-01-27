@@ -128,6 +128,14 @@ hr {
         background-color: #1DA1DE;
         border-color: #1989BD;
         height: 80px;
+        -webkit-transition: all .1s linear;
+         -moz-transition: all .1s linear;
+              transition: all .1s linear;
+    }
+
+    .nav-tiny {
+        height: 50px;
+        opacity: 0.9;
     }
 
     /* Change the docs' brand */
@@ -136,9 +144,9 @@ hr {
       margin-right: 15px;
       color: #15729E;
       text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
-      -webkit-transition: all .2s linear;
-         -moz-transition: all .2s linear;
-              transition: all .2s linear;
+      -webkit-transition: all .1s linear;
+         -moz-transition: all .1s linear;
+              transition: all .1s linear;
     }
 
     .navbar-inverse .navbar-brand:hover {
@@ -157,15 +165,34 @@ hr {
         font-size: 24px;
     }
 
+    .nav-tiny .navbar-brand {
+        padding: 10px 15px;
+    }
+
     .navbar-nav:not(.navbar-right)>li>a {
         padding: 30px 5px 30px 5px;
         min-width: 80px;
         text-align: center;
+        -webkit-transition: all .1s linear;
+         -moz-transition: all .1s linear;
+              transition: all .1s linear;
+    }
+
+    .nav-tiny .navbar-nav:not(.navbar-right)>li>a {
+        padding: 15px 5px;
+        width: auto;
     }
 
     .navbar-right>li>a {
         padding-top: 30px;
         text-align: center;
+        -webkit-transition: all .1s linear;
+         -moz-transition: all .1s linear;
+              transition: all .1s linear;
+    }
+
+    .nav-tiny .navbar-right>li>a {
+        padding-top: 15px;
     }
 
     .navbar-inverse .navbar-nav:not(.navbar-right)>li>a:hover,
@@ -188,6 +215,12 @@ hr {
         text-decoration: none;
     }
 
+    .nav-tiny .navbar-nav>.active>a,
+    .nav-tiny .navbar-nav>.active>a:hover, 
+    .nav-tiny .navbar-nav>.active>a:focus {
+        padding: 15px 20px;
+    }
+
     .navbar-inverse .navbar-nav>.active>a:after {
         content: "";
         display: block;
@@ -199,6 +232,10 @@ hr {
         border-bottom: 10px solid #fff;
         top: 70px;
         left: 30px;
+    }
+
+    .nav-tiny .navbar-nav>.active>a:after {
+        display: none;
     }
 
     .navbar-btn {

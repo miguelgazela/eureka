@@ -124,6 +124,14 @@ $(document).ready(function(){
     });
 });
 
+$(window).scroll(function () {
+    if ($(document).scrollTop() < 80) {
+        $('#navbar').removeClass('nav-tiny');
+    } else if ($(document).scrollTop() >= 144) {
+        $('#navbar').addClass('nav-tiny');
+    }
+});
+
 // marks the user as interested in an idea
 function add_interest() {
     var idea_id = $(".idea").attr('data-idea-id');
