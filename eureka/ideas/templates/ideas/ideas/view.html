@@ -35,7 +35,7 @@
       <div class="idea idea-details" data-idea-id="{{idea.id}}">
         <div class="media">
           <a class="pull-left" href="#">
-            <img class="media-object" src="{% gravatar_url idea.user.email 48%}" alt="...">
+            <img class="media-object" src="{% gravatar_url idea.user.email 48%}" width="48" height="48" alt="...">
           </a>
 
           <div class="media-body">
@@ -79,7 +79,7 @@
             <form action="{% url 'add_comment' idea_id=idea.id %}" method="POST" role="form">
               {% csrf_token %}
               <a class="pull-left" href="#">
-                <img src="{% gravatar_url user.email 32 %}" alt="{{user.username}} gravatar">
+                <img src="{% gravatar_url user.email 32 %}" width="32" height="32" alt="{{user.username}} gravatar">
               </a>
               <div class="form-group">
                 <input type="text" name="" class="form-control init-form" placeholder="Comment...">
@@ -96,7 +96,7 @@
             {% for comment in comments %}
               <div class="comment" data-comment-id="{{comment.id}}">
                 <a class="pull-left" href="#">
-                  <img src="{% gravatar_url comment.user.email 32 %}" alt="{{comment.user.username}} gravatar">
+                  <img src="{% gravatar_url comment.user.email 32 %}" width="32" height="32" alt="{{comment.user.username}} gravatar">
                 </a>
 
                 {% if comment.user.id == user.id %}
@@ -155,7 +155,7 @@
           {% if idea.interest_set.count > 0 %}
               {% for interested in idea.interest_set.all|slice:":5" %}
               <li class="list-group-item interested-item">
-              <img src="{% gravatar_url interested.user.email 24 %}" title="{{interested.user.username}}">
+              <img src="{% gravatar_url interested.user.email 24 %}" width="24" height="24" title="{{interested.user.username}}">
               <a href="{% url 'user' user_id=interested.user.id %}">{{interested.user.username}}</a>
               <span class="label label-default pull-right" title="{{interested.created}}">{{interested.created|naturaltime}}</span>
               </li>
@@ -191,7 +191,7 @@
             <li class="list-group-item similar">
               <a href="{% url 'idea' idea_id=similar.id %}">{{similar.title}}</a>
               <div>
-                <img src="{% gravatar_url similar.user.email 16 %}" title="{{similar.user.username}}">
+                <img src="{% gravatar_url similar.user.email 16 %}" width="16" height="16" title="{{similar.user.username}}">
                 <a href="">miguelgazela</a> <small class="text-muted">{{similar.created|naturaltime}}</small>
               </div>
             </li>
@@ -226,7 +226,7 @@
             <li class="list-group-item interested-item {% if interested.user.id == user.id %}self{% endif %}">
               <div class="row">
                 <div class="col-md-2 col-sm-2">
-                  <img src="{% gravatar_url interested.user.email 48 %}" title="{{interested.user.username}}">
+                  <img src="{% gravatar_url interested.user.email 48 %}" width="48" height="48" title="{{interested.user.username}}">
                 </div>
                 <div class="col-md-10 col-sm-10">
                   {% if interested.user.first_name %}

@@ -97,7 +97,7 @@ def idea(request, idea_id):
         'interested': request.user.interest_set.filter(idea=idea_id),
     })
       
-        
+
 @login_required(login_url='login')
 def add_idea(request):
     if request.method == 'GET': 

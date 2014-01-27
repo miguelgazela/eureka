@@ -725,6 +725,10 @@ hr {
     border-bottom: 1px dashed #ebebeb;
 }
 
+.comments>form img {
+    border-radius: 4px;
+}
+
 .comments>form>.form-group {
     padding-left: 40px;
 }
