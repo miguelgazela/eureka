@@ -104,6 +104,16 @@ $(document).ready(function(){
             }
         });
     });
+
+    // input tags configuration
+    var tagsInput = $('#tags-input');
+    var ENTER_KEY = 13;
+    var COMMA_KEY = 188;
+
+    tagsInput.tagsinput({
+        maxTags: 5,
+        confirmKeys: [ENTER_KEY, COMMA_KEY],
+    });
 });
 
 // marks the user as interested in an idea

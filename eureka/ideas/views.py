@@ -100,18 +100,19 @@ def idea(request, idea_id):
         
 @login_required(login_url='login')
 def add_idea(request):
-	if request.method == 'GET':	
-		return render(request, 'ideas/ideas/add.html')
-	elif request.method == 'POST':
-		idea_form = IdeaForm(request.POST)
+    if request.method == 'GET': 
+        return render(request, 'ideas/ideas/add.html')
+    elif request.method == 'POST':
+        idea_form = IdeaForm(request.POST)
         
-		if idea_form.is_valid():
-			new_idea = idea_form.save(commit=False)
-			new_idea.user = request.user
-			new_idea.save()
-			return redirect("idea", idea_id=new_idea.id)
+        if idea_form.is_valid():
+            new_idea = idea_form.save(commit=False)
+            new_idea.user = request.user
+            new_idea.save()
+            idea_form.save_m2m()
+            return redirect("idea", idea_id=new_idea.id)
         else: # needs to show the form with the errors
-		  pass
+            return HttpResponse(idea_form.errors)
 
 
 @login_required(login_url='login')

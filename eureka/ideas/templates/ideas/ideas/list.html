@@ -54,12 +54,14 @@
             <h4 class="media-heading lead"><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a> had an idea!</h4>
             <h4 class="lead"><a href="{% url 'idea' idea_id=idea.id %}">{{idea.title}}</a></h4>
             <p>{{idea.text|truncatewords:"27"}}</p>
-
+            
+            {% if idea.tags.count != 0 %}
             {% for tag in idea.tags.all %}
             <span class="label label-primary idea-tag">{{tag}}</span>
             {% endfor %}
-
             <hr>
+            {% endif %}
+
             {% if idea.interest_set.count > 0 %}
             <div class="interested">
               <p class="lead">User{% if idea.interest_set.count != 1 %}s{% endif %} interested in this idea</p>

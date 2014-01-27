@@ -22,6 +22,10 @@ a:focus {
     color: #1DA1DE;
 }
 
+.brand-bc {
+    background-color: #1Da1de;
+}
+
 textarea {
   resize: none;
 }

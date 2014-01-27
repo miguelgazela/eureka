@@ -4,6 +4,7 @@ from django.forms import ModelForm
 from ideas.models import Idea
 from ideas.models import Comment
 from django.contrib.auth import authenticate
+from taggit.forms import *
 from django import forms
 
 class UserCreationForm(UserCreationForm):
@@ -38,9 +39,9 @@ class LoginForm(forms.Form):
         return user
 
 class IdeaForm(ModelForm):
-	class Meta:
-		model = Idea
-		fields = ['title', 'text']
+    class Meta:
+        model = Idea
+        fields = ['title', 'text', 'tags']
 
 class CommentForm(ModelForm):
     class Meta:
