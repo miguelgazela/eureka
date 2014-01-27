@@ -19,6 +19,8 @@ from ideas.forms import UserCreationForm
 from ideas.forms import LoginForm
 from ideas.forms import IdeaForm
 from ideas.forms import CommentForm
+from taggit.models import Tag
+
 import datetime
 import json
 
@@ -314,6 +316,13 @@ def user(request, user_id, tab="ideas"):
     return render(request, 'ideas/users/view.html', 
         {'user_': user, 'list_items': list_items, 'tab': tab})
 
+
+@login_required
+def tags(request):
+    if request.method == 'GET':
+        tags = Tag.objects.all()
+        result = [tag.name for tag in tags]
+        return HttpResponse(json.dumps(result), content_type="application/json")
 
 
 

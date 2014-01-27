@@ -92,6 +92,7 @@ $(document).ready(function(){
         $('.comments>form textarea').focus();
     });
 
+    // new comment cancel button handler
     $('.comments>form button[type="reset"]').click(function(){
         var $btn = $(this);
         $btn.parents('form').children('.form-group').each(function(){
@@ -104,6 +105,13 @@ $(document).ready(function(){
             }
         });
     });
+
+    // tags typeahead
+    // $('#tags-input').typeahead({
+    //     name: 'tags',
+    //     remote: BASE_URL+'api/tags',
+    //     limit: 5
+    // });
 
     // input tags configuration
     var tagsInput = $('#tags-input');
