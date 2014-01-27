@@ -68,7 +68,7 @@
 
       <div class="well comments">
             {% if comments|length == 0 %}
-            <h4 class="lead">Be the first to comment this idea.</h4>
+            <h4 class="lead"><i class="fa fa-comments"></i> Be the first to comment this idea.</h4>
             {% else %}
             <h4 class="lead"><i class="fa fa-comments"></i> <span class="counter">{{ comments|length }}</span> Comment{% if comments|length != 1 %}s{% endif %}</h4>
             {% endif %}
@@ -136,7 +136,7 @@
       {% if user.id == idea.user.id %}
       <div class="panel panel-default options">
         <div class="panel-heading">
-          <h3 class="panel-title">Options</h3>
+          <h3 class="panel-title"><i class="fa fa-cog"></i> Options</h3>
         </div>
         <ul class="list-group">
           <li class="list-group-item hoverable" onclick="window.location = '{% url 'edit_idea' idea_id=idea.id %}';">EDIT IDEA <span class="glyphicon glyphicon-edit pull-right"></span></li>
@@ -149,7 +149,7 @@
 
       <div class="panel panel-default interested">
         <div class="panel-heading">
-          <h3 class="panel-title">Interested Users</h3>
+          <h3 class="panel-title"><i class="fa fa-group"></i> Interested Users</h3>
         </div>
         <ul class="list-group">
           {% if idea.interest_set.count > 0 %}
@@ -179,6 +179,25 @@
         {% endif %}
       {% elif interested %}
         <button type="button" class="btn btn-danger btn-block" onclick="remove_interest('{{user.username}}')">I'm no longer interested</button>
+      {% endif %}
+
+      {% if idea.tags.similar_objects|length != 0 %}
+      <div class="panel panel-default similar-ideas">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-tags"></i> Similar Ideas</h3>
+        </div>
+        <ul class="list-group">
+          {% for similar in idea.tags.similar_objects|slice:":3" %}
+            <li class="list-group-item similar">
+              <a href="{% url 'idea' idea_id=similar.id %}">{{similar.title}}</a>
+              <div>
+                <img src="{% gravatar_url similar.user.email 16 %}" title="{{similar.user.username}}">
+                <a href="">miguelgazela</a> <small class="text-muted">{{similar.created|naturaltime}}</small>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
       {% endif %}
 
     </div> <!-- /.idea-sidebar -->

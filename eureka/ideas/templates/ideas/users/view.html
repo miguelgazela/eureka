@@ -60,7 +60,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <ul class="nav nav-tabs">
-                        <li class="{% if tab == 'ideas' %}active{% endif %}"><a href="{% url 'user' user_id=user_.id tab='ideas' %}"><span class="glyphicon glyphicon-certificate"></span> Ideas ({{user_.idea_set.count}})</a></li>
+                        <li class="{% if tab == 'ideas' %}active{% endif %}"><a href="{% url 'user' user_id=user_.id tab='ideas' %}"><i class="fa fa-lightbulb-o"></i> Ideas ({{user_.idea_set.count}})</a></li>
                         <li class="{% if tab == 'interests' %}active{% endif %}"><a href="#"><span class="glyphicon glyphicon-eye-open"></span> Interested in ({{user_.interest_set.count}})</a></li>
                         <li class="{% if tab == 'comments' %}active{% endif %}"><a href="{% url 'user' user_id=user_.id tab='comments' %}"><span class="glyphicon glyphicon-comment"></span> Comments ({{user_.comment_set.count}})</a></li>
                     </ul>
