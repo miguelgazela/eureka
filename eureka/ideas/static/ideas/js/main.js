@@ -106,13 +106,6 @@ $(document).ready(function(){
         });
     });
 
-    // tags typeahead
-    // $('#tags-input').typeahead({
-    //     name: 'tags',
-    //     remote: BASE_URL+'api/tags',
-    //     limit: 5
-    // });
-
     // input tags configuration
     var tagsInput = $('#tags-input');
     var ENTER_KEY = 13;
@@ -122,8 +115,14 @@ $(document).ready(function(){
         maxTags: 5,
         confirmKeys: [ENTER_KEY, COMMA_KEY],
     });
+
+    // new idea tag input typeahead
+    $.get(BASE_URL+'api/tags', function(data){
+        $("#tags-typeahead").typeahead({ source:data, items:6 });
+    },'json');
 });
 
+// minimize the header when scrolling down
 $(window).scroll(function () {
     if ($(document).scrollTop() < 80) {
         $('#navbar').removeClass('nav-tiny');

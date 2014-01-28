@@ -35,6 +35,10 @@ hr {
     margin-bottom: 15px;
 }
 
+.bootstrap-tagsinput input {
+    min-width: 300px;
+}
+
 .well {
     background-color: #fff;
     padding: 10px 20px;
@@ -813,82 +817,8 @@ hr {
     display: inline-block;
 }
 
-
-
-
-
-
-
-
-
-
-.twitter-typeahead .tt-query,
-.twitter-typeahead .tt-hint {
-  margin-bottom: 0;
-}
-
-.tt-dropdown-menu {
-  min-width: 160px;
-  margin-top: 2px;
-  padding: 5px 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0,0,0,.2);
-  *border-right-width: 2px;
-  *border-bottom-width: 2px;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
-  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-          box-shadow: 0 5px 10px rgba(0,0,0,.2);
-  -webkit-background-clip: padding-box;
-     -moz-background-clip: padding;
-          background-clip: padding-box;
-}
-
-.tt-suggestion {
-  display: block;
-  padding: 3px 20px;
-}
-
-.tt-suggestion.tt-is-under-cursor {
-  color: #fff;
-  background-color: #e74c3c;
-}
-
-.tt-suggestion.tt-is-under-cursor a {
-  color: #fff;
-}
-
-.tt-suggestion p {
-  margin: 0;
-}
-
-.twitter-typeahead {
-  display: block !important;
-}
-
-.twitter-typeahead .tt-hint {
-    display: block;
-    height: 34px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.428571429;
-    border: 1px solid transparent;
-    border-radius:4px;
-}
-.twitter-typeahead .hint-small {
-    height: 30px;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 3px;
-    line-height: 1.5;
-}
-.twitter-typeahead .hint-large {
-    height: 45px;
-    padding: 10px 16px;
-    font-size: 18px;
-    border-radius: 6px;
-    line-height: 1.33;
+.typeahead>.active>a,
+.typeahead>.active>a:hover,
+.typeahead>.active>a:focus {
+    background-color: #1Da1de;
 }
