@@ -16,6 +16,25 @@
 {% load humanize %}
 {% load gravatar %}
 
+<!--
+<script>
+function vote(type) {
+    $.post("/eureka/api/vote/{{ idea.id }}",
+        {data: type,
+         csrfmiddlewaretoken:'{{ csrf_token }}'
+         },
+        function(data,status){
+          alert("Data: " + data + "\nStatus: " + status);
+        })
+        .fail(function(xhr) {
+            console.log("Error: " + xhr.statusText);
+            alert("Error: " + xhr.statusText);
+        });
+        return false;
+}
+</script>
+-->
+
 <div class="sub-navbar">
   <div class="container">
     <ol class="breadcrumb pull-left">
@@ -200,6 +219,19 @@
       </div>
       {% endif %}
 
+
+<!-- Votes -->
+        <div class="btn-group">
+          <button type="button" class="btn btn-default" onclick="vote('down')">Down</button>
+          <button type="button" class="btn btn-default" onclick="vote('up')">Up</button>
+        </div>
+        
+        {% if myvote.kind == 'U' or myvote.kind == 'D' or myvote.kind == 'N' %}
+            {{ myvote.kind }}
+        {% endif %}
+        {{ upvotes.count }}
+        {{ downvotes.count }}
+        
     </div> <!-- /.idea-sidebar -->
 
   </div> <!-- /.row -->

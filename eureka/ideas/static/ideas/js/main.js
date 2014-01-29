@@ -190,3 +190,24 @@ function editComment(activator, commentId) {
         $commentBody.children('form').children('.form-group').remove();
     });
 }
+
+
+function vote(type) {
+    var idea_id = $(".idea").attr('data-idea-id');
+
+    $.ajax({
+        type: "POST",
+        url: BASE_URL + "api/vote/"+idea_id,
+        data: type,
+        dataType: "json",
+        success: function(response){
+            if(response['status'] == "success") {
+                window.location = BASE_URL+"ideas/"+idea_id;
+            } else {
+                alert("Ooops, something went wrong. Please try again later.");
+            }
+        }
+    }).fail(function(){
+        alert("Ooops, something went wrong! Please try again later.");
+    });
+}

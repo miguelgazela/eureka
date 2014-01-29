@@ -46,9 +46,15 @@ class Comment(models.Model):
 
 
 class Vote(models.Model):
-    user = models.ForeignKey(User)
-    idea = models.ForeignKey(Idea)
-    kind = models.CharField(max_length=1)
+    CHOICES = (
+        ('U', 'like'),
+        ('D', 'dislike'),
+        ('N', 'none'),
+    )
+
+    user = models.OneToOneField(User)
+    idea = models.OneToOneField(Idea)
+    kind = models.CharField(max_length=1, choices=CHOICES, default='N')
 
     def __unicode__(self):
         return "%s voted on %s" % (self.user.username, self.idea.title)
