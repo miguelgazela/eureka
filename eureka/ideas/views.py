@@ -325,6 +325,11 @@ def tags(request):
         return HttpResponse(json.dumps(result), content_type="application/json")
 
 
+@login_required
+def search(request):
+    if request.method == 'GET':
+        return render(request, 'ideas/search/search.html')
+
 
 
 

@@ -1,0 +1,39 @@
+{% extends "ideas/search/base.html" %}
+
+
+{% block content %}
+
+{% load humanize %}
+{% load gravatar %}
+
+<div class="sub-navbar">
+  <div class="container">
+    <ol class="breadcrumb pull-left">
+        <li><a href="{% url 'index' %}">Eureka</a></li>
+        <li class="active">Search</li>
+    </ol>
+    {# Show the number of results here ? #}
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-12">
+      
+      <div class="panel panel-default">
+                <div class="panel-body">
+                  search here!
+                </div>
+            </div>
+
+
+    </div> <!-- col-md-12 -->
+  </div> <!-- row -->
+  
+  
+</div> <!-- /container -->
+
+
+
+{% endblock %}

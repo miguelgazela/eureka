@@ -22,6 +22,9 @@ urlpatterns = patterns('',
     url(r'^users/(?P<user_id>\d+)$', views.user, name="user"),
     url(r'^users/(?P<user_id>\d+)/(?P<tab>[a-z]{1,})/$', views.user, name="user"),
 
+    # search
+    url(r'^search$', views.search, name="search"),
+
     # api
     url(r'^api/ideas/delete/(?P<idea_id>\d+)$', views.delete_idea, name="delete_idea"),
     url(r'^api/interest/(?P<idea_id>\d+)$', views.add_interest, name='add_interest'),

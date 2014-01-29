@@ -175,7 +175,7 @@ hr {
 
     .navbar-nav:not(.navbar-right)>li>a {
         padding: 30px 5px 30px 5px;
-        min-width: 80px;
+        min-width: 90px;
         text-align: center;
         -webkit-transition: all .1s linear;
          -moz-transition: all .1s linear;
@@ -214,7 +214,7 @@ hr {
     .navbar-inverse .navbar-nav>.active>a:hover, 
     .navbar-inverse .navbar-nav>.active>a:focus {
         background-color: #1989BD;
-        padding: 30px 20px 30px;
+        padding: 30px 5px 30px;
         position: relative;
         text-decoration: none;
     }
@@ -235,7 +235,7 @@ hr {
         border-right: 10px solid transparent;
         border-bottom: 10px solid #fff;
         top: 70px;
-        left: 30px;
+        left: 35px;
     }
 
     .nav-tiny .navbar-nav>.active>a:after {
