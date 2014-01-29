@@ -20,7 +20,11 @@ urlpatterns = patterns('',
     url(r'^users$', views.users, name="users"),
     url(r'^users/(?P<sort>[a-z]{1,})/$', views.users, name="users"),
     url(r'^users/(?P<user_id>\d+)$', views.user, name="user"),
+    # url(r'^users/(?P<username>[a-zA-Z0-9@.+-_]{1})$', views.user, name="user"),
     url(r'^users/(?P<user_id>\d+)/(?P<tab>[a-z]{1,})/$', views.user, name="user"),
+
+    # search
+    url(r'^search$', views.search, name="search"),
 
     # api
     url(r'^api/ideas/delete/(?P<idea_id>\d+)$', views.delete_idea, name="delete_idea"),
@@ -30,4 +34,5 @@ urlpatterns = patterns('',
     url(r'^api/comments/delete/(?P<comment_id>\d+)$', views.delete_comment, name="delete_comment"),
     url(r'^api/comments/edit/(?P<comment_id>\d+)$', views.edit_comment, name="edit_comment"),
     url(r'^api/vote/(?P<idea_id>\d+)$', views.vote, name="vote"),
+    url(r'^api/tags$', views.tags, name="tags"),
 )

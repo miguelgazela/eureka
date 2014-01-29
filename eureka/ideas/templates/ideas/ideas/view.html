@@ -1,15 +1,6 @@
-{% extends "ideas/base.html" %}
+{% extends "ideas/ideas/base.html" %}
 
 {% block title %}Eureka - {{idea.title}}{% endblock %}
-
-{% block navbar-links %}
-
-<ul class="nav navbar-nav">
-  <li class="active"><a href="{% url 'ideas' %}">IDEAS</a></li>
-  <li><a href="{% url 'users' %}">USERS</a></li>
-</ul>
-
-{% endblock %}
 
 {% block content %}
 
@@ -114,7 +105,7 @@ function vote(type) {
 
             {% for comment in comments %}
               <div class="comment" data-comment-id="{{comment.id}}">
-                <a class="pull-left" href="#">
+                <a class="pull-left" href="{% url 'user' user_id=comment.user.id %}">
                   <img src="{% gravatar_url comment.user.email 32 %}" width="32" height="32" alt="{{comment.user.username}} gravatar">
                 </a>
 
@@ -127,7 +118,7 @@ function vote(type) {
 
                 <div class="comment-body clearfix">
                   <h4 class="lead media-heading">
-                    <a href="">{{comment.user.username}}</a> - <small class="text-muted">{{comment.created|naturaltime}}</small>
+                    <a href="{% url 'user' user_id=comment.user.id %}">{{comment.user.username}}</a> - <small class="text-muted">{{comment.created|naturaltime}}</small>
                   </h4>
 
                   {% if user.id == comment.user.id %}

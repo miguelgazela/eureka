@@ -20,6 +20,8 @@ from ideas.forms import UserCreationForm
 from ideas.forms import LoginForm
 from ideas.forms import IdeaForm
 from ideas.forms import CommentForm
+from taggit.models import Tag
+
 import datetime
 import json
 
@@ -92,12 +94,16 @@ def ideas(request, sort='latest'):
 @login_required(login_url='login')
 def idea(request, idea_id):
     idea = get_object_or_404(Idea, pk=idea_id)
+    try:
+        vote = Vote.objects.get(user=request.user, idea=idea)
+    except Vote.DoesNotExist:
+        vote = 'none'
 
     return render(request, 'ideas/ideas/view.html', {
         'idea': idea,
         'comments': idea.comment_set.all().order_by('-created'),
         'interested': request.user.interest_set.filter(idea=idea_id),
-        'myvote': Vote.objects.get(user=request.user, idea=idea),
+        'myvote': vote,
         'upvotes': Vote.objects.filter(idea=idea_id, kind='U'),
         'downvotes': Vote.objects.filter(idea=idea_id, kind='D'),
     })
@@ -319,12 +325,23 @@ def user(request, user_id, tab="ideas"):
     return render(request, 'ideas/users/view.html', 
         {'user_': user, 'list_items': list_items, 'tab': tab})
 
+@login_required
+def tags(request):
+    if request.method == 'GET':
+        tags = Tag.objects.all()
+        result = [tag.name for tag in tags]
+        return HttpResponse(json.dumps(result), content_type="application/json")
+
+
+@login_required
+def search(request):
+    if request.method == 'GET':
+        return render(request, 'ideas/search/search.html')
+
 @login_required(login_url='login')
 def vote(request, idea_id):
     response = {}
     response['status'] = 'fail'
-
-    print request.POST['data']
 
     if request.is_ajax():
         if request.user.is_authenticated():
@@ -332,15 +349,8 @@ def vote(request, idea_id):
             
             try:
                 vote = Vote.objects.get(user=request.user, idea=idea)
-                #obj.field = new_value
-                #obj.save()
             except Vote.DoesNotExist:
                 vote = Vote.objects.create(user=request.user, idea=idea)
-                print "Not Exist"
-            
-#            vote = Vote(user=request.user, idea=idea)
-            
-            print vote.kind
                         
             if request.POST['data'] == "up":
                 if vote.kind == 'D':

@@ -92,6 +92,7 @@ $(document).ready(function(){
         $('.comments>form textarea').focus();
     });
 
+    // new comment cancel button handler
     $('.comments>form button[type="reset"]').click(function(){
         var $btn = $(this);
         $btn.parents('form').children('.form-group').each(function(){
@@ -114,6 +115,42 @@ $(document).ready(function(){
         maxTags: 5,
         confirmKeys: [ENTER_KEY, COMMA_KEY],
     });
+
+    // new idea tag input typeahead
+    $.get(BASE_URL+'api/tags', function(data){
+        $("#tags-typeahead").typeahead({ source:data, items:6 });
+    },'json');
+
+    // filter user ideas list
+    $('.user-idea-filter').click(function(event){
+        event.preventDefault();
+        
+        var $filter = $(this);
+        $('.user-idea-filter').each(function(){
+            $(this).removeClass('filter-selected');
+        });
+
+        $filter.addClass('filter-selected');
+
+        $('.list-user-item').each(function(){
+            var $idea = $(this);
+
+            if(!$idea.hasClass($filter.attr('data-filter'))) {
+                $idea.addClass('hidden');
+            } else {
+                $idea.removeClass('hidden');
+            }
+        });
+    });
+});
+
+// minimize the header when scrolling down
+$(window).scroll(function () {
+    if ($(document).scrollTop() < 80) {
+        $('#navbar').removeClass('nav-tiny');
+    } else if ($(document).scrollTop() >= 144) {
+        $('#navbar').addClass('nav-tiny');
+    }
 });
 
 // marks the user as interested in an idea

@@ -1,15 +1,6 @@
-{% extends "ideas/base.html" %}
+{% extends "ideas/ideas/base.html" %}
 
 {% block title %}Eureka - Edit {{idea.title}}{% endblock %}
-
-{% block navbar-links %}
-
-<ul class="nav navbar-nav">
-  <li class="active"><a href="{% url 'ideas' %}">IDEAS</a></li>
-  <li><a href="{% url 'users' %}">USERS</a></li>
-</ul>
-
-{% endblock %}
 
 {% block content %}
 
