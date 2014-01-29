@@ -120,6 +120,28 @@ $(document).ready(function(){
     $.get(BASE_URL+'api/tags', function(data){
         $("#tags-typeahead").typeahead({ source:data, items:6 });
     },'json');
+
+    // filter user ideas list
+    $('.user-idea-filter').click(function(event){
+        event.preventDefault();
+        
+        var $filter = $(this);
+        $('.user-idea-filter').each(function(){
+            $(this).removeClass('filter-selected');
+        });
+
+        $filter.addClass('filter-selected');
+
+        $('.list-user-item').each(function(){
+            var $idea = $(this);
+
+            if(!$idea.hasClass($filter.attr('data-filter'))) {
+                $idea.addClass('hidden');
+            } else {
+                $idea.removeClass('hidden');
+            }
+        });
+    });
 });
 
 // minimize the header when scrolling down
