@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     url(r'^users$', views.users, name="users"),
     url(r'^users/(?P<sort>[a-z]{1,})/$', views.users, name="users"),
     url(r'^users/(?P<user_id>\d+)$', views.user, name="user"),
+    # url(r'^users/(?P<username>[a-zA-Z0-9@.+-_]{1})$', views.user, name="user"),
     url(r'^users/(?P<user_id>\d+)/(?P<tab>[a-z]{1,})/$', views.user, name="user"),
 
     # search
