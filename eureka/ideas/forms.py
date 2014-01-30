@@ -47,3 +47,28 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = ['text']
+        
+class UserEditForm(forms.Form):
+
+    #def __init__(self, user, data=None):
+    #    self.user = user
+    #    super(UserEditForm, self).__init__(data=data)
+
+    password = forms.CharField(widget=forms.PasswordInput, required=True)
+    newpassword1 = forms.CharField(widget=forms.PasswordInput, required=True)
+    newpassword2 = forms.CharField(widget=forms.PasswordInput, required=True)
+    
+    def clean(self):
+        password = self.cleaned_data['password']
+        newpassword1 = self.cleaned_data['newpassword1']
+        newpassword2 = self.cleaned_data['newpassword2']
+        
+  
+        #if not self.user.check_password(password):
+         #   raise ValidationError('Invalid password')
+
+        if newpassword1 and newpassword1 != newpassword2:
+            raise forms.ValidationError("Passwords don't match")
+        
+        return self.cleaned_data
+
