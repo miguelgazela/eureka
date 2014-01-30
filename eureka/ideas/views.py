@@ -339,7 +339,7 @@ def edit_user(request):
             newpassword = user_form.cleaned_data['newpassword2']
             
             if not check_password(password, request.user.password):
-                return HttpResponse("Wrong password")
+                return render(request, 'ideas/users/edit.html', {'form': user_form, 'errors': user_form.errors, 'wrong': 'true'})
             
             request.user.set_password(newpassword)
             request.user.save()
@@ -347,10 +347,8 @@ def edit_user(request):
             if not check_password(newpassword, request.user.password):
                 return HttpResponse("As ocurred an error! Your password was not changed.")                
                 
-            return HttpResponse("Password changed!")
+            return render(request, 'ideas/users/edit.html', {'form': user_form, 'errors': user_form.errors, 'changed': 'true'})
         else:
-            print user_form.errors
-            #return HttpResponse("I dont work!")
             return render(request, 'ideas/users/edit.html', {'form': user_form, 'errors': user_form.errors})
 
 @login_required

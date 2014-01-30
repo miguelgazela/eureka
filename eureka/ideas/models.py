@@ -8,11 +8,17 @@ import datetime
 # Create your models here.
 
 class Idea(models.Model):
+    STATE_CHOICES = (
+        ('A', 'Approved'),
+        ('R', 'Rejected'),
+        ('I', 'Idle'),
+    )
+
     user = models.ForeignKey(User)
     title = models.CharField(max_length=160)
     text = models.TextField()
     # A - approved; R - rejected; I - idle
-    state = models.CharField(max_length=1, default='I')
+    state = models.CharField(max_length=1, choices=STATE_CHOICES,default='I')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     tags = TaggableManager()
@@ -46,15 +52,15 @@ class Comment(models.Model):
 
 
 class Vote(models.Model):
-    CHOICES = (
-        ('U', 'like'),
-        ('D', 'dislike'),
-        ('N', 'none'),
+    VOTE_CHOICES = (
+        ('U', 'Like'),
+        ('D', 'Dislike'),
+        ('N', 'None'),
     )
 
     user = models.OneToOneField(User)
     idea = models.OneToOneField(Idea)
-    kind = models.CharField(max_length=1, choices=CHOICES, default='N')
+    kind = models.CharField(max_length=1, choices=VOTE_CHOICES, default='N')
 
     def __unicode__(self):
         return "%s voted on %s" % (self.user.username, self.idea.title)
