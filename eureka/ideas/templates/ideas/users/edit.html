@@ -1,0 +1,31 @@
+{% extends "ideas/base.html" %}
+
+{% block title %}Eureka - Edit profile{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="panel panel-default login-panel">
+    <div class="panel-body">
+      <form class="form-authentication" role="form" action="{% url 'edit_user' %}" method="POST">
+        {% csrf_token %}
+        <h2 class="text-center">Edit your profile</h2>
+        <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
+          <label for="password">Current password</label>
+          <input name="password" type="password" class="form-control" placeholder="Password" required autofocus>
+        </div>
+        <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
+          <label for="password">New password</label>
+          <input name="newpassword1" type="password" class="form-control" placeholder="New Password" required>
+        </div>
+        <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
+          <label for="confirm_password">Confirm new password</label>
+          <input name="newpassword2" type="password" class="form-control" placeholder="Confirm new password" required>
+          <span class="help-block">{% for err in form.non_field_errors %}<ul class="text-danger">{{ err }}</ul>{% endfor %}</span>
+        </div>
+        <button class="btn btn-lg btn-success btn-block" type="submit">Change password</button>
+      </form>
+    </div>
+  </div>
+</div> <!-- /container -->
+
+{% endblock %}
