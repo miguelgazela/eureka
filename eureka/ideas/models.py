@@ -11,10 +11,17 @@ class Idea(models.Model):
     user = models.ForeignKey(User)
     title = models.CharField(max_length=160)
     text = models.TextField()
-    # A - approved; R - rejected; I - idle
-    state = models.CharField(max_length=1, default='I')
+
+    STATE_CHOICES = (
+        ('A', 'Approved'),
+        ('R', 'Rejected'),
+        ('I', 'Idle')
+    )
+
+    state = models.CharField(max_length=1, choices=STATE_CHOICES, default='I')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    views = models.IntegerField(default=0)
     tags = TaggableManager()
 
     def __unicode__(self):
@@ -45,19 +52,13 @@ class Comment(models.Model):
         return (self.updated - self.created) > datetime.timedelta(seconds=1)
 
 
-class Vote(models.Model):
-    CHOICES = (
-        ('U', 'like'),
-        ('D', 'dislike'),
-        ('N', 'none'),
-    )
-
-    user = models.OneToOneField(User)
-    idea = models.OneToOneField(Idea)
-    kind = models.CharField(max_length=1, choices=CHOICES, default='N')
+class Like(models.Model):
+    user = models.ForeignKey(User)
+    idea = models.ForeignKey(Idea)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return "%s voted on %s" % (self.user.username, self.idea.title)
+        return "{user} liked {idea}".format(user=self.user.username, idea=self.idea.title)
 
 
 class Interest(models.Model):

@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from ideas.models import Idea
 from ideas.models import Interest
 from ideas.models import Comment
-from ideas.models import Vote
+from ideas.models import Like
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.serializers.json import DjangoJSONEncoder
@@ -96,18 +96,12 @@ def ideas(request, sort='latest'):
 @login_required(login_url='login')
 def idea(request, idea_id):
     idea = get_object_or_404(Idea, pk=idea_id)
-    try:
-        vote = Vote.objects.get(user=request.user, idea=idea)
-    except Vote.DoesNotExist:
-        vote = 'none'
 
     return render(request, 'ideas/ideas/view.html', {
         'idea': idea,
         'comments': idea.comment_set.all().order_by('-created'),
         'interested': request.user.interest_set.filter(idea=idea_id),
-        'myvote': vote,
-        'upvotes': Vote.objects.filter(idea=idea_id, kind='U'),
-        'downvotes': Vote.objects.filter(idea=idea_id, kind='D'),
+        'liked': request.user.like_set.filter(idea=idea_id),
     })
       
 
@@ -366,69 +360,23 @@ def search(request):
     if request.method == 'GET':
         return render(request, 'ideas/search/search.html')
 
-@login_required(login_url='login')
-def vote(request, idea_id):
-    response = {}
-    response['status'] = 'fail'
+@login_required
+def like(request, idea_id):
+    response = {'status': 'fail'}
 
     if request.is_ajax():
-        if request.user.is_authenticated():
-            idea = get_object_or_404(Idea, pk=idea_id)
-            
-            try:
-                vote = Vote.objects.get(user=request.user, idea=idea)
-            except Vote.DoesNotExist:
-                vote = Vote.objects.create(user=request.user, idea=idea)
-                        
-            if request.POST['data'] == "up":
-                if vote.kind == 'D':
-                    vote.kind = 'U'
-                    vote.save()
-                    response['status'] = 'success'
-                    response['data'] = None
-                elif vote.kind == 'U':
-                    vote.kind = 'N'
-                    vote.save()
-                    response['status'] = 'success'
-                    response['data'] = None
-                elif vote.kind == 'N':
-                    vote.kind = 'U'
-                    vote.save()
-                    print "HERE!"
-                    response['status'] = 'success'
-                    response['data'] = None
-                else:
-                    response['data'] = {'title': 'Vote type unknown'}
-            elif request.POST['data'] == "down":
-                if vote.kind == 'D':
-                    vote.kind = 'N'
-                    vote.save()
-                    response['status'] = 'success'
-                    response['data'] = None
-                elif vote.kind == 'U':
-                    vote.kind = 'U'
-                    vote.save()
-                    response['status'] = 'success'
-                    response['data'] = None
-                elif vote.kind == 'N':
-                    vote.kind = 'D'
-                    vote.save()
-                    print "HERE!"
-                    response['status'] = 'success'
-                    response['data'] = None
-                else:
-                    response['data'] = {'title': 'Vote type unknown'}
-            else:
-                response['data'] = {'title': 'Data received doesn''t corresponds'}
-        else:
-            response['data'] = {'title': 'You must be logged in to be interested in an idea'}
+        if request.user.like_set.filter(idea=idea_id):
+            response['data'] = {
+                'title': "You already like this question"}
+
+        idea = get_object_or_404(Idea, pk=idea_id)
+        like = Like(user=request.user, idea=idea)
+        like.save()
+        response['status'] = 'success'
+        response['data'] = {}
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
-    
     return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
-
-
-
 
 
 

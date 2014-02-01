@@ -445,6 +445,14 @@ hr {
     margin-top: 20px;
 }
 
+.idea-sidebar>.btn:not(:last-of-type) {
+    margin-bottom: 20px;
+}
+
+.idea-sidebar>hr {
+    border-top-color: #e6e9e8;
+}
+
 .idea-sidebar .panel-title {
     color: #666;
     font-size: 14px;

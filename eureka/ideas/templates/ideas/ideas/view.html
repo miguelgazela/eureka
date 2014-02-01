@@ -7,25 +7,6 @@
 {% load humanize %}
 {% load gravatar %}
 
-<!--
-<script>
-function vote(type) {
-    $.post("/eureka/api/vote/{{ idea.id }}",
-        {data: type,
-         csrfmiddlewaretoken:'{{ csrf_token }}'
-         },
-        function(data,status){
-          alert("Data: " + data + "\nStatus: " + status);
-        })
-        .fail(function(xhr) {
-            console.log("Error: " + xhr.statusText);
-            alert("Error: " + xhr.statusText);
-        });
-        return false;
-}
-</script>
--->
-
 <div class="sub-navbar">
   <div class="container">
     <ol class="breadcrumb pull-left">
@@ -68,14 +49,14 @@ function vote(type) {
               {% else %}
               <span class="label label-danger">rejected</span>
               {% endif %}
-              <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> 0 likes</span>
+              <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> {{idea.like_set.count}} like{% if idea.like_set.count != s%}s{% endif %}</span>
             </div>
             
             <small class="text-muted pull-left" title="{{idea.created}}">added {{idea.created|naturaltime}}</small>
           </div> <!-- /.mediabody -->
         </div> <!-- /.media -->
       </div> <!-- /.idea -->
-
+ 
       <div class="well comments">
             {% if comments|length == 0 %}
             <h4 class="lead"><i class="fa fa-comments"></i> Be the first to comment this idea.</h4>
@@ -154,7 +135,6 @@ function vote(type) {
           </li>
         </ul>
       </div>
-      
       {% endif %}
 
       <div class="panel panel-default interested">
@@ -183,12 +163,20 @@ function vote(type) {
       
       {% if not interested %}
         {% if idea.interest_set.count > 0 %}
-        <button type="button" class="btn btn-success btn-block" onclick="add_interest()">I'm also interested!</button>
+        <button type="button" class="btn btn-success btn-block" onclick="return add_interest();">I'm also interested!</button>
         {% else %}
-        <button type="button" class="btn btn-success btn-block" onclick="add_interest()">I'm interested!</button>
+        <button type="button" class="btn btn-success btn-block" onclick="return add_interest();">I'm interested!</button>
         {% endif %}
       {% elif interested %}
-        <button type="button" class="btn btn-danger btn-block" onclick="remove_interest('{{user.username}}')">I'm no longer interested</button>
+        <button type="button" class="btn btn-danger btn-block" onclick="return remove_interest('{{user.username}}');">I'm no longer interested</button>
+      {% endif %}
+
+      {% if user.id != idea.user.id %}
+        {% if not liked %}
+        <button type="button" class="btn btn-primary btn-block" onclick="return like_idea({{idea.id}});"><i class="fa fa-thumbs-o-up"></i> Like</button>
+        {% else %}
+        <button type="button" class="btn btn-primary btn-block"><i class="fa fa-thumbs-o-down"></i> Dislike</button>
+        {% endif %}
       {% endif %}
 
       {% if idea.tags.similar_objects|length != 0 %}
@@ -209,19 +197,6 @@ function vote(type) {
         </ul>
       </div>
       {% endif %}
-
-
-<!-- Votes -->
-        <div class="btn-group">
-          <button type="button" class="btn btn-default" onclick="vote('down')">Down</button>
-          <button type="button" class="btn btn-default" onclick="vote('up')">Up</button>
-        </div>
-        
-        {% if myvote.kind == 'U' or myvote.kind == 'D' or myvote.kind == 'N' %}
-            {{ myvote.kind }}
-        {% endif %}
-        {{ upvotes.count }}
-        {{ downvotes.count }}
         
     </div> <!-- /.idea-sidebar -->
 

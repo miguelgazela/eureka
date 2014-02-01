@@ -228,23 +228,20 @@ function editComment(activator, commentId) {
     });
 }
 
-
-function vote(type) {
-    var idea_id = $(".idea").attr('data-idea-id');
-
+function like_idea(idea_id) {
     $.ajax({
         type: "POST",
-        url: BASE_URL + "api/vote/"+idea_id,
-        data: type,
+        url: BASE_URL + 'api/like/' + idea_id,
         dataType: "json",
-        success: function(response){
-            if(response['status'] == "success") {
-                window.location = BASE_URL+"ideas/"+idea_id;
+        success: function(response) {
+            console.log(response);
+            if(response['status'] == 'success') {
+                window.location = BASE_URL + 'ideas/' + idea_id;
             } else {
-                alert("Ooops, something went wrong. Please try again later.");
+                alert('Ooops, something went wrong. Please try again later.');
             }
         }
-    }).fail(function(){
-        alert("Ooops, something went wrong! Please try again later.");
+    }).fail(function() {
+        alert('Ooops, something went wrong. Please try again later.');
     });
 }
