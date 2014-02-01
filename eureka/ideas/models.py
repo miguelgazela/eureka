@@ -8,16 +8,15 @@ import datetime
 # Create your models here.
 
 class Idea(models.Model):
-    user = models.ForeignKey(User)
-    title = models.CharField(max_length=160)
-    text = models.TextField()
-
     STATE_CHOICES = (
         ('A', 'Approved'),
         ('R', 'Rejected'),
         ('I', 'Idle')
     )
 
+    user = models.ForeignKey(User)
+    title = models.CharField(max_length=160)
+    text = models.TextField()
     state = models.CharField(max_length=1, choices=STATE_CHOICES, default='I')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

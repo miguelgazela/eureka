@@ -49,7 +49,7 @@
               {% else %}
               <span class="label label-danger">rejected</span>
               {% endif %}
-              <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> {{idea.like_set.count}} like{% if idea.like_set.count != s%}s{% endif %}</span>
+              <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> {{idea.like_set.count}} like{% if idea.like_set.count != 1 %}s{% endif %}</span>
             </div>
             
             <small class="text-muted pull-left" title="{{idea.created}}">added {{idea.created|naturaltime}}</small>

@@ -63,10 +63,6 @@ class UserEditForm(forms.Form):
         newpassword1 = self.cleaned_data['newpassword1']
         newpassword2 = self.cleaned_data['newpassword2']
         
-  
-        #if not self.user.check_password(password):
-         #   raise ValidationError('Invalid password')
-
         if newpassword1 and newpassword1 != newpassword2:
             raise forms.ValidationError("Passwords don't match")
         

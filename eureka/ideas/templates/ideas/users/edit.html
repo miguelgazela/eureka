@@ -9,9 +9,15 @@
       <form class="form-authentication" role="form" action="{% url 'edit_user' %}" method="POST">
         {% csrf_token %}
         <h2 class="text-center">Edit your profile</h2>
+        {% if changed == 'true' %}
+            <div class="alert alert-success">Your password was successfully changed!</div>
+        {% endif %}
         <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
           <label for="password">Current password</label>
           <input name="password" type="password" class="form-control" placeholder="Password" required autofocus>
+          {% if wrong == 'true' %}
+            <span class="help-block"><ul class="text-danger"><li>Wrong Password!</li></ul></span>
+          {% endif %}
         </div>
         <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
           <label for="password">New password</label>
@@ -20,7 +26,7 @@
         <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
           <label for="confirm_password">Confirm new password</label>
           <input name="newpassword2" type="password" class="form-control" placeholder="Confirm new password" required>
-          <span class="help-block">{% for err in form.non_field_errors %}<ul class="text-danger">{{ err }}</ul>{% endfor %}</span>
+          <span class="help-block">{% for err in form.non_field_errors %}<ul class="text-danger"><li>{{ err }}</li></ul>{% endfor %}</span>
         </div>
         <button class="btn btn-lg btn-success btn-block" type="submit">Change password</button>
       </form>
