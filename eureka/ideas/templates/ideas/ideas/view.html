@@ -175,7 +175,7 @@
         {% if not liked %}
         <button type="button" class="btn btn-primary btn-block" onclick="return like_idea({{idea.id}});"><i class="fa fa-thumbs-o-up"></i> Like</button>
         {% else %}
-        <button type="button" class="btn btn-primary btn-block"><i class="fa fa-thumbs-o-down"></i> Dislike</button>
+        <button type="button" class="btn btn-primary btn-block" onclick="return dislike_idea({{idea.id}});"><i class="fa fa-thumbs-o-down"></i> Dislike</button>
         {% endif %}
       {% endif %}
 

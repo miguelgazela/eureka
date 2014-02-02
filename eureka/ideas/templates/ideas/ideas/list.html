@@ -70,7 +70,7 @@
               <span class="label label-danger">rejected</span>
               {% endif %}
               <span class="label label-default"><span class="glyphicon glyphicon-comment"></span> {{idea.comment_set.count}} comment{% if idea.comment_set.count != 1 %}s{% endif%}</span>
-              <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> 0 likes</span>
+              <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> {{idea.like_set.count}} like{% if idea.like_set.count != 1%}s{% endif %}</span>
               <!-- <span class="label label-default">4 users interested</span> -->
             </div>
           </div> <!-- /mediabody -->

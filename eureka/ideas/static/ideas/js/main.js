@@ -231,10 +231,26 @@ function editComment(activator, commentId) {
 function like_idea(idea_id) {
     $.ajax({
         type: "POST",
-        url: BASE_URL + 'api/like/' + idea_id,
+        url: BASE_URL + 'api/ideas/like/' + idea_id,
         dataType: "json",
         success: function(response) {
-            console.log(response);
+            if(response['status'] == 'success') {
+                window.location = BASE_URL + 'ideas/' + idea_id;
+            } else {
+                alert('Ooops, something went wrong. Please try again later.');
+            }
+        }
+    }).fail(function() {
+        alert('Ooops, something went wrong. Please try again later.');
+    });
+}
+
+function dislike_idea(idea_id) {
+    $.ajax({
+        type: "POST",
+        url: BASE_URL + 'api/ideas/dislike/' + idea_id,
+        dataType: "json",
+        success: function(response) {
             if(response['status'] == 'success') {
                 window.location = BASE_URL + 'ideas/' + idea_id;
             } else {

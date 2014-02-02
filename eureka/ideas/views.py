@@ -83,7 +83,7 @@ def ideas(request, sort='latest'):
     elif sort == 'interesting':
         ideas = Idea.objects.annotate(num_interest=Count('interest'))\
             .filter(num_interest__gt=0)\
-            .order_by('-created')
+            .order_by('-num_interest')
     elif sort == 'approved':
         ideas = Idea.objects.filter(state='A').order_by('-created')
     else:
@@ -161,8 +161,7 @@ def edit_comment(request, comment_id):
     return HttpResponse("You don't have permission to edit this comment")
 
 def delete_idea(request, idea_id):
-    response = {}
-    response['status'] = 'fail'
+    response = {'status': 'fail'}
     response['data'] = None
 
     if request.is_ajax():
@@ -198,8 +197,7 @@ def delete_comment(request, comment_id):
             return HttpResponse('No comment with that id.')
 
 def add_interest(request, idea_id):
-    response = {}
-    response['status'] = 'fail'
+    response = {'status': 'fail'}
 
     if request.is_ajax():
         if request.user.is_authenticated():
@@ -229,8 +227,7 @@ def add_interest(request, idea_id):
 
 
 def remove_interest(request, idea_id):
-    response = {}
-    response['status'] = 'fail'
+    response = {'status': 'fail'}
 
     if request.is_ajax():
         if request.user.is_authenticated():
@@ -321,6 +318,7 @@ def user(request, user_id, tab="ideas"):
     return render(request, 'ideas/users/view.html', 
         {'user_': user, 'list_items': list_items, 'tab': tab})
 
+
 @login_required(login_url='login')
 def edit_user(request):
     if request.method == 'GET':
@@ -345,6 +343,7 @@ def edit_user(request):
         else:
             return render(request, 'ideas/users/edit.html', {'form': user_form, 'errors': user_form.errors})
 
+
 @login_required
 def tags(request):
     if request.method == 'GET':
@@ -366,15 +365,31 @@ def like(request, idea_id):
         if request.user.like_set.filter(idea=idea_id):
             response['data'] = {
                 'title': "You already like this question"}
-
-        idea = get_object_or_404(Idea, pk=idea_id)
-        like = Like(user=request.user, idea=idea)
-        like.save()
-        response['status'] = 'success'
-        response['data'] = {}
+        else:
+            idea = get_object_or_404(Idea, pk=idea_id)
+            like = Like(user=request.user, idea=idea)
+            like.save()
+            response['status'] = 'success'
+            response['data'] = {}
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
     return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
 
 
+@login_required
+def dislike(request, idea_id):
+    response = {'status': 'fail', 'data': None}
+
+    if request.is_ajax():
+        if not request.user.like_set.filter(idea=idea_id):
+            response['data'] = {
+                'title': "You don't like this idea"
+            }
+        else:
+            like = Like.objects.filter(idea=idea_id, user=request.user.id)
+            like.delete()
+            response['status'] = 'success'
+    else:
+        response['data'] = {'title': 'API can only be used with AJAX requests'}
+    return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
 
