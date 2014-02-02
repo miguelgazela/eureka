@@ -830,3 +830,8 @@ hr {
 .typeahead>.active>a:focus {
     background-color: #1Da1de;
 }
+
+.errorlist {
+    list-style: none;
+    padding-left: 0;
+}

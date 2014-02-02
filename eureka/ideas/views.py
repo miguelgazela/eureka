@@ -16,6 +16,7 @@ from ideas.models import Like
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.serializers.json import DjangoJSONEncoder
+from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 from ideas.forms import UserCreationForm
 from ideas.forms import UserEditForm
@@ -36,14 +37,16 @@ def index(request):
 
 def login(request):
     if request.method == 'GET':
+        if request.user.is_authenticated():
+            return redirect('user', user_id=request.user.id)
         return render(request, 'ideas/auth/login.html')
     elif request.method == 'POST':
-        login_form = LoginForm(request.POST)
+        login_form = AuthenticationForm(data=request.POST)
+
         if request.POST and login_form.is_valid():
-            user = login_form.login(request)
-            if user:
-                auth_login(request, user)
-                return redirect('ideas')
+            auth_login(request, login_form.get_user())
+            return redirect('index')
+
         return render(request, 'ideas/auth/login.html', 
             {'login_form': login_form})
 
@@ -61,12 +64,13 @@ def signup(request):
 
         if user_form.is_valid():
             username = user_form.clean_username()
-            password = user_form.clean_password2()
-            email = user_form.clean_email()
-            user_form.save()
-            user = authenticate(username=username, password=password)
-            auth_login(request, user)
-            return redirect('index')
+            user_form.clean_password2()
+            user_form.clean_email()
+            user = user_form.save(commit=False)
+            user.is_active = False
+            user.save()
+            return render(request, 'ideas/auth/signup.html',
+                {'username': username, 'status': 'success'})
         else:
             return render(request, 'ideas/auth/signup.html',
                 {'form': user_form})
