@@ -36,5 +36,6 @@ urlpatterns = patterns('',
     url(r'^api/comments/edit/(?P<comment_id>\d+)$', views.edit_comment, name="edit_comment"),
     url(r'^api/ideas/like/(?P<idea_id>\d+)$', views.like, name="like"),
     url(r'^api/ideas/dislike/(?P<idea_id>\d+)$', views.dislike, name="dislike"),
+    url(r'^api/ideas/state/(?P<idea_id>\d+)/(?P<state>[ARI]{1})$', views.change_state, name="change_state"),
     url(r'^api/tags$', views.tags, name="tags"),
 )

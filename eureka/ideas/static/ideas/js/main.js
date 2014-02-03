@@ -261,3 +261,20 @@ function dislike_idea(idea_id) {
         alert('Ooops, something went wrong. Please try again later.');
     });
 }
+
+function change_idea_state(idea_id, state) {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: BASE_URL + "api/ideas/state/" + idea_id + "/" + state,
+        success: function(response) {
+            if(response['status'] == 'success') {
+                window.location = BASE_URL + "ideas/" + idea_id;
+            } else {
+              alert('Ooops, something went wrong. Please try again later.');
+            }
+        }
+    }).fail(function() {
+        alert('Ooops, something went wrong. Please try again later.');
+    });
+}

@@ -15,6 +15,18 @@
         <li><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a></li>
         <li class="active">{{idea.title}}</li>
     </ol>
+    {% if user.is_superuser %}
+    <div class="btn-group pull-right">
+      <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+        Change State <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        {% if idea.state != 'A' %}<li><a href="#" onclick="return change_idea_state({{idea.id}}, 'A');"><i class="fa fa-check"></i> Approve</a></li>{% endif %}
+        {% if idea.state != 'R' %}<li><a href="#" onclick="return change_idea_state({{idea.id}}, 'R');"><i class="fa fa-times"></i> Reject</a></li>{% endif %}
+        {% if idea.state != 'I' %}<li><a href="#" onclick="return change_idea_state({{idea.id}}, 'I');"><i class="fa fa-question"></i> Idle</a></li>{% endif %}
+      </ul>
+    </div>
+    {% endif %}
   </div>
 </div>
 

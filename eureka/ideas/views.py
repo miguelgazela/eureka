@@ -363,7 +363,7 @@ def search(request):
 
 @login_required
 def like(request, idea_id):
-    response = {'status': 'fail'}
+    response = {'status': 'fail', 'data': None}
 
     if request.is_ajax():
         if request.user.like_set.filter(idea=idea_id):
@@ -374,7 +374,6 @@ def like(request, idea_id):
             like = Like(user=request.user, idea=idea)
             like.save()
             response['status'] = 'success'
-            response['data'] = {}
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
     return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
@@ -393,6 +392,26 @@ def dislike(request, idea_id):
             like = Like.objects.filter(idea=idea_id, user=request.user.id)
             like.delete()
             response['status'] = 'success'
+    else:
+        response['data'] = {'title': 'API can only be used with AJAX requests'}
+    return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
+
+
+@login_required
+def change_state(request, idea_id, state):
+    response = {'status': 'fail', 'data': None}
+
+    if request.is_ajax():
+        if not request.user.is_superuser:
+            response['data'] = {
+                'title': "You don't have permission to do this"
+            }
+        else:
+            idea = get_object_or_404(Idea, pk=idea_id)
+            idea.state = state.upper()
+            idea.save()
+            response['status'] = 'success'
+
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
     return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
