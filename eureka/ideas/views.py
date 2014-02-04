@@ -93,6 +93,17 @@ def ideas(request, sort='latest'):
     else:
         ideas = Idea.objects.filter(state='R').order_by('-created')
 
+    # paginate the results
+    paginator = Paginator(ideas, 20)
+    page = request.GET.get('page')
+
+    try:
+        ideas = paginator.page(page)
+    except PageNotAnInteger:
+        ideas = paginator.page(1)
+    except EmptyPage:
+        ideas = paginator.page(paginator.num_pages)
+
     return render(request, 'ideas/ideas/list.html',
         {'idea_list': ideas, 'sort': sort})
 
@@ -323,6 +334,16 @@ def user(request, user_id, tab="ideas"):
         list_items = Idea.objects.filter(user=user).order_by('-created')
     elif tab == 'comments':
         list_items = Comment.objects.filter(user=user).order_by('-created')
+
+    paginator = Paginator(list_items, 10)
+    page = request.GET.get('page')
+
+    try:
+        list_items = paginator.page(page)
+    except PageNotAnInteger:
+        list_items = paginator.page(1)
+    except EmptyPage:
+        list_items = paginator.page(paginator.num_pages)
 
     return render(request, 'ideas/users/view.html', 
         {'user_': user, 'list_items': list_items, 'tab': tab})

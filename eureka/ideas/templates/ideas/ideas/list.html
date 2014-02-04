@@ -82,6 +82,21 @@
     {% endif %}
 
     {% endfor %}
+
+    {% if idea_list.has_previous or idea_list.has_next %}
+    <div>
+      <ul class="pager">
+        {% if idea_list.has_previous %}
+        <li><a href="?page={{ idea_list.previous_page_number }}">Previous page</a></li>
+        {% endif %}
+
+        {% if idea_list.has_next %}
+        <li><a href="?page={{ idea_list.next_page_number }}">Next page</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    {% endif %}
+
     {% endif %}
   </div>
 </div> <!-- /container -->
