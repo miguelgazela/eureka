@@ -123,7 +123,8 @@ def add_idea(request):
             idea_form.save_m2m()
             return redirect("idea", idea_id=new_idea.id)
         else: # needs to show the form with the errors
-            return HttpResponse(idea_form.errors)
+            return render(request, 'ideas/ideas/add.html',
+                {'form': idea_form})
 
 
 @login_required(login_url='login')
@@ -135,11 +136,15 @@ def edit_idea(request, idea_id):
             return render(request, 'ideas/ideas/edit.html', {'idea': idea})
         elif request.method == 'POST':
             edit_form = IdeaForm(request.POST)
+
             if edit_form.is_valid():
+                temp = edit_form.save(commit=False)
+                temp.id = idea.id
                 idea.title = request.POST['title']
                 idea.text = request.POST['text']
                 idea.updated = timezone.now()
                 idea.save()
+                edit_form.save_m2m()
                 return redirect('idea', idea_id=idea_id)
             else:
                 return render(request, 'ideas/ideas/edit.html',
@@ -411,7 +416,6 @@ def change_state(request, idea_id, state):
             idea.state = state.upper()
             idea.save()
             response['status'] = 'success'
-
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
     return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")

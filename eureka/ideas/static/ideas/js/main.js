@@ -142,6 +142,9 @@ $(document).ready(function(){
             }
         });
     });
+
+    // add the tags to the edit form
+    // $('#edit-idea-form .bootstrap-tagsinput').prepend('<span class="tag label brand-bc">Hello</span>');
 });
 
 // minimize the header when scrolling down

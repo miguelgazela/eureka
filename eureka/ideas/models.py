@@ -19,9 +19,9 @@ class Idea(models.Model):
     text = models.TextField()
     state = models.CharField(max_length=1, choices=STATE_CHOICES, default='I')
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField()
     views = models.IntegerField(default=0)
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
 
     def __unicode__(self):
         return "{user.username}: {title}".format(
