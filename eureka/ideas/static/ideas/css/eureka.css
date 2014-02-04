@@ -3,10 +3,6 @@ html, body {
     background-color: #e6e9e8;
 }
 
-body {
-    padding-top: 80px;
-}
-
 @media (min-width: 1200px) {
     .container {
         width: 970px;
@@ -126,7 +122,67 @@ hr {
 
 /* NAVBAR */
 
+
+/* Change the docs' brand */
+.navbar-inverse .navbar-brand {
+    font-weight: bold;
+    margin-right: 15px;
+    color: #15729E;
+    text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
+    -webkit-transition: all .1s linear;
+    -moz-transition: all .1s linear;
+    transition: all .1s linear;
+}
+
+.navbar-inverse .navbar-brand:hover {
+    text-decoration: none;
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0,255,255,.1), 0 0 30px rgba(0,255,255,.4);
+}
+
+@media screen and (max-width: 768px) {
+
+    body {
+        padding-top: 50px;
+    }
+
+    .navbar-inverse {
+        background-color: #1DA1DE;
+        border-color: #1989BD;
+        color: white;
+    }
+
+    .navbar-inverse .navbar-toggle {
+        border-color: white;
+    }
+
+    .navbar-inverse .navbar-toggle:hover,
+    .navbar-inverse .navbar-toggle:focus {
+        background-color: #1989BD;
+    }
+
+    .navbar-inverse .navbar-collapse,
+    .navbar-inverse .navbar-form {
+        border-color: white;
+    }
+
+    .navbar-inverse .navbar-nav>li>a {
+        color: white;
+    }
+
+    .navbar-inverse .navbar-nav>.active>a,
+    .navbar-inverse .navbar-nav>.active>a:hover,
+    .navbar-inverse .navbar-nav>.active>a:focus {
+        color: white;
+        background-color: #1989BD;
+    }
+}
+
 @media screen and (min-width: 768px) {
+
+    body {
+        padding-top: 80px;
+    }
 
     .navbar-inverse {
         background-color: #1DA1DE;
@@ -140,23 +196,6 @@ hr {
     .nav-tiny {
         height: 50px;
         opacity: 0.9;
-    }
-
-    /* Change the docs' brand */
-    .navbar-inverse .navbar-brand {
-      font-weight: bold;
-      margin-right: 15px;
-      color: #15729E;
-      text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
-      -webkit-transition: all .1s linear;
-         -moz-transition: all .1s linear;
-              transition: all .1s linear;
-    }
-
-    .navbar-inverse .navbar-brand:hover {
-      text-decoration: none;
-      color: #fff;
-      text-shadow: 0 1px 0 rgba(0,255,255,.1), 0 0 30px rgba(0,255,255,.4);
     }
 
     .navbar-inverse .navbar-nav>li>a {

@@ -7,7 +7,7 @@
 
 <div class="sub-navbar">
   <div class="container">
-    <h4 class="pull-right">Showing {{ idea_list|length}} idea{% if idea_list|length != 1 %}s{% endif%}</h4>
+    <h4 class="pull-right hidden-xs">Showing {{ idea_list|length}} idea{% if idea_list|length != 1 %}s{% endif%}</h4>
     <ul class="nav nav-pills pull-left">
       <li class="{% if sort == 'latest' %}active{% endif %}"><a href="{% url 'ideas' sort='latest' %}">Latest</a></li>
       <li class="{% if sort == 'interesting' %}active{% endif %}"><a href="{% url 'ideas' sort='interesting' %}">Interesting</a></li>

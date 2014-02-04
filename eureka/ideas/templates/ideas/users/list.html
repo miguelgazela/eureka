@@ -9,7 +9,7 @@
 
 <div class="sub-navbar">
   <div class="container">
-    <h4 class="pull-right">Showing {{ user_list|length}} user{% if user_list|length != 1 %}s{% endif%}</h4>
+    <h4 class="pull-right hidden-xs">Showing {{ user_list|length}} user{% if user_list|length != 1 %}s{% endif%}</h4>
     {% if user_list|length > 0 %}
     <input class="pull-right" id="find-user-input" type="text" placeholder="Find a user..."></input>
     {% endif %}
