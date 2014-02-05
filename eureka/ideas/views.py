@@ -334,16 +334,20 @@ def user(request, user_id, tab="ideas"):
         list_items = Idea.objects.filter(user=user).order_by('-created')
     elif tab == 'comments':
         list_items = Comment.objects.filter(user=user).order_by('-created')
+    elif tab == 'interests':
+        interests = Interest.objects.filter(user=user).order_by('-created')
+        list_items = [interest.idea for interest in interests]
 
-    paginator = Paginator(list_items, 10)
-    page = request.GET.get('page')
+    if tab != 'comments':
+        paginator = Paginator(list_items, 10)
+        page = request.GET.get('page')
 
-    try:
-        list_items = paginator.page(page)
-    except PageNotAnInteger:
-        list_items = paginator.page(1)
-    except EmptyPage:
-        list_items = paginator.page(paginator.num_pages)
+        try:
+            list_items = paginator.page(page)
+        except PageNotAnInteger:
+            list_items = paginator.page(1)
+        except EmptyPage:
+            list_items = paginator.page(paginator.num_pages)
 
     return render(request, 'ideas/users/view.html', 
         {'user_': user, 'list_items': list_items, 'tab': tab})

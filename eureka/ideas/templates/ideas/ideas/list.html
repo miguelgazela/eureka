@@ -35,7 +35,7 @@
         <span class="created" title="{{idea.created}}">{{idea.created|naturaltime}}</span>
         <div class="media">
           <a class="pull-left" href="#">
-            <img class="media-object" src="{% gravatar_url idea.user.email 48%}" alt="...">
+            <img class="media-object" src="{% gravatar_url idea.user.email 48 %}" alt="...">
           </a>
           <div class="media-body">
             <h4 class="media-heading lead"><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a> had an idea!</h4>
