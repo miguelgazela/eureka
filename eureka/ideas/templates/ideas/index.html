@@ -8,11 +8,13 @@
   <div class="container">
     <h1>The simplest way to share ideas</h1>
     <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-	{% if user.is_authenticated %}
-	    <p><a class="btn btn-lg btn-info" href="{% url 'add_idea' %}" role="button">Add an Idea!</a></p>
-	{% else %}
-	    <p><a class="btn btn-lg btn-info" href="#" role="button">Sign up today</a></p>
-	{% endif %}
+    <img src="../../static/ideas/images/img1.png" alt="">
+  
+    {% if user.is_authenticated %}
+    <p><a class="btn btn-lg btn-info" href="{% url 'add_idea' %}" role="button">Add an Idea!</a></p>
+    {% else %}
+    <p><a class="btn btn-lg btn-info" href="#" role="button">Sign up today</a></p>
+    {% endif %}
   </div>
 </div>
 

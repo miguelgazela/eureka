@@ -340,9 +340,18 @@ footer .links>a:not(:last-of-type) {
 
 
 .jumbotron {
-    background-color: #fff;
+    background-color: white;
     text-align: center;
     margin-bottom: 0;
+}
+
+.jumbotron img {
+    width: 80%;
+    margin: 25px auto 40px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 15px 0 rgba(50, 50, 50, 0.5);
+    -moz-box-shadow:    0 5px 15px 0 rgba(50, 50, 50, 0.5);
+    box-shadow:         0 5px 15px 0 rgba(50, 50, 50, 0.5);
 }
 
 .marketing h1 {
