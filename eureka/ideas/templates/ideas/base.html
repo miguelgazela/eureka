@@ -17,6 +17,7 @@
 {% load gravatar %}
 
 <body>
+    <div class="wrap">
     <div id="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
@@ -59,9 +60,19 @@
 
     {% block content %}{% endblock %}
 
+    </div>
+
     <footer>
         <div class="container">
-            Footer here
+            <p class="text-muted">
+                © Copyright {% now "Y" %} JuniFEUP - All Rights Reserved
+                <span class="links pull-right">
+                    <a href="{% url 'ideas' %}"><i class="fa fa-lightbulb-o"></i> Ideas</a>
+                    <a href="{% url 'add_idea' %}"><i class="fa fa-plus"></i> New Idea</a>
+                    <a href="{% url 'users' %}"><i class="fa fa-group"></i> Users</a>
+                </span>
+            </p>
+            
         </div>
     </footer>
 
