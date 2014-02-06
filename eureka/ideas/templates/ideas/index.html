@@ -7,21 +7,13 @@
 <div class="jumbotron">
   <div class="container">
     <h1>The simplest way to share ideas</h1>
-    <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+    <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
     <img src="../../static/ideas/images/img1.png" alt="">
-  
-    {% if user.is_authenticated %}
-    <p><a class="btn btn-lg btn-info" href="{% url 'add_idea' %}" role="button">Add an Idea!</a></p>
-    {% else %}
-    <p><a class="btn btn-lg btn-info" href="#" role="button">Sign up today</a></p>
-    {% endif %}
   </div>
 </div>
 
-<div class="container">
-  
-  <div class="row marketing">
-    
+<div class="marketing">
+  <div class="container">
     <h1 class="text-center">What makes Eureka great</h1>
 
     <div class="col-lg-4">
@@ -48,8 +40,9 @@
       <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
     </div>
 
-  </div> <!-- row marketing -->
+    <p><a class="btn btn-lg btn-info" href="#" role="button">Sign up today</a></p>
+  </div>
 
-</div> <!-- /container -->
+</div> 
 
 {% endblock %}
