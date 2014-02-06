@@ -208,11 +208,19 @@ footer .links>a:not(:last-of-type) {
 
     .navbar-inverse {
         background-color: #1DA1DE;
-        border-color: #1989BD;
         height: 80px;
+        border-color: #1989BD;
         -webkit-transition: all .1s linear;
          -moz-transition: all .1s linear;
               transition: all .1s linear;
+    }
+
+    .index .navbar-inverse {
+        border: 0;
+    }
+
+    .index .navbar {
+        margin-bottom: 0;
     }
 
     .nav-tiny {
@@ -338,7 +346,6 @@ footer .links>a:not(:last-of-type) {
 
 }
 
-
 .jumbotron {
     background-color: #1Da1de;
     text-align: center;
@@ -350,8 +357,9 @@ footer .links>a:not(:last-of-type) {
 
 .jumbotron img {
     width: 80%;
-    margin: 25px auto 0;
+    margin: 40px auto 0;
     border-radius: 6px 6px 0 0;
+    border: 1px solid #ddd;
 }
 
 .jumbotron h1 {
@@ -361,10 +369,17 @@ footer .links>a:not(:last-of-type) {
 
 .marketing {
     background-color: white;
+    padding-top: 60px;
+    padding-bottom: 30px;
 }
 
 .marketing h1 {
     margin-bottom: 30px;
+    font-weight: 200;
+}
+
+.featurette-divider {
+    margin: 40px 0;
 }
 
 .marketing p {
