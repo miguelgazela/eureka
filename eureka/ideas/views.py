@@ -2,12 +2,9 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
-from django.http import Http404
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate
-from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from ideas.models import Idea
 from ideas.models import Interest
@@ -17,10 +14,9 @@ from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.utils import timezone
 from ideas.forms import UserCreationForm
-from ideas.forms import UserEditForm
-from ideas.forms import LoginForm
 from ideas.forms import IdeaForm
 from ideas.forms import CommentForm
 from taggit.models import Tag
@@ -353,29 +349,18 @@ def user(request, user_id, tab="ideas"):
         {'user_': user, 'list_items': list_items, 'tab': tab})
 
 
-@login_required(login_url='login')
+@login_required
 def edit_user(request):
     if request.method == 'GET':
         return render(request, 'ideas/users/edit.html')
     elif request.method == 'POST':
-        user_form = UserEditForm(request.POST)
+        user_form = PasswordChangeForm(data=request.POST, user=request.user)
 
         if user_form.is_valid():
-            password = user_form.cleaned_data['password']
-            newpassword = user_form.cleaned_data['newpassword2']
-            
-            if not check_password(password, request.user.password):
-                return render(request, 'ideas/users/edit.html', {'form': user_form, 'errors': user_form.errors, 'wrong': 'true'})
-            
-            request.user.set_password(newpassword)
-            request.user.save()
-            
-            if not check_password(newpassword, request.user.password):
-                return HttpResponse("As ocurred an error! Your password was not changed.")                
-                
-            return render(request, 'ideas/users/edit.html', {'form': user_form, 'errors': user_form.errors, 'changed': 'true'})
+            user_form.save()
+            return render(request, 'ideas/users/edit.html', { 'status': 'success' })
         else:
-            return render(request, 'ideas/users/edit.html', {'form': user_form, 'errors': user_form.errors})
+            return render(request, 'ideas/users/edit.html', { 'form': user_form, 'status': 'fail' })
 
 
 @login_required

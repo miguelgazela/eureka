@@ -1,35 +1,40 @@
 {% extends "ideas/base.html" %}
 
-{% block title %}Eureka - Edit profile{% endblock %}
+{% block title %}Eureka - Change password{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="panel panel-default login-panel">
     <div class="panel-body">
-      <form class="form-authentication" role="form" action="{% url 'edit_user' %}" method="POST">
+
+      {% if status == 'success' %}
+          <div class="alert alert-success">Your password was successfully changed!</div>
+      {% else %}
+      <h2 class="text-center">Change Password</h2>
+      <form class="form-authentication" role="form" action="" method="POST">
         {% csrf_token %}
-        <h2 class="text-center">Edit your profile</h2>
-        {% if changed == 'true' %}
-            <div class="alert alert-success">Your password was successfully changed!</div>
-        {% endif %}
-        <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
-          <label for="password">Current password</label>
-          <input name="password" type="password" class="form-control" placeholder="Password" required autofocus>
-          {% if wrong == 'true' %}
-            <span class="help-block"><ul class="text-danger"><li>Wrong Password!</li></ul></span>
-          {% endif %}
+        <hr>
+
+        <div class="form-group {% if form.error_messages.password_incorrect %}has-error{% endif %}">
+          <label for="old_password">Old password</label>
+          <input name="old_password" type="password" class="form-control" placeholder="Old password" required>
+          <span class="help-block">{{form.error_messages.password_incorrect}}</span>
         </div>
-        <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
-          <label for="password">New password</label>
-          <input name="newpassword1" type="password" class="form-control" placeholder="New Password" required>
+
+        <div class="form-group {% if form.error_messages.password_mismatch %}has-error{% endif %}">
+          <label for="new_password1">New password</label>
+          <input name="new_password1" type="password" class="form-control" placeholder="New password" required>
         </div>
-        <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
+
+        <div class="form-group {% if form.error_messages.password_mismatch %}has-error{% endif %}">
           <label for="confirm_password">Confirm new password</label>
-          <input name="newpassword2" type="password" class="form-control" placeholder="Confirm new password" required>
-          <span class="help-block">{% for err in form.non_field_errors %}<ul class="text-danger"><li>{{ err }}</li></ul>{% endfor %}</span>
+          <input name="new_password2" type="password" class="form-control" placeholder="Confirm new password" required>
+          <span class="help-block">{{form.error_messages.password_mismatch}}</span>
         </div>
         <button class="btn btn-lg btn-success btn-block" type="submit">Change password</button>
       </form>
+      {% endif %}
+
     </div>
   </div>
 </div> <!-- /container -->
