@@ -239,7 +239,9 @@ def add_interest(request, idea_id):
                 'title': 'You must be logged in to be interested in an idea'}
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
-    return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
+    return HttpResponse(
+        json.dumps(response, cls=DjangoJSONEncoder),
+        content_type="application/json")
 
 
 def remove_interest(request, idea_id):
@@ -260,7 +262,9 @@ def remove_interest(request, idea_id):
                 'title': 'You must be logged in to remove interest in an idea'}
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
-    return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
+    return HttpResponse(
+        json.dumps(response, cls=DjangoJSONEncoder),
+        content_type="application/json")
 
 
 @login_required
@@ -358,9 +362,11 @@ def edit_user(request):
 
         if user_form.is_valid():
             user_form.save()
-            return render(request, 'ideas/users/edit.html', { 'status': 'success' })
+            return render(request, 'ideas/users/edit.html',
+                { 'status': 'success' })
         else:
-            return render(request, 'ideas/users/edit.html', { 'form': user_form, 'status': 'fail' })
+            return render(request, 'ideas/users/edit.html',
+                { 'form': user_form, 'status': 'fail' })
 
 
 @login_required
@@ -391,7 +397,9 @@ def like(request, idea_id):
             response['status'] = 'success'
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
-    return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
+    return HttpResponse(
+        json.dumps(response, cls=DjangoJSONEncoder),
+        content_type="application/json")
 
 
 @login_required
@@ -409,7 +417,9 @@ def dislike(request, idea_id):
             response['status'] = 'success'
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
-    return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
+    return HttpResponse(
+        json.dumps(response, cls=DjangoJSONEncoder),
+        content_type="application/json")
 
 
 @login_required
@@ -428,5 +438,7 @@ def change_state(request, idea_id, state):
             response['status'] = 'success'
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
-    return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder), content_type="application/json")
+    return HttpResponse(
+        json.dumps(response, cls=DjangoJSONEncoder),
+        content_type="application/json")
 
