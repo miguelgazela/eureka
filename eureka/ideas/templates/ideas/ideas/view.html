@@ -1,15 +1,6 @@
-{% extends "ideas/base.html" %}
+{% extends "ideas/ideas/base.html" %}
 
 {% block title %}Eureka - {{idea.title}}{% endblock %}
-
-{% block navbar-links %}
-
-<ul class="nav navbar-nav">
-  <li class="active"><a href="{% url 'ideas' %}">IDEAS</a></li>
-  <li><a href="{% url 'users' %}">USERS</a></li>
-</ul>
-
-{% endblock %}
 
 {% block content %}
 
@@ -24,6 +15,18 @@
         <li><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a></li>
         <li class="active">{{idea.title}}</li>
     </ol>
+    {% if user.is_superuser %}
+    <div class="btn-group pull-right">
+      <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+        Change State <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        {% if idea.state != 'A' %}<li><a href="#" onclick="return change_idea_state({{idea.id}}, 'A');"><i class="fa fa-check"></i> Approve</a></li>{% endif %}
+        {% if idea.state != 'R' %}<li><a href="#" onclick="return change_idea_state({{idea.id}}, 'R');"><i class="fa fa-times"></i> Reject</a></li>{% endif %}
+        {% if idea.state != 'I' %}<li><a href="#" onclick="return change_idea_state({{idea.id}}, 'I');"><i class="fa fa-question"></i> Idle</a></li>{% endif %}
+      </ul>
+    </div>
+    {% endif %}
   </div>
 </div>
 
@@ -31,20 +34,23 @@
   <div class="row">
 
     <div class="col-md-8 col-sm-12">
+
       <div class="idea idea-details" data-idea-id="{{idea.id}}">
         <div class="media">
           <a class="pull-left" href="#">
-            <img class="media-object" src="{% gravatar_url idea.user.email 48%}" alt="...">
+            <img class="media-object" src="{% gravatar_url idea.user.email 48%}" width="48" height="48" alt="...">
           </a>
 
           <div class="media-body">
             {% if idea.was_edited %}
-            <span class="label label-default pull-right">edited {{idea.updated|naturaltime}}</span>
+            <small class="text-muted pull-right" title="{{idea.updated}}">edited {{idea.updated|naturaltime}}</small>
             {% endif %}
             <h4 class="media-heading lead"><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a></h4>
             <h4 class="lead">{{idea.title}}</h4>
-            <hr>
             <p>{{idea.text|linebreaksbr}}</p>
+            {% for tag in idea.tags.all %}
+            <span class="label label-primary idea-tag">{{tag}}</span>
+            {% endfor%}
             <hr>
 
             <div class="idea-stats pull-right">
@@ -55,12 +61,76 @@
               {% else %}
               <span class="label label-danger">rejected</span>
               {% endif %}
-              <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> 0 likes</span>
+              <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> {{idea.like_set.count}} like{% if idea.like_set.count != 1 %}s{% endif %}</span>
             </div>
-
-            <span class="label label-default pull-left">added {{idea.created|naturaltime}}</span>
+            
+            <small class="text-muted pull-left" title="{{idea.created}}">added {{idea.created|naturaltime}}</small>
           </div> <!-- /.mediabody -->
         </div> <!-- /.media -->
+      </div> <!-- /.idea -->
+ 
+      <div class="well comments">
+            {% if comments|length == 0 %}
+            <h4 class="lead"><i class="fa fa-comments"></i> Be the first to comment this idea.</h4>
+            {% else %}
+            <h4 class="lead"><i class="fa fa-comments"></i> <span class="counter">{{ comments|length }}</span> Comment{% if comments|length != 1 %}s{% endif %}</h4>
+            {% endif %}
+            <hr>
+
+            
+
+            <form action="{% url 'add_comment' idea_id=idea.id %}" method="POST" role="form">
+              {% csrf_token %}
+              <a class="pull-left" href="#">
+                <img src="{% gravatar_url user.email 32 %}" width="32" height="32" alt="{{user.username}} gravatar">
+              </a>
+              <div class="form-group">
+                <input type="text" name="" class="form-control init-form" placeholder="Comment...">
+              </div>
+              <div class="form-group hidden">
+                <textarea name="text" id="" rows="3" class="form-control" required></textarea>
+              </div>
+              <div class="form-group hidden">
+                <button type="submit" class="btn btn-sm btn-success">Post</button>
+                <button type="reset" class="btn btn-sm btn-default">Cancel</button>
+              </div>
+            </form>
+
+            {% for comment in comments %}
+              <div class="comment" data-comment-id="{{comment.id}}">
+                <a class="pull-left" href="{% url 'user' user_id=comment.user.id %}">
+                  <img src="{% gravatar_url comment.user.email 32 %}" width="32" height="32" alt="{{comment.user.username}} gravatar">
+                </a>
+
+                {% if comment.user.id == user.id %}
+                <form action="{% url 'delete_comment' comment_id=comment.id %}" method="POST" role="form">
+                  {% csrf_token %}
+                  <button type="submit" data-toggle="tooltip" title="delete comment" data-placement="right" class="close pull-right" aria-hidden="true">&times;</button>
+                </form>
+                {% endif %}
+
+                <div class="comment-body clearfix">
+                  <h4 class="lead media-heading">
+                    <a href="{% url 'user' user_id=comment.user.id %}">{{comment.user.username}}</a> - <small class="text-muted">{{comment.created|naturaltime}}</small>
+                  </h4>
+
+                  {% if user.id == comment.user.id %}
+                  <small class="pull-right"><i class="fa fa-edit" data-toggle="tooltip" title="edit comment" data-placement="right" onclick="return editComment(this, {{comment.id}});"></i></small>
+                  {% endif %}
+
+                  <div class="comment-text">{{comment.text|linebreaksbr}}</div>
+                  {% if comment.was_edited %}
+                  <small class="text-muted pull-right" title="{{comment.updated}}">edited {{comment.updated|naturaltime}}</small>
+                  {% endif %}
+                  
+                  <!-- edit comment form -->
+                  <form action="{% url 'edit_comment' comment_id=comment.id %}" method="POST" role="form">
+                    {% csrf_token %}
+                  </form>
+
+                </div>
+              </div>
+            {% endfor %}
       </div>
 
     </div>
@@ -69,7 +139,7 @@
       {% if user.id == idea.user.id %}
       <div class="panel panel-default options">
         <div class="panel-heading">
-          <h3 class="panel-title">Options</h3>
+          <h3 class="panel-title"><i class="fa fa-cog"></i> Options</h3>
         </div>
         <ul class="list-group">
           <li class="list-group-item hoverable" onclick="window.location = '{% url 'edit_idea' idea_id=idea.id %}';">EDIT IDEA <span class="glyphicon glyphicon-edit pull-right"></span></li>
@@ -77,25 +147,24 @@
           </li>
         </ul>
       </div>
-      
       {% endif %}
 
       <div class="panel panel-default interested">
         <div class="panel-heading">
-          <h3 class="panel-title">Interested Users</h3>
+          <h3 class="panel-title"><i class="fa fa-group"></i> Interested Users</h3>
         </div>
         <ul class="list-group">
           {% if idea.interest_set.count > 0 %}
-              {% for interested in idea.interest_set.all|slice:":5" %}
+              {% for interested in idea.interest_set.all|slice:":3" %}
               <li class="list-group-item interested-item">
-              <img src="{% gravatar_url interested.user.email 24 %}" title="{{interested.user.username}}">
+              <img src="{% gravatar_url interested.user.email 24 %}" width="24" height="24" title="{{interested.user.username}}">
               <a href="{% url 'user' user_id=interested.user.id %}">{{interested.user.username}}</a>
               <span class="label label-default pull-right" title="{{interested.created}}">{{interested.created|naturaltime}}</span>
               </li>
               {% endfor %}
-              {% if idea.interest_set.all|length > 5 %}
+              {% if idea.interest_set.all|length > 3 %}
               <li class="list-group-item text-center">
-                <a href="#" data-toggle="modal" data-target="#interested">{{ idea.interest_set.all|length|add:"-5"}} other user{% if idea.interest_set.all|length|add:"-5" != 1 %}s{% endif %}</a>
+                <a href="#" data-toggle="modal" data-target="#interested">{{ idea.interest_set.all|length|add:"-3"}} other user{% if idea.interest_set.all|length|add:"-3" != 1 %}s{% endif %}</a>
               </li>
               {% endif %}
             {% else %}
@@ -106,14 +175,41 @@
       
       {% if not interested %}
         {% if idea.interest_set.count > 0 %}
-        <button type="button" class="btn btn-success btn-block" onclick="add_interest()">I'm also interested!</button>
+        <button type="button" class="btn btn-success btn-block" onclick="return add_interest();">I'm also interested!</button>
         {% else %}
-        <button type="button" class="btn btn-success btn-block" onclick="add_interest()">I'm interested!</button>
+        <button type="button" class="btn btn-success btn-block" onclick="return add_interest();">I'm interested!</button>
         {% endif %}
       {% elif interested %}
-        <button type="button" class="btn btn-danger btn-block" onclick="remove_interest('{{user.username}}')">I'm no longer interested</button>
+        <button type="button" class="btn btn-danger btn-block" onclick="return remove_interest('{{user.username}}');">I'm no longer interested</button>
       {% endif %}
 
+      {% if user.id != idea.user.id %}
+        {% if not liked %}
+        <button type="button" class="btn btn-primary btn-block" onclick="return like_idea({{idea.id}});"><i class="fa fa-thumbs-o-up"></i> Like</button>
+        {% else %}
+        <button type="button" class="btn btn-primary btn-block" onclick="return dislike_idea({{idea.id}});"><i class="fa fa-thumbs-o-down"></i> Dislike</button>
+        {% endif %}
+      {% endif %}
+
+      {% if idea.tags.similar_objects|length != 0 %}
+      <div class="panel panel-default similar-ideas">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-tags"></i> Similar Ideas</h3>
+        </div>
+        <ul class="list-group">
+          {% for similar in idea.tags.similar_objects|slice:":3" %}
+            <li class="list-group-item similar">
+              <a href="{% url 'idea' idea_id=similar.id %}">{{similar.title}}</a>
+              <div>
+                <img src="{% gravatar_url similar.user.email 16 %}" width="16" height="16" title="{{similar.user.username}}">
+                <a href="">miguelgazela</a> <small class="text-muted">{{similar.created|naturaltime}}</small>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+        
     </div> <!-- /.idea-sidebar -->
 
   </div> <!-- /.row -->
@@ -137,10 +233,10 @@
             </div>
             <ul class="list-group overflowable">
             {% for interested in idea.interest_set.all %}
-            <li class="list-group-item interested-item">
+            <li class="list-group-item interested-item {% if interested.user.id == user.id %}self{% endif %}">
               <div class="row">
                 <div class="col-md-2 col-sm-2">
-                  <img src="{% gravatar_url interested.user.email 48 %}" title="{{interested.user.username}}">
+                  <img src="{% gravatar_url interested.user.email 48 %}" width="48" height="48" title="{{interested.user.username}}">
                 </div>
                 <div class="col-md-10 col-sm-10">
                   {% if interested.user.first_name %}

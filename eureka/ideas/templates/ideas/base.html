@@ -7,15 +7,19 @@
     <title>{% block title %}Eureka{% endblock %}</title>
 
     {% load staticfiles %}
-    <link href="{% static "ideas/css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "ideas/css/eureka.css" %}" rel="stylesheet">
+    <link href="{% static 'ideas/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'ideas/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'ideas/css/bootstrap-tagsinput.css' %}">
+    <link rel="stylesheet" href="{% static 'ideas/css/animate.min.css' %}">
+    <link href="{% static 'ideas/css/eureka.css' %}" rel="stylesheet">
 
 </head>
 
 {% load gravatar %}
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="wrap">
+    <div id="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -31,7 +35,7 @@
                 <ul class="nav navbar-nav">
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'ideas' %}">IDEAS</a></li>
-                    <li><a href="{% url 'users' %}">USERS</a></li>
+                    <li><a href="{% url 'users' %}"><i class="fa fa-users"></i> USERS</a></li>
                     {% endif %}
                 </ul>
                 {% endblock %}
@@ -40,9 +44,14 @@
                     <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'login' %}'">Sign in</button>
                     <button type="button" class="btn btn-default navbar-btn" <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'signup' %}'">Create an account</button>
                     {% else %}
-                    <li><a href="{% url 'user' user_id=user.id %}" data-toggle="tooltip" title="My account"><img src="{% gravatar_url user.email 20 %}" alt="">{{ user.username }}</a></li>
-                    <li><a href="{% url 'add_idea' %}" data-toggle="tooltip" title="New idea"><span class="glyphicon glyphicon-plus"></span></a></li>
-                    <li><a href="{% url 'logout' %}" data-toggle="tooltip" title="Sign out"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                    <!-- hidden in phone screens -->
+                    <li class="hidden-xs"><a href="{% url 'user' user_id=user.id %}" data-toggle="tooltip" title="My account" data-placement="bottom"><img src="{% gravatar_url user.email 20 %}" alt="">{{ user.username }}</a></li>
+                    <li class="hidden-xs"><a href="{% url 'add_idea' %}" data-toggle="tooltip" title="New idea" data-placement="bottom"><span class="glyphicon glyphicon-plus"></span></a></li>
+                    <li class="hidden-xs"><a href="{% url 'logout' %}" data-toggle="tooltip" title="Sign out" data-placement="bottom"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                    <!-- visible in phone screens -->
+                    <li class="visible-xs"><a href="{% url 'user' user_id=user.id %}"><img src="{% gravatar_url user.email 20 %}" alt="">{{ user.username }}</a></li>
+                    <li class="visible-xs"><a href="{% url 'add_idea' %}"><span class="glyphicon glyphicon-plus"></span> Add Idea</a></li>
+                    <li class="visible-xs"><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                     {% endif %}
                 </ul>
             </div><!--/.nav-collapse -->
@@ -51,12 +60,41 @@
 
     {% block content %}{% endblock %}
 
+    </div>
+
+    <footer>
+        <div class="container">
+            <p class="text-muted">
+                © Copyright {% now "Y" %} JuniFEUP - All Rights Reserved
+                <span class="links pull-right">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'ideas' %}"><i class="fa fa-lightbulb-o"></i> Ideas</a>
+                    <a href="{% url 'add_idea' %}"><i class="fa fa-plus"></i> New Idea</a>
+                    <a href="{% url 'users' %}"><i class="fa fa-group"></i> Users</a>
+                    {% else %}
+                    <a href="{% url 'login' %}"><i class="fa fa-sign-in"></i> Sign In</a>
+                    <a href="{% url 'signup' %}"><i class="fa fa-user"></i> Create Account</a>
+                    {% endif %}
+                </span>
+            </p>
+            
+        </div>
+    </footer>
+
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="{% static "ideas/js/bootstrap.min.js" %}"></script>
-    <script src="{% static "ideas/js/jquery.tmpl.min.js" %}"></script>
-    <script src="{% static "ideas/js/bindWithDelay.js" %}"></script>
-    <script src="{% static "ideas/js/main.js" %}"></script>
+    <script src="{% static 'ideas/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'ideas/js/jquery.tmpl.min.js' %}"></script>
+    <script src="{% static 'ideas/js/bootstrap-tagsinput.min.js'%}"></script>
+    <script src="{% static 'ideas/js/bindWithDelay.js' %}"></script>
+    <script src="{% static 'ideas/js/bootstrap3-typeahead.min.js' %}"></script>
+    <script src="{% static 'ideas/js/wow.min.js' %}"></script>
+
+    <script>
+      new WOW().init();
+    </script>
+    
+    <script src="{% static 'ideas/js/main.js' %}"></script>
 
 </body>
 </html>

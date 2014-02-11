@@ -24,7 +24,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django_gravatar',
     'ideas',
     'south',
+    'taggit',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -6,6 +6,13 @@
 <div class="container">
   <div class="panel panel-default login-panel">
     <div class="panel-body">
+      {% if status and status == "success" %}
+      <h2>Account successfully created</h2>
+      <hr>
+      <div class="alert alert-success">
+        Your account has been created, but it's currently inactive. Ask the administrator to activate it.
+      </div>
+      {% else %}
       <form class="form-authentication" role="form" action="{% url 'signup' %}" method="POST">
         {% csrf_token %}
         <h2 class="text-center">Sign Up</h2>
@@ -30,6 +37,7 @@
         </div>
         <button class="btn btn-lg btn-success btn-block" type="submit">Sign up</button>
       </form>
+      {% endif %}
     </div>
   </div>
 </div> <!-- /container -->

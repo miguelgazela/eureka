@@ -20,9 +20,11 @@
           <input name="password" type="password" class="form-control" placeholder="Password" required>
           <span class="help-block">{{login_form.non_field_errors}}</span>
         </div>
+        <!-- 
         <label class="checkbox">
           <input type="checkbox" value="remember-me"> Remember me
         </label>
+        -->
         <input type="hidden" name="next" value="{{ next }}" />
         <button class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
       </form>

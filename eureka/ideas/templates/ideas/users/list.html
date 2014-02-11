@@ -1,17 +1,6 @@
-{% extends "ideas/base.html" %}
+{% extends "ideas/users/base.html" %}
 
 {% block title %}Eureka - Users{% endblock %}
-
-{% block navbar-links %}
-
-<ul class="nav navbar-nav">
-  {% if user.is_authenticated %}
-  <li><a href="{% url 'ideas' %}">IDEAS</a></li>
-  <li class="active"><a href="{% url 'users' %}">USERS</a></li>
-  {% endif %}
-</ul>
-
-{% endblock %}
 
 {% block content %}
 
@@ -20,7 +9,7 @@
 
 <div class="sub-navbar">
   <div class="container">
-    <h4 class="pull-right">Showing {{ user_list|length}} user{% if user_list|length != 1 %}s{% endif%}</h4>
+    <h4 class="pull-right hidden-xs">Showing {{ user_list|length}} user{% if user_list|length != 1 %}s{% endif%}</h4>
     {% if user_list|length > 0 %}
     <input class="pull-right" id="find-user-input" type="text" placeholder="Find a user..."></input>
     {% endif %}
@@ -52,8 +41,8 @@
             <h4 class="media-heading lead"><a href="{% url 'user' user_id=user.id %}">{{user.username}}</a></h4>
             <div>joined {{user.date_joined|naturaltime}}</div>
             <div class="user-stats pull-right">
-              <span class="label label-default"><span class="glyphicon glyphicon-comment"></span> {{user.num_comments}} comment{% if user.num_comments != 1 %}s{% endif %}</span>
               <span class="label label-default"><span class="glyphicon glyphicon-certificate"></span> {{user.num_ideas}} idea{% if user.num_ideas != 1 %}s{% endif %}</span>
+              <span class="label label-default"><span class="glyphicon glyphicon-comment"></span> {{user.num_comments}} comment{% if user.num_comments != 1 %}s{% endif %}</span>
             </div>
           </div> <!-- /mediabody -->
         </div> <!-- /media -->

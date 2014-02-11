@@ -1,53 +1,129 @@
-{% extends "ideas/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% block title %}Eureka - Homepage{% endblock %}
+    <title>Eureka</title>
 
-{% block content %}
+    {% load staticfiles %}
+    <link href="{% static 'ideas/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'ideas/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'ideas/css/bootstrap-tagsinput.css' %}">
+    <link rel="stylesheet" href="{% static 'ideas/css/animate.min.css' %}">
+    <link href="{% static 'ideas/css/eureka.css' %}" rel="stylesheet">
 
-<div class="jumbotron">
-  <div class="container">
-    <h1>The simplest way to share ideas</h1>
-    <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-	{% if user.is_authenticated %}
-	    <p><a class="btn btn-lg btn-info" href="{% url 'add_idea' %}" role="button">Add an Idea!</a></p>
-	{% else %}
-	    <p><a class="btn btn-lg btn-info" href="#" role="button">Sign up today</a></p>
-	{% endif %}
-  </div>
-</div>
+</head>
 
-<div class="container">
-  
-  <div class="row marketing">
-    
-    <h1 class="text-center">What makes Eureka great</h1>
+<body>
+    <div class="index">
 
-    <div class="col-lg-4">
-      <h4>Subheading</h4>
-      <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+      <div id="navbar" class="navbar navbar-inverse navbar-static-top" role="navigation">
+          <div class="container">
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="{% url 'index' %}">Eureka!</a>
+              </div>
+              <div class="navbar-collapse collapse">
+                  <ul class="nav navbar-nav">
 
-      <h4>Subheading</h4>
-      <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                      <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'login' %}'">Sign in</button>
+                      <button type="button" class="btn btn-default navbar-btn" <button type="button" class="btn btn-default navbar-btn" onclick="window.location='{% url 'signup' %}'">Create an account</button>
+                  </ul>
+              </div><!--/.nav-collapse -->
+          </div>
+      </div> <!-- /.navbar -->
+
+      <div class="jumbotron">
+        <div class="container">
+          <div class="wow fadeInUp">
+            <h1>The simplest way to share ideas</h1>
+            <p class="lead">Never forget that million dollar idea again.</p>
+          </div>
+          <img src="../../static/ideas/images/img1.png" alt="">
+        </div>
+      </div>
+
+      <div class="marketing">
+        <div class="container">
+          <h1 class="text-center">What makes Eureka great</h1>
+
+          <hr class="featurette-divider">
+
+          <div class="row featurette wow slideInLeft" data-wow-offset="20">
+            <div class="col-md-6">
+              <h2 class="featurette-heading">Add new ideas. <span class="text-muted">Save them for later.</span></h2>
+              <p class="lead">You can add as many ideas as you want. You simply need to provide a title, a description and a few tags to make it easier to find. It's immediately shared with all your coworkers.</p>
+            </div>
+            <div class="col-md-6">
+              <img class="featurette-image img-responsive" src="{% static 'ideas/images/new_idea.png' %}" alt="Generic placeholder image">
+            </div>
+          </div>
+
+          <hr class="featurette-divider">
+
+          <div class="row featurette wow slideInRight" data-wow-offset="20">
+            <div class="col-md-6">
+              <img class="featurette-image img-responsive" src="{% static 'ideas/images/comment.png' %}" alt="Generic placeholder image">
+            </div>
+            <div class="col-md-6">
+              <h2 class="featurette-heading">Share your thoughts. <span class="text-muted">Comment ideas.</span></h2>
+              <p class="lead">Want to ask a question or share your opinion about an idea? Simply add a comment to it. A great way to fuel discussions about awesome ideas.</p>
+            </div>
+          </div>
+
+          <hr class="featurette-divider">
+
+          <div class="row featurette wow slideInLeft" data-wow-offset="20">
+            <div class="col-md-7">
+              <h2 class="featurette-heading">Are you interested? <span class="text-muted">Show it.</span></h2>
+              <p class="lead">Like an idea so much that you'd like to help build it? Click a button and show your interest! If the idea is approved you'll get a chance to be part of the team.</p>
+            </div>
+            <div class="col-md-5">
+              <img class="featurette-image img-responsive" src="{% static 'ideas/images/interest.png' %}" alt="Generic placeholder image">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
-    <div class="col-lg-4">
-      <h4>Subheading</h4>
-      <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+    <footer>
+        <div class="container">
+            <p class="text-muted">
+                © Copyright {% now "Y" %} JuniFEUP - All Rights Reserved
+                <span class="links pull-right">
+                    <a href="{% url 'login' %}"><i class="fa fa-sign-in"></i> Sign In</a>
+                    <a href="{% url 'signup' %}"><i class="fa fa-user"></i> Create Account</a>
+                </span>
+            </p>
+            
+        </div>
+    </footer>
 
-      <h4>Subheading</h4>
-      <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-    </div>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="{% static 'ideas/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'ideas/js/jquery.tmpl.min.js' %}"></script>
+    <script src="{% static 'ideas/js/bootstrap-tagsinput.min.js'%}"></script>
+    <script src="{% static 'ideas/js/bindWithDelay.js' %}"></script>
+    <script src="{% static 'ideas/js/bootstrap3-typeahead.min.js' %}"></script>
+    <script src="{% static 'ideas/js/wow.min.js' %}"></script>
 
-    <div class="col-lg-4">
-      <h4>Subheading</h4>
-      <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+    <script>
+      new WOW().init();
+    </script>
 
-      <h4>Subheading</h4>
-      <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-    </div>
+    <script src="{% static 'ideas/js/main.js' %}"></script>
 
-  </div> <!-- row marketing -->
+</body>
 
-</div> <!-- /container -->
-
-{% endblock %}
+</html>

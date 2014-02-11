@@ -80,7 +80,80 @@ $(document).ready(function(){
         250, true);
 
     // activate all tooltips
-    $('[data-toggle="tooltip"]').tooltip({'placement': 'bottom'});
+    $('[data-toggle="tooltip"]').tooltip();
+
+    // show new comment form
+    $('.comments>form .init-form').focus(function(){
+        var $input = $(this);
+        $input.parent().addClass('hidden');
+        $input.parent().nextAll('.form-group').each(function(){
+            $(this).removeClass('hidden');
+        });
+        $('.comments>form textarea').focus();
+    });
+
+    // new comment cancel button handler
+    $('.comments>form button[type="reset"]').click(function(){
+        var $btn = $(this);
+        $btn.parents('form').children('.form-group').each(function(){
+            var $form_group = $(this);
+
+            if($form_group.hasClass('hidden')) {
+                $form_group.removeClass('hidden');
+            } else {
+                $form_group.addClass('hidden');
+            }
+        });
+    });
+
+    // input tags configuration
+    var tagsInput = $('#tags-input');
+    var ENTER_KEY = 13;
+    var COMMA_KEY = 188;
+
+    tagsInput.tagsinput({
+        maxTags: 5,
+        confirmKeys: [ENTER_KEY, COMMA_KEY],
+    });
+
+    // new idea tag input typeahead
+    $.get(BASE_URL+'api/tags', function(data){
+        $("#tags-typeahead").typeahead({ source:data, items:6 });
+    },'json');
+
+    // filter user ideas list
+    $('.user-idea-filter').click(function(event){
+        event.preventDefault();
+        
+        var $filter = $(this);
+        $('.user-idea-filter').each(function(){
+            $(this).removeClass('filter-selected');
+        });
+
+        $filter.addClass('filter-selected');
+
+        $('.list-user-item').each(function(){
+            var $idea = $(this);
+
+            if(!$idea.hasClass($filter.attr('data-filter'))) {
+                $idea.addClass('hidden');
+            } else {
+                $idea.removeClass('hidden');
+            }
+        });
+    });
+
+    // add the tags to the edit form
+    // $('#edit-idea-form .bootstrap-tagsinput').prepend('<span class="tag label brand-bc">Hello</span>');
+});
+
+// minimize the header when scrolling down
+$(window).scroll(function () {
+    if ($(document).scrollTop() < 80) {
+        $('#navbar').removeClass('nav-tiny');
+    } else if ($(document).scrollTop() >= 144) {
+        $('#navbar').addClass('nav-tiny');
+    }
 });
 
 // marks the user as interested in an idea
@@ -133,5 +206,78 @@ function remove_interest(username) {
         }
     }).fail(function(){
         alert("Ooops, something went wrong. Please try again later.");
+    });
+}
+
+function editComment(activator, commentId) {
+    var $commentBody = $(activator).parents('.comment-body');
+    $commentBody.children('.comment-text').addClass('hidden');
+
+    var formFields = ' \
+        <div class="form-group"> \
+            <textarea name="text" rows="3" class="form-control" required>'+$commentBody.children(".comment-text").text()+'</textarea> \
+        </div> \
+        <div class="form-group"> \
+            <button type="submit" class="btn btn-sm btn-success">Save</button> \
+            <button type="reset" class="btn btn-sm btn-default">Cancel</button> \
+        </div>';
+
+    $commentBody.children('form').append(formFields);
+
+    // add handler to cancel button
+    $commentBody.find('button[type="reset"]').click(function(){
+        $commentBody.children('.comment-text').removeClass('hidden');
+        $commentBody.children('form').children('.form-group').remove();
+    });
+}
+
+function like_idea(idea_id) {
+    $.ajax({
+        type: "POST",
+        url: BASE_URL + 'api/ideas/like/' + idea_id,
+        dataType: "json",
+        success: function(response) {
+            if(response['status'] == 'success') {
+                window.location = BASE_URL + 'ideas/' + idea_id;
+            } else {
+                alert('Ooops, something went wrong. Please try again later.');
+            }
+        }
+    }).fail(function() {
+        alert('Ooops, something went wrong. Please try again later.');
+    });
+}
+
+function dislike_idea(idea_id) {
+    $.ajax({
+        type: "POST",
+        url: BASE_URL + 'api/ideas/dislike/' + idea_id,
+        dataType: "json",
+        success: function(response) {
+            if(response['status'] == 'success') {
+                window.location = BASE_URL + 'ideas/' + idea_id;
+            } else {
+                alert('Ooops, something went wrong. Please try again later.');
+            }
+        }
+    }).fail(function() {
+        alert('Ooops, something went wrong. Please try again later.');
+    });
+}
+
+function change_idea_state(idea_id, state) {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: BASE_URL + "api/ideas/state/" + idea_id + "/" + state,
+        success: function(response) {
+            if(response['status'] == 'success') {
+                window.location = BASE_URL + "ideas/" + idea_id;
+            } else {
+              alert('Ooops, something went wrong. Please try again later.');
+            }
+        }
+    }).fail(function() {
+        alert('Ooops, something went wrong. Please try again later.');
     });
 }

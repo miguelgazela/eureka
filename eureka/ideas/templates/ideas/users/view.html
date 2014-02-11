@@ -1,4 +1,4 @@
-{% extends "ideas/base.html" %}
+{% extends "ideas/users/base.html" %}
 
 {% block title %}Eureka - {{user_.username}}{% endblock %}
 
@@ -15,7 +15,7 @@
         <li class="active">{{user_.username}}</li>
     </ol>
     {% if user.id == user_.id %}
-    <button type="submit" class="btn btn-default btn-sm pull-right"><span class="glyphicon glyphicon-edit"></span> Edit my profile</button>
+    <button type="button" class="btn btn-default btn-sm pull-right" onclick="window.location.href='{% url 'edit_user' %}'"><span class="glyphicon glyphicon-edit"></span> Change Password</button>
     {% endif %}
   </div>
 </div>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <span>{{user_.interest_set.count}}</span>
-                            <span class="description">interest</span>
+                            <span class="description">interest{% if user_.interest_set.count != 1 %}s{% endif %}</span>
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <span>{{user_.comment_set.count}}</span>
@@ -60,11 +60,94 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#"><span class="glyphicon glyphicon-certificate"></span> Ideas</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-eye-open"></span> Interested in</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-comment"></span> Comments</a></li>
+                        <li class="{% if tab == 'ideas' %}active{% endif %}"><a href="{% url 'user' user_id=user_.id tab='ideas' %}"><i class="fa fa-lightbulb-o"></i> Ideas ({{user_.idea_set.count}})</a></li>
+                        <li class="{% if tab == 'interests' %}active{% endif %}"><a href="{% url 'user' user_id=user_.id tab='interests' %}"><span class="glyphicon glyphicon-eye-open"></span> Interested in ({{user_.interest_set.count}})</a></li>
+                        <li class="{% if tab == 'comments' %}active{% endif %}"><a href="{% url 'user' user_id=user_.id tab='comments' %}"><span class="glyphicon glyphicon-comment"></span> Comments ({{user_.comment_set.count}})</a></li>
                     </ul>
-                    <h4 class="lead">Coming soon...</h4>
+
+                    {% if list_items|length == 0 %}
+                    <h4 class="lead">Ooops, it looks like there are no {{tab}} to show you.</h4>
+                    {% else %}
+                    
+                        {% if tab == 'ideas' or tab == 'interests' %}
+                        <div class="clearfix">
+                            <ul class="nav nav-pills pull-right">
+                                <li><a href="#" class="user-idea-filter filter-selected" data-filter="all">All</a></li>
+                                <li><a href="#" class="user-idea-filter" data-filter="popular">Popular</a></li>
+                                <li><a href="#" class="user-idea-filter" data-filter="approved">Approved</a></li>
+                                <li><a href="#" class="user-idea-filter" data-filter="idle">Idle</a></li>
+                                <li><a href="#" class="user-idea-filter" data-filter="rejected">Rejected</a></li>
+                            </ul>
+                        </div>
+                        <hr class="small-hr">
+                        {% endif %}
+
+                        <div class="list-user-items">
+                            {% if tab == 'ideas' or tab == 'interests' %}
+                                {% for idea in list_items %}
+                                <div class="list-user-item all{% if idea.state == 'A'%} approved{% elif idea.state == 'R' %} rejected{% else %} idle{% endif %}">
+                                    {% if tab == 'interests' %}
+                                    <a href="" class="pull-left">
+                                        <img src="{% gravatar_url idea.user.email 32 %}" alt="...">
+                                    </a>
+                                    <h4 class="media-heading lead"><a href="{% url 'user' user_id=idea.user.id %}">{{idea.user.username}}</a></h4>
+                                    {% endif %}
+                                    <h4 class="media-heading lead">
+                                        <a href="{% url 'idea' idea_id=idea.id %}">{{idea.title}}</a>
+                                        <small class="text-muted"> {{idea.created|naturaltime}}</small></h4>
+                                    <p>{{idea.text|truncatewords:"40"}}</p>
+                                    <small class="text-muted">last edited {{idea.updated|naturaltime}}</small>
+
+                                    <div class="idea-stats pull-right">
+                                        {% if idea.state == "I"%}
+                                        <span class="label label-warning">idle</span>
+                                        {% elif idea.state == "A" %}
+                                        <span class="label label-success">approved</span>
+                                        {% else %}
+                                        <span class="label label-danger">rejected</span>
+                                        {% endif %}
+                                        <span class="label label-default"><span class="glyphicon glyphicon-comment"></span> {{idea.interest_set.count}} interested</span>
+                                        <span class="label label-default"><span class="glyphicon glyphicon-comment"></span> {{idea.comment_set.count}} comment{% if idea.comment_set.count != 1 %}s{% endif%}</span>
+                                        <span class="label label-default"><span class="glyphicon glyphicon-thumbs-up"></span> 0 likes</span>
+                                        <!-- <span class="label label-default">4 users interested</span> -->
+                                    </div>
+
+                                </div>
+                                {% endfor %}
+
+                            {% elif tab == 'comments' %}
+                            <span class="label comment-timeline-label">Now</span>
+                            <div class="comment-timeline">
+                                <div class="timeline"></div>
+                                {% for comment in list_items %}
+                                <div class="comment-timeline-item {% if not forloop.counter|divisibleby:'2' %}timeline-left{% else %}timeline-right{% endif %}">
+                                    <span class="label" title="{{comment.created}}">{{comment.created|naturaltime}}</span>
+                                    <p>{{comment.text}}</p>
+                                    <small><a href="{% url 'idea' idea_id=comment.idea.id %}">{{comment.idea.title}}</a></small>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            <span class="label comment-timeline-label">{{user_.date_joined|naturaltime}}</span>
+
+                            {% endif %}
+                        </div>
+
+                        {% if list_items.has_previous or list_items.has_next %}
+                        <div>
+                            <ul class="pager">
+                                {% if list_items.has_previous %}
+                                <li><a href="?page={{ list_items.previous_page_number }}">Previous page</a></li>
+                                {% endif %}
+
+                                {% if list_items.has_next %}
+                                <li><a href="?page={{ list_items.next_page_number }}">Next page</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                    {% endif %}
                 </div>
             </div>
         </div>

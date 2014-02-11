@@ -1,0 +1,42 @@
+{% extends "ideas/base.html" %}
+
+{% block title %}Eureka - Change password{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="panel panel-default login-panel">
+    <div class="panel-body">
+
+      {% if status == 'success' %}
+          <div class="alert alert-success">Your password was successfully changed!</div>
+      {% else %}
+      <h2 class="text-center">Change Password</h2>
+      <form class="form-authentication" role="form" action="" method="POST">
+        {% csrf_token %}
+        <hr>
+
+        <div class="form-group {% if form.error_messages.password_incorrect %}has-error{% endif %}">
+          <label for="old_password">Old password</label>
+          <input name="old_password" type="password" class="form-control" placeholder="Old password" required>
+          <span class="help-block">{{form.error_messages.password_incorrect}}</span>
+        </div>
+
+        <div class="form-group {% if form.error_messages.password_mismatch %}has-error{% endif %}">
+          <label for="new_password1">New password</label>
+          <input name="new_password1" type="password" class="form-control" placeholder="New password" required>
+        </div>
+
+        <div class="form-group {% if form.error_messages.password_mismatch %}has-error{% endif %}">
+          <label for="confirm_password">Confirm new password</label>
+          <input name="new_password2" type="password" class="form-control" placeholder="Confirm new password" required>
+          <span class="help-block">{{form.error_messages.password_mismatch}}</span>
+        </div>
+        <button class="btn btn-lg btn-success btn-block" type="submit">Change password</button>
+      </form>
+      {% endif %}
+
+    </div>
+  </div>
+</div> <!-- /container -->
+
+{% endblock %}
