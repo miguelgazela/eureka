@@ -74,13 +74,13 @@ def signup(request):
 
 @login_required(login_url='login')
 def ideas(request, sort='latest'):
-    valid_sorts = ['latest', 'interesting', 'approved', 'rejected']
+    valid_sorts = ['latest', 'popular', 'approved', 'rejected']
     if sort not in valid_sorts:
         sort = 'latest'
 
     if sort == 'latest':
         ideas = Idea.objects.order_by('-created')
-    elif sort == 'interesting':
+    elif sort == 'popular':
         ideas = Idea.objects.annotate(num_interest=Count('interest'))\
             .filter(num_interest__gt=0)\
             .order_by('-num_interest')

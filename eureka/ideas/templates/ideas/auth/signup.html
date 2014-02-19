@@ -23,7 +23,7 @@
         </div>
         <div class="form-group {% if form.username.errors %}has-error{% endif %}">
           <label for="username">Username</label>
-          <input name="username" type="text" class="form-control" placeholder="Username" value="{{form.username.value}}" required>
+          <input name="username" type="text" class="form-control" placeholder="Username" autocomplete="off" value="{{form.username.value}}" required>
           <span class="help-block">{{form.errors.username}}</span>
         </div>
         <div class="form-group {% if form.password2.errors %}has-error{% endif %}">

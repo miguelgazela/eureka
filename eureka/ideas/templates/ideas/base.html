@@ -28,7 +28,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{% url 'index' %}">Eureka!</a>
+                <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'ideas/images/logo.png' %}" alt="...">Eureka!</a>
             </div>
             <div class="navbar-collapse collapse">
                 {% block navbar-links %}
@@ -83,12 +83,7 @@
 
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="{% static 'ideas/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'ideas/js/jquery.tmpl.min.js' %}"></script>
-    <script src="{% static 'ideas/js/bootstrap-tagsinput.min.js'%}"></script>
-    <script src="{% static 'ideas/js/bindWithDelay.js' %}"></script>
-    <script src="{% static 'ideas/js/bootstrap3-typeahead.min.js' %}"></script>
-    <script src="{% static 'ideas/js/wow.min.js' %}"></script>
+    <script src="{% static 'ideas/js/build/production.min.js' %}"></script>
 
     <script>
       new WOW().init();
