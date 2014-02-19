@@ -149,6 +149,13 @@ footer .links>a:not(:last-of-type) {
     transition: all .1s linear;
 }
 
+.navbar-inverse .navbar-brand img {
+    height: 32px;
+    width: 34px;
+    margin-right: 5px;
+    margin-bottom: 6px;
+}
+
 .navbar-inverse .navbar-brand:hover {
     text-decoration: none;
     color: #fff;

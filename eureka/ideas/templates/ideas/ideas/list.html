@@ -10,7 +10,7 @@
     <h4 class="pull-right hidden-xs">Showing {{ idea_list|length}} idea{% if idea_list|length != 1 %}s{% endif%}</h4>
     <ul class="nav nav-pills pull-left">
       <li class="{% if sort == 'latest' %}active{% endif %}"><a href="{% url 'ideas' sort='latest' %}">Latest</a></li>
-      <li class="{% if sort == 'interesting' %}active{% endif %}"><a href="{% url 'ideas' sort='interesting' %}">Interesting</a></li>
+      <li class="{% if sort == 'popular' %}active{% endif %}"><a href="{% url 'ideas' sort='popular' %}">Popular</a></li>
       <li class="{% if sort == 'approved' %}active{% endif %}"><a href="{% url 'ideas' sort='approved' %}">Approved</a></li>
       <li class="{% if sort == 'rejected' %}active{% endif %}"><a href="{% url 'ideas' sort='rejected' %}">Rejected</a></li>
     </ul>

@@ -26,7 +26,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: 'eureka/ideas/static/ideas/images/',
                     src: ['**/*.{png,jpg,gif}'],
-                    dest: 'eureka/ideas/static/ideas/images/build/'
+                    dest: 'eureka/ideas/static/ideas/images/'
                 }]
             }
         },

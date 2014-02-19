@@ -19,7 +19,7 @@ class Idea(models.Model):
     text = models.TextField()
     state = models.CharField(max_length=1, choices=STATE_CHOICES, default='I')
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField()
+    updated = models.DateTimeField(auto_now=True)
     views = models.IntegerField(default=0)
     tags = TaggableManager(blank=True)
 
