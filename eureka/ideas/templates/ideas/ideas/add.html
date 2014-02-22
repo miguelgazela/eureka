@@ -29,7 +29,7 @@
 
         <div class="form-group {% if form.text.errors %}has-error{% endif %}">
           <label for="text">Description</label>
-          <textarea name="text" type="text" class="form-control" placeholder="Write your idea here." rows="10">{{form.text.value}}</textarea>
+          <textarea name="text" data-provide="markdown" type="text" class="form-control" placeholder="Write your idea here." rows="10">{{form.text.value}}</textarea>
           <span class="help-block">{{form.errors.text}}</span>
         </div>
         

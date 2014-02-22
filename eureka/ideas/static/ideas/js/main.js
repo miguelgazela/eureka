@@ -107,11 +107,11 @@ $(document).ready(function(){
     });
 
     // input tags configuration
-    var tagsInput = $('#tags-input');
+    // var tags_Input = $('#tags-input');
     var ENTER_KEY = 13;
     var COMMA_KEY = 188;
 
-    tagsInput.tagsinput({
+    $('#tags-input').tagsinput({
         maxTags: 5,
         confirmKeys: [ENTER_KEY, COMMA_KEY],
     });
