@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from ideas.models import Idea
@@ -60,13 +61,19 @@ def signup(request):
 
         if user_form.is_valid():
             username = user_form.clean_username()
-            user_form.clean_password2()
+            password = user_form.clean_password2()
             user_form.clean_email()
             user = user_form.save(commit=False)
-            user.is_active = False
+            user.is_active = True
             user.save()
-            return render(request, 'ideas/auth/signup.html',
-                {'username': username, 'status': 'success'})
+
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+                return redirect('ideas')
+            else:
+                return HttpResponse('Invalid login.')
+            
         else:
             return render(request, 'ideas/auth/signup.html',
                 {'form': user_form})
