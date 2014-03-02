@@ -13,29 +13,56 @@
         Your account has been created, but it's currently inactive. Ask the administrator to activate it.
       </div>
       {% else %}
-      <form class="form-authentication" role="form" action="{% url 'signup' %}" method="POST">
+      <h1>Sign up to Eureka</h1>
+      <p>Come share your ideas! Let's set up your brand new account. Already have one? <a href="{% url 'login' %}">Sign in.</a></p>
+      <hr>
+      <form class="form-authentication" class="form-horizontal" role="form" action="{% url 'signup' %}" method="POST">
         {% csrf_token %}
-        <h2 class="text-center">Sign Up</h2>
+
         <div class="form-group {% if form.email.errors %}has-error{% endif %}">
-          <label for="email">Email</label>
-          <input name="email" type="email" class="form-control" placeholder="Email" value="{{form.email.value}}" autocomplete="off" required autofocus>
-          <span class="help-block">{{form.errors.email}}</span>
+          <label class="control-label col-sm-2" for="email">Email</label>
+          <div class="col-sm-10">
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+              <input name="email" type="email" class="form-control" placeholder="Email" value="{{form.email.value}}" autocomplete="off" required autofocus>
+            </div>
+            <span class="help-block">{{form.errors.email}}</span>
+          </div>
         </div>
+
         <div class="form-group {% if form.username.errors %}has-error{% endif %}">
-          <label for="username">Username</label>
-          <input name="username" type="text" class="form-control" placeholder="Username" autocomplete="off" value="{{form.username.value}}" required>
-          <span class="help-block">{{form.errors.username}}</span>
+          <label class="control-label col-sm-2" for="username">Username</label>
+          <div class="col-sm-10">
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+              <input name="username" type="text" class="form-control" placeholder="Username" autocomplete="off" value="{{form.username.value}}" required>
+            </div>
+            <span class="help-block">{{form.errors.username}}</span>
+          </div>
         </div>
+
         <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
-          <label for="password">Password</label>
-          <input name="password1" type="password" class="form-control" placeholder="Password" required>
+          <label class="control-label col-sm-2" for="password">Password</label>
+          <div class="col-sm-10">
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+              <input name="password1" type="password" class="form-control" placeholder="Password" required>
+            </div>
+          </div>
         </div>
+
         <div class="form-group {% if form.password2.errors %}has-error{% endif %}">
-          <label for="confirm_password">Confirm password</label>
-          <input name="password2" type="password" class="form-control" placeholder="Confirm password" required>
-          <span class="help-block">{{form.errors.password2}}</span>
+          <label class="control-label col-sm-2" for="confirm_password">Confirm password</label>
+          <div class="col-sm-10">
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+              <input name="password2" type="password" class="form-control" placeholder="Confirm password" required>
+            </div>
+            <span class="help-block">{{form.errors.password2}}</span>
+          </div>
         </div>
-        <button class="btn btn-lg btn-success btn-block" type="submit">Sign up</button>
+
+        <button class="btn btn-success pull-right" type="submit">Sign up</button>
       </form>
       {% endif %}
     </div>
