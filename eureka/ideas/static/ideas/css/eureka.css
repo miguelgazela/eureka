@@ -1,6 +1,7 @@
 html, body {
     height: 100%;
-    background-color: #e6e9e8;
+    background-color: #e9e9e9;
+    color: #444;
 }
 
 @media (min-width: 1200px) {
@@ -405,13 +406,37 @@ footer .links>a:not(:last-of-type) {
 }
 
 .form-authentication {
-    max-width: 360px;
+    max-width: 500px;
     margin: 0 auto;
+    margin-top: 30px;
 }
 
-.login-panel,
-.sign-up-panel {
+.form-authentication .col-sm-10 {
+    margin-bottom: 20px;
+}
+
+.form-authentication .control-label {
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.form-authentication .btn {
+    margin-right: 15px;
+    min-width: 150px;
+}
+
+.container>.login-panel,
+.container>.sign-up-panel {
+    margin-top: 60px;
     padding-bottom: 20px;
+}
+
+.container>.login-panel h1,
+.container>.sign-up-panel h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #1DA1DE;
 }
 
 .form-control {
