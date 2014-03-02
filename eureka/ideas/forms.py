@@ -20,11 +20,20 @@ class UserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     def clean_email(self):
-        data = self.cleaned_data['email']
+        """
+        Validate that the supplied email address is unique and belongs
+        to a restricted set of addresses.
+        """
 
-        if data.split('@')[0] not in ALLOWED_ALIAS:
+        email = self.cleaned_data['email']
+
+        if email.split('@')[0] not in ALLOWED_ALIAS:
             raise forms.ValidationError("You don't have permission to access this application")
-        return data
+
+        if User.objects.filter(email__iexact=email).count():
+            raise forms.ValidationError('This email address is already in use. Please supply a different email address.')
+
+        return email
 
     class Meta:
         model = User
@@ -41,4 +50,3 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = ['text']
-
