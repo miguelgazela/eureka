@@ -32,6 +32,10 @@ def index(request):
     return render(request, 'ideas/index.html')
 
 
+def help(request):
+    return render(request, 'ideas/help.html')
+
+
 def login(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
