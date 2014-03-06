@@ -115,7 +115,10 @@ section > img {
     bottom: 0;
     margin-left: -475px;
     border-radius: 6px 6px 0 0;
-    border: 1px solid #ddd;
+}
+
+.page1 img {
+  border: 1px solid #ddd;
 }
 
 .main section  {
