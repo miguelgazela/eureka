@@ -103,6 +103,21 @@ body.disabled-onepage-scroll, .disabled-onepage-scroll .onepage-wrapper, html {
   max-width: 950px;
   z-index: 3;
 }
+
+.page1 .page_container > p:first-of-type {
+  margin-top: 30px;
+}
+
+section > img {
+    max-width: 950px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin-left: -475px;
+    border-radius: 6px 6px 0 0;
+    border: 1px solid #ddd;
+}
+
 .main section  {
   overflow: hidden;
 }
