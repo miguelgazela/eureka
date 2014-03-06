@@ -3,6 +3,7 @@ from ideas import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
+    url(r'^help$', views.help, name="help"),
 
     # auth urls
     url(r'^login$', views.login, name="login"),
