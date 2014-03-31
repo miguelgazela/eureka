@@ -42,7 +42,7 @@ $ cd eureka
 8. Sync database and run migrations
 ```sh
 $ python manage.py syncdb
-$ python manage.py migrate protein_folding_analysis
+$ python manage.py migrate ideas
 ```
 
 9. Start local server
