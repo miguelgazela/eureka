@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'ideas',
     'south',
     'taggit',
+    'notifications',
 )
 
 MIDDLEWARE_CLASSES = (

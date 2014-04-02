@@ -16,8 +16,12 @@
 </head>
 
 {% load gravatar %}
+{% load humanize %}
+{% load notifications_tags %}
+{% notifications_unread as unread_count %}
 
 <body>
+
     <div class="wrap">
     <div id="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -46,10 +50,19 @@
                     {% else %}
                     <!-- hidden in phone screens -->
                     <li class="hidden-xs"><a href="{% url 'user' user_id=user.id %}" data-toggle="tooltip" title="My account" data-placement="bottom"><img src="{% gravatar_url user.email 20 %}" alt="">{{ user.username }}</a></li>
+
+                    
+                    {% if unread_count != 0 %}
+                    <li class="hidden-xs"><a href="#" data-toggle="modal" data-target="#notificationsModal"><span class="glyphicon glyphicon-globe"></span> <span class="badge badge-primary">{% if unread_count != 0 %}{{unread_count}}{% endif %}</span></a></li>
+                    {% else %}
+                    <li class="hidden-xs"><a href="#"><span class="glyphicon glyphicon-globe"></span></a></li>
+                    {% endif %}
+                    
                     <li class="hidden-xs"><a href="{% url 'add_idea' %}" data-toggle="tooltip" title="New idea" data-placement="bottom"><span class="glyphicon glyphicon-plus"></span></a></li>
                     <li class="hidden-xs"><a href="{% url 'logout' %}" data-toggle="tooltip" title="Sign out" data-placement="bottom"><span class="glyphicon glyphicon-log-out"></span></a></li>
                     <!-- visible in phone screens -->
                     <li class="visible-xs"><a href="{% url 'user' user_id=user.id %}"><img src="{% gravatar_url user.email 20 %}" alt="">{{ user.username }}</a></li>
+                    <li class="visible-xs"><a href="#"><span class="glyphicon glyphicon-globe"></span> <span class="badge badge-primary">{% if unread_count != 0 %}{{unread_count}}{% endif %}</span></a></li>
                     <li class="visible-xs"><a href="{% url 'add_idea' %}"><span class="glyphicon glyphicon-plus"></span> Add Idea</a></li>
                     <li class="visible-xs"><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                     {% endif %}
@@ -60,6 +73,45 @@
 
     {% block content %}{% endblock %}
 
+    </div>
+
+    <!-- Notifications Modal -->
+    <div class="modal fade" id="notificationsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog notification-modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Notifications</h4>
+          </div>
+          <div class="modal-body">
+            <ul class="list-group">
+
+              {% for notification in user.notifications.unread %}
+
+                {% if notification.verb == 'commented' or notification.verb == 'interested' or notification.verb == 'likes' %}
+                <li class="list-group-item">
+                <img class="pull-left" src="{% gravatar_url notification.actor.email 20 %}" alt="">
+                <div>
+                    {% if notification.verb == "commented" %}
+                    <a href="{% url 'user' user_id=notification.actor.id %}"> {{notification.actor}}</a> {{notification.verb}} on <a href="{% url 'idea' idea_id=notification.target.id %}">{{notification.target.title}}</a>
+                    {% elif notification.verb == 'interested' %}
+                    <a href="{% url 'user' user_id=notification.actor.id %}"> {{notification.actor}}</a> is {{notification.verb}} on <a href="{% url 'idea' idea_id=notification.target.id %}">{{notification.target.title}}</a>
+                    {% elif notification.verb == 'likes' %}
+                    <a href="{% url 'user' user_id=notification.actor.id %}"> {{notification.actor}}</a> {{notification.verb}} <a href="{% url 'idea' idea_id=notification.target.id %}">{{notification.target.title}}</a>
+                    {% endif %}
+                    <span class="notification-time">{{notification.timestamp|naturaltime}}</span>
+                </div>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+          </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary btn-sm" onclick="return markAllNotificationsAsRead();">Mark All as Read</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <footer>

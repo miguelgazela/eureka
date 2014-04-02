@@ -21,6 +21,7 @@ from ideas.forms import UserCreationForm
 from ideas.forms import IdeaForm
 from ideas.forms import CommentForm
 from taggit.models import Tag
+from notifications import notify
 
 import datetime
 import json
@@ -223,6 +224,7 @@ def delete_comment(request, comment_id):
         except Comment.DoesNotExist:
             return HttpResponse('No comment with that id.')
 
+
 def add_interest(request, idea_id):
     response = {'status': 'fail'}
 
@@ -242,6 +244,11 @@ def add_interest(request, idea_id):
                         'id': request.user.id,
                         'email': request.user.email,
                         'created': interest.created}
+
+                    # generate a notification
+                    if request.user != idea.user:
+                        notify.send(request.user, recipient=idea.user, verb=u'interested', action_object=interest, description=u'', target=idea)
+
                 except Idea.DoesNotExist:
                     response['data'] = {
                         'title': 'No idea with that id was found'}
@@ -289,6 +296,11 @@ def add_comment(request, idea_id):
                 new_comment.user = request.user
                 new_comment.idea = idea
                 new_comment.save()
+
+                # generating notifications
+                if request.user != idea.user:
+                    notify.send(request.user, recipient=idea.user, verb=u'commented', action_object=new_comment, description=u'', target=idea)
+
                 return redirect('idea', idea_id=idea_id)
             except Idea.DoesNotExist:
                 pass
@@ -406,6 +418,10 @@ def like(request, idea_id):
             like = Like(user=request.user, idea=idea)
             like.save()
             response['status'] = 'success'
+
+            # generate a notification
+            if request.user != idea.user:
+                notify.send(request.user, recipient=idea.user, verb=u'likes', action_object=like, description=u'', target=idea)
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
     return HttpResponse(
@@ -426,6 +442,20 @@ def dislike(request, idea_id):
             like = Like.objects.filter(idea=idea_id, user=request.user.id)
             like.delete()
             response['status'] = 'success'
+    else:
+        response['data'] = {'title': 'API can only be used with AJAX requests'}
+    return HttpResponse(
+        json.dumps(response, cls=DjangoJSONEncoder),
+        content_type="application/json")
+
+
+@login_required
+def notify_mark_all_as_read(request):
+    response = {'status': 'fail', 'data': None}
+
+    if request.is_ajax():
+        request.user.notifications.mark_all_as_read()
+        response['status'] = 'success'
     else:
         response['data'] = {'title': 'API can only be used with AJAX requests'}
     return HttpResponse(
