@@ -10,5 +10,5 @@ urlpatterns = patterns('',
 
     url(r'^$', include('ideas.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^eureka/', include('ideas.urls')),    
+    url(r'^app/', include('ideas.urls')),    
 )
