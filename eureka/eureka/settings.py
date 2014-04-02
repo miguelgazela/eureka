@@ -16,8 +16,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'u%*f*uw86o11tk5js3rsmxtlsabm(xb&_0b+^=)1lrjys*xpt1'
+from django.utils.crypto import get_random_string
+SECRET_KEY = os.environ.get("SECRET_KEY", get_random_string(50, "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'ideas',
     'south',
     'taggit',
+    'notifications',
 )
 
 MIDDLEWARE_CLASSES = (

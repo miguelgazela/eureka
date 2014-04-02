@@ -1,4 +1,6 @@
-var BASE_URL = "http://localhost:8000/eureka/";
+var DEVELOPMENT_URL = "http://localhost:8000/app/";
+var PRODUCTION_URL = "http://eureka.junifeup.pt/app/"
+var BASE_URL = DEVELOPMENT_URL;
 
 $(document).ajaxSend(function(event, xhr, settings) {
     function getCookie(name) {
@@ -239,6 +241,24 @@ function like_idea(idea_id) {
         success: function(response) {
             if(response['status'] == 'success') {
                 window.location = BASE_URL + 'ideas/' + idea_id;
+            } else {
+                alert('Ooops, something went wrong. Please try again later.');
+            }
+        }
+    }).fail(function() {
+        alert('Ooops, something went wrong. Please try again later.');
+    });
+}
+
+function markAllNotificationsAsRead() {
+    $.ajax({
+        type: "POST",
+        url: BASE_URL + 'api/notifications/mark_all_as_read',
+        dataType: "json",
+        success: function(response) {
+            console.log(response);
+            if(response['status'] == 'success') {
+                window.location = window.location;
             } else {
                 alert('Ooops, something went wrong. Please try again later.');
             }

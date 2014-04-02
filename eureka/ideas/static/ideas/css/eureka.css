@@ -32,6 +32,11 @@ hr {
     margin-bottom: 15px;
 }
 
+.badge-primary {
+    background-color: #e74c3c;
+    color: white;
+}
+
 footer {
     height: 60px;
     padding-top: 20px;
@@ -266,10 +271,17 @@ footer .links>a:not(:last-of-type) {
 
     .navbar-right>li>a {
         padding-top: 30px;
+        padding-bottom: 30px;
         text-align: center;
         -webkit-transition: all .1s linear;
          -moz-transition: all .1s linear;
               transition: all .1s linear;
+    }
+
+    .navbar-inverse .navbar-nav>.open>a,
+    .navbar-inverse .navbar-nav>.open>a:hover,
+    .navbar-inverse .navbar-nav>.open>a:focus {
+        background-color: #1989BD;
     }
 
     .nav-tiny .navbar-right>li>a {
@@ -965,4 +977,28 @@ footer .links>a:not(:last-of-type) {
 .list-user-item a img {
     border-radius: 4px;
     margin-right: 10px;
+}
+
+.notification-modal .modal-body {
+    padding: 0 0;
+    max-height: 400px;
+    /*overflow-y: scroll;
+    overflow-x: hidden;*/
+    overflow: scroll;
+
+}
+
+.notification-modal .list-group-item {
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+.notification-modal .list-group-item>div {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.notification-modal .list-group-item .notification-time{
+    display: block;
+    font-size: 12px;
 }

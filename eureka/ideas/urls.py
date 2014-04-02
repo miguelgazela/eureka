@@ -1,9 +1,11 @@
 from django.conf.urls import patterns, include, url
 from ideas import views
+import notifications
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^help$', views.help, name="help"),
+    url(r'^inbox/notifications/', include(notifications.urls)),
 
     # auth urls
     url(r'^login$', views.login, name="login"),
@@ -39,4 +41,5 @@ urlpatterns = patterns('',
     url(r'^api/ideas/dislike/(?P<idea_id>\d+)$', views.dislike, name="dislike"),
     url(r'^api/ideas/state/(?P<idea_id>\d+)/(?P<state>[ARI]{1})$', views.change_state, name="change_state"),
     url(r'^api/tags$', views.tags, name="tags"),
+    url(r'^api/notifications/mark_all_as_read$', views.notify_mark_all_as_read, name="mark_all_as_read"),
 )
